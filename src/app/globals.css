@@ -109,20 +109,3 @@ h4,
     border-top: 2px solid var(--foreground);
   }
 }
-
-/* Portada: retícula técnica y barrido de la aguja del cuentakilómetros */
-.grid-lines {
-  background-image:
-    linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(255 255 255 / 0.06) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: radial-gradient(ellipse at 70% 40%, #000 0%, transparent 70%);
-}
-@keyframes needle-sweep {
-  from {
-    transform: rotate(-225deg);
-  }
-}
-.gauge-needle {
-  animation: needle-sweep 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-}

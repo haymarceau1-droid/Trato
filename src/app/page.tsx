@@ -3,18 +3,13 @@ import Link from "next/link";
 import {
   ArrowUpRight,
   CaretRight as ChevronRight,
-  Coins,
   Car,
   Motorcycle,
-  Timer,
-  UserCircle,
-  ImagesSquare,
 } from "@phosphor-icons/react/dist/ssr";
 import { brand } from "@/config/brand";
 import { site } from "@/config/site";
 import { BODY_TYPES, MOTO_TYPES, MX_STATES, PRICE_RANGES } from "@/lib/constants";
 import { buildUrl, parseFilters } from "@/lib/listings/filters-url";
-import { HeroGauge } from "@/components/home/hero-gauge";
 import { getFavoriteIds, getLatest, getUser } from "@/lib/listings/queries";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LinkButton } from "@/components/ui/button";
@@ -68,13 +63,6 @@ const BRANDS = [
   ["motos", "vento", "Vento"],
 ] as const;
 
-const FACTS = [
-  ["$0", "de comisión por vender tu auto o moto. El trato lo cierras tú."],
-  ["60", "días para venderlo. Renuévalo con un toque si hace falta."],
-  ["12", "fotos para mostrar tu auto o moto con todo detalle."],
-  ["5", "anuncios por persona: aquí encuentras vendedores particulares, no lotes de reventa."],
-] as const;
-
 const STEPS = [
   [
     "Publica tu auto o moto",
@@ -116,88 +104,41 @@ export default async function Home() {
       />
 
       {/* Portada */}
-      <section className="theme-dark bg-background text-foreground relative overflow-hidden">
-        <div aria-hidden className="grid-lines pointer-events-none absolute inset-0" />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-40 bottom-0 size-[42rem] rounded-full bg-[radial-gradient(closest-side,rgb(212_20_28/0.28),transparent)]"
-        />
-
-        <div className="container-page relative grid gap-12 pt-8 pb-14 md:pt-14 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
-          <div>
-            <p className="text-muted-foreground mb-6 flex items-center gap-3 text-xs font-semibold tracking-[0.2em] uppercase">
-              <span aria-hidden className="bg-primary h-px w-10" />
-              Autos y motos usados · Todo México
-            </p>
-            <h1 className="text-[3.4rem] leading-[0.92] md:text-8xl">
-              Tu próximo
-              <br />
-              auto o moto,
-              <br />
-              <span className="text-primary">sin sustos.</span>
-            </h1>
-            <p className="text-muted-foreground mt-7 max-w-lg text-lg">
-              Publica tu auto o moto gratis o encuentra el que buscas. Cada vendedor confirma su
-              celular por SMS y tú decides cuándo y dónde ver el vehículo. Nadie te cobra comisión
-              ni te pide dinero por adelantado.
-            </p>
-            <SearchBox className="mt-9 max-w-xl" />
-            <ul
-              className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm"
-              aria-label="Búsquedas frecuentes"
-            >
-              <li className="text-muted-foreground">Lo más buscado:</li>
-              {[
-                ["/autos/suv", "SUV"],
-                ["/autos/pickup", "Pickups"],
-                ["/autos/sedan", "Sedanes"],
-                ["/motos/scooter", "Scooters"],
-                ["/motos/trabajo", "Motos de trabajo"],
-              ].map(([href, label]) => (
-                <li key={href}>
-                  <Link
-                    href={href!}
-                    className="hover:text-primary inline-flex min-h-11 items-center font-semibold underline decoration-white/25 underline-offset-4 hover:decoration-current"
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-            <HeroGauge className="mx-auto w-full max-w-[28rem]" />
-            <ul className="text-muted-foreground mx-auto mt-6 grid max-w-[28rem] grid-cols-2 gap-x-6 text-sm">
-              {[
-                ["01", "Celular verificado por SMS"],
-                ["02", "Pago en persona, sin anticipos"],
-              ].map(([n, text]) => (
-                <li key={n} className="flex gap-3 border-t border-white/15 pt-2">
-                  <span className="font-display text-primary">{n}</span>
-                  {text}
-                </li>
-              ))}
-            </ul>
-          </div>
+      <section className="bg-primary text-primary-foreground">
+        <div className="container-page flex flex-col items-center py-14 text-center md:py-24">
+          <h1 className="text-[3.3rem] leading-[0.9] uppercase sm:text-7xl md:text-8xl lg:text-9xl">
+            Tu próximo auto
+            <br />o moto,
+            <br />
+            <span className="text-[#0a0a0a]">sin sustos.</span>
+          </h1>
+          <p className="mt-6 max-w-xl text-lg md:text-xl">
+            Autos y motos usados de particulares, en todo México. Gratis, sin comisión y con
+            vendedores que confirman su celular.
+          </p>
+          <SearchBox className="mt-10 w-full max-w-2xl text-left" />
+          <ul
+            className="mt-6 flex flex-wrap justify-center gap-x-5 text-sm font-semibold"
+            aria-label="Búsquedas frecuentes"
+          >
+            {[
+              ["/autos/suv", "SUV"],
+              ["/autos/pickup", "Pickups"],
+              ["/autos/sedan", "Sedanes"],
+              ["/motos/scooter", "Scooters"],
+              ["/motos/trabajo", "Motos de trabajo"],
+            ].map(([href, label]) => (
+              <li key={href}>
+                <Link
+                  href={href!}
+                  className="inline-flex min-h-11 items-center underline underline-offset-4 hover:no-underline"
+                >
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
-
-        {/* Cifras */}
-        <dl className="container-page relative grid grid-cols-2 border-t border-white/15 md:grid-cols-4">
-          {FACTS.map(([n, text], i) => {
-            const Icon = [Coins, Timer, ImagesSquare, UserCircle][i]!;
-            return (
-              <div
-                key={n}
-                className="border-white/15 py-6 pr-4 odd:border-r md:border-r md:pl-6 md:first:pl-0 md:last:border-r-0 md:odd:border-r"
-              >
-                <Icon weight="duotone" className="text-primary mb-2 size-6" aria-hidden />
-                <dt className="font-display text-4xl leading-none md:text-5xl">{n}</dt>
-                <dd className="text-muted-foreground mt-1 max-w-[16rem] text-sm">{text}</dd>
-              </div>
-            );
-          })}
-        </dl>
         <div aria-hidden className="stripes h-3" />
       </section>
 
@@ -205,12 +146,12 @@ export default async function Home() {
       <section className="grid md:grid-cols-2" aria-label="Categorías">
         <Link
           href="/autos"
-          className="bg-primary text-primary-foreground group relative flex items-end justify-between gap-4 overflow-hidden p-8 md:p-12"
+          className="bg-card text-foreground group relative flex items-end justify-between gap-4 overflow-hidden p-8 md:p-12"
         >
           <Car
             weight="duotone"
             aria-hidden
-            className="absolute -right-4 -bottom-6 size-44 opacity-25 md:size-56"
+            className="text-primary absolute -right-4 -bottom-6 size-44 opacity-30 md:size-56"
           />
           <span>
             <span className="font-display block text-4xl uppercase md:text-5xl">Autos</span>

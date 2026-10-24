@@ -55,7 +55,7 @@ export function SearchBox({ className }: { className?: string }) {
         <button
           type="submit"
           aria-label="Buscar"
-          className="bg-primary text-primary-foreground font-display inline-flex min-h-14 items-center gap-2 px-5 text-lg uppercase hover:opacity-90"
+          className="font-display inline-flex min-h-14 items-center gap-2 bg-[#0a0a0a] px-5 text-lg text-white uppercase hover:opacity-90"
         >
           <Search className="size-5" aria-hidden />
           <span className="hidden sm:inline">Buscar</span>
