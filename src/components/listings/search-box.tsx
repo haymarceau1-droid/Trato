@@ -31,7 +31,7 @@ export function SearchBox({ className }: { className?: string }) {
             className={cn(
               "font-display min-h-11 px-6 text-lg tracking-wide uppercase",
               type === v
-                ? "bg-white text-[#0a0a0a]"
+                ? "bg-foreground text-background"
                 : "bg-muted text-muted-foreground hover:text-foreground",
             )}
           >
@@ -39,7 +39,7 @@ export function SearchBox({ className }: { className?: string }) {
           </button>
         ))}
       </div>
-      <div className="flex bg-white">
+      <div className="border-foreground bg-card flex border-2">
         <input
           type="search"
           value={q}
@@ -50,12 +50,12 @@ export function SearchBox({ className }: { className?: string }) {
               : "Marca o modelo. Ej. Italika FT150"
           }
           aria-label="Buscar"
-          className="min-h-14 min-w-0 flex-1 bg-transparent px-4 text-base text-[#0a0a0a] placeholder:text-[#6b6361]"
+          className="text-foreground placeholder:text-muted-foreground min-h-14 min-w-0 flex-1 bg-transparent px-4 text-base"
         />
         <button
           type="submit"
           aria-label="Buscar"
-          className="font-display inline-flex min-h-14 items-center gap-2 bg-[#0a0a0a] px-5 text-lg text-white uppercase hover:opacity-90"
+          className="font-display bg-primary text-primary-foreground inline-flex min-h-14 items-center gap-2 px-5 text-lg uppercase hover:opacity-90"
         >
           <Search className="size-5" aria-hidden />
           <span className="hidden sm:inline">Buscar</span>

@@ -104,15 +104,15 @@ export default async function Home() {
       />
 
       {/* Portada */}
-      <section className="bg-primary text-primary-foreground">
+      <section>
         <div className="container-page flex flex-col items-center py-14 text-center md:py-24">
           <h1 className="text-[3.3rem] leading-[0.9] uppercase sm:text-7xl md:text-8xl lg:text-9xl">
             Tu próximo auto
             <br />o moto,
             <br />
-            <span className="text-[#0a0a0a]">sin sustos.</span>
+            <span className="text-primary">sin sustos.</span>
           </h1>
-          <p className="mt-6 max-w-xl text-lg md:text-xl">
+          <p className="text-muted-foreground mt-6 max-w-xl text-lg md:text-xl">
             Autos y motos usados de particulares, en todo México. Gratis, sin comisión y con
             vendedores que confirman su celular.
           </p>
@@ -131,7 +131,7 @@ export default async function Home() {
               <li key={href}>
                 <Link
                   href={href!}
-                  className="inline-flex min-h-11 items-center underline underline-offset-4 hover:no-underline"
+                  className="hover:text-primary inline-flex min-h-11 items-center underline underline-offset-4"
                 >
                   {label}
                 </Link>
@@ -139,7 +139,6 @@ export default async function Home() {
             ))}
           </ul>
         </div>
-        <div aria-hidden className="stripes h-3" />
       </section>
 
       {/* Dos puertas */}
