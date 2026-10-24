@@ -2,19 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowUpRight,
-  Camera,
   CaretRight as ChevronRight,
   Coins,
-  Key,
   Car,
   Motorcycle,
-  SteeringWheel,
   Timer,
   UserCircle,
-  WhatsappLogo,
   ImagesSquare,
 } from "@phosphor-icons/react/dist/ssr";
-import { POPULAR_BRANDS } from "@/lib/catalog";
 import { brand } from "@/config/brand";
 import { site } from "@/config/site";
 import { BODY_TYPES, MOTO_TYPES, MX_STATES, PRICE_RANGES } from "@/lib/constants";
@@ -168,12 +163,12 @@ export default async function Home() {
       <section className="grid md:grid-cols-2" aria-label="Categorías">
         <Link
           href="/autos"
-          className="bg-primary text-primary-foreground drive group relative flex items-end justify-between gap-4 overflow-hidden p-8 md:p-12"
+          className="bg-primary text-primary-foreground group relative flex items-end justify-between gap-4 overflow-hidden p-8 md:p-12"
         >
           <Car
             weight="duotone"
             aria-hidden
-            className="vehicle absolute -right-4 -bottom-6 size-44 opacity-25 md:size-56"
+            className="absolute -right-4 -bottom-6 size-44 opacity-25 md:size-56"
           />
           <span>
             <span className="font-display block text-4xl uppercase md:text-5xl">Autos</span>
@@ -186,12 +181,12 @@ export default async function Home() {
         </Link>
         <Link
           href="/motos"
-          className="theme-dark bg-background text-foreground drive group relative flex items-end justify-between gap-4 overflow-hidden p-8 md:p-12"
+          className="theme-dark bg-background text-foreground group relative flex items-end justify-between gap-4 overflow-hidden p-8 md:p-12"
         >
           <Motorcycle
             weight="duotone"
             aria-hidden
-            className="vehicle text-primary absolute -right-4 -bottom-6 size-44 opacity-30 md:size-56"
+            className="text-primary absolute -right-4 -bottom-6 size-44 opacity-30 md:size-56"
           />
           <span>
             <span className="font-display block text-4xl uppercase md:text-5xl">Motos</span>
@@ -204,28 +199,6 @@ export default async function Home() {
             aria-hidden
           />
         </Link>
-      </section>
-
-      {/* Marcas en movimiento */}
-      <section
-        aria-label="Marcas populares"
-        className="border-foreground bg-card overflow-hidden border-y-2 py-3"
-      >
-        <div aria-hidden className="marquee">
-          {[0, 1].map((k) => (
-            <ul key={k} className="flex shrink-0 items-center gap-6 pr-6">
-              {[...POPULAR_BRANDS.auto, ...POPULAR_BRANDS.moto].map((b) => (
-                <li key={b + k} className="font-display flex items-center gap-6 text-2xl uppercase">
-                  {b}
-                  <SteeringWheel weight="bold" className="text-primary size-6" />
-                </li>
-              ))}
-            </ul>
-          ))}
-        </div>
-        <p className="sr-only">
-          Marcas populares: {[...POPULAR_BRANDS.auto, ...POPULAR_BRANDS.moto].join(", ")}.
-        </p>
       </section>
 
       {/* Recién publicados */}
@@ -293,26 +266,17 @@ export default async function Home() {
             Cómo funciona
           </h2>
           <ol className="grid gap-8 md:grid-cols-3">
-            {STEPS.map(([title, text], i) => {
-              const Icon = [Camera, WhatsappLogo, Key][i]!;
-              return (
-                <li key={title} className="flex gap-4">
-                  <span
-                    aria-hidden
-                    className="bg-primary text-primary-foreground border-foreground relative grid size-16 shrink-0 -rotate-3 place-items-center border-2 shadow-[3px_3px_0_0_var(--foreground)]"
-                  >
-                    <Icon weight="duotone" className="size-9" />
-                    <span className="font-display bg-foreground text-background absolute -top-3 -right-3 grid size-7 place-items-center rounded-full text-sm">
-                      {i + 1}
-                    </span>
-                  </span>
-                  <div>
-                    <h3 className="mb-1 text-xl">{title}</h3>
-                    <p className="text-muted-foreground">{text}</p>
-                  </div>
-                </li>
-              );
-            })}
+            {STEPS.map(([title, text], i) => (
+              <li key={title} className="flex gap-4">
+                <span aria-hidden className="font-display text-primary text-6xl leading-none">
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 className="mb-1 text-xl">{title}</h3>
+                  <p className="text-muted-foreground">{text}</p>
+                </div>
+              </li>
+            ))}
           </ol>
         </div>
       </section>

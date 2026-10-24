@@ -18,7 +18,7 @@ export function ListingCard({
 }) {
   const cover = coverOf(listing);
   return (
-    <article className="group border-foreground bg-card pop relative overflow-hidden rounded-sm border-2">
+    <article className="group border-border bg-card hover:border-foreground relative overflow-hidden rounded-sm border transition-colors">
       <div className="bg-muted relative aspect-[4/3]">
         {cover && (
           <Image
@@ -30,7 +30,7 @@ export function ListingCard({
             className="object-cover"
           />
         )}
-        <p className="font-display bg-primary text-primary-foreground tag-sticker absolute bottom-2 left-2 px-2.5 py-0.5 text-lg">
+        <p className="font-display bg-primary text-primary-foreground absolute bottom-0 left-0 px-2.5 py-1 text-lg">
           {formatMXN(listing.price_mxn)}
         </p>
         <FavoriteButton

@@ -32,10 +32,7 @@ export function FavoriteButton({
           if (!res.ok) router.push(`/acceder?next=${encodeURIComponent(path)}`);
         })
       }
-      className={cn(
-        "wiggle bg-card border-foreground hover:bg-muted grid size-11 place-items-center rounded-sm border-2",
-        className,
-      )}
+      className={cn("bg-card hover:bg-muted grid size-11 place-items-center rounded-sm", className)}
     >
       <Heart
         weight={fav ? "fill" : "bold"}
