@@ -122,11 +122,10 @@ export default async function Home() {
               Autos y motos usados · Todo México
             </p>
             <h1 className="text-5xl leading-[0.95] md:text-7xl">
-              Compra y vende
+              Tu próximo auto
+              <br />o moto usado,
               <br />
-              usados.
-              <br />
-              <span className="text-primary">Sin estafas.</span>
+              <span className="text-primary">sin sustos.</span>
             </h1>
             <p className="text-muted-foreground mt-6 max-w-lg text-lg">
               Publica tu auto o moto gratis o encuentra el que buscas. Cada vendedor confirma su
