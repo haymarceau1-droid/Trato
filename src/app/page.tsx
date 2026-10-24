@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight, CaretRight as ChevronRight, Car, Motorcycle } from "@/components/ui/icons";
+import {
+  ArrowUpRight,
+  CaretRight as ChevronRight,
+  Car,
+  Motorcycle,
+  ShieldCheck,
+} from "@/components/ui/icons";
 import { brand } from "@/config/brand";
 import { site } from "@/config/site";
 import { BODY_TYPES, MOTO_TYPES, PRICE_RANGES } from "@/lib/constants";
@@ -8,8 +14,15 @@ import { buildUrl, parseFilters } from "@/lib/listings/filters-url";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { MexicoMap } from "@/components/home/mexico-map";
 import { logoBrands } from "@/lib/brand-picks";
+import { marketLine } from "@/lib/market-line";
 import { slugify } from "@/lib/listings/slug";
-import { getFavoriteIds, getLatest, getStateCounts, getUser } from "@/lib/listings/queries";
+import {
+  getFavoriteIds,
+  getLatest,
+  getMarketStats,
+  getStateCounts,
+  getUser,
+} from "@/lib/listings/queries";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LinkButton } from "@/components/ui/button";
 import { ListingGrid } from "@/components/listings/listing-card";
@@ -65,10 +78,11 @@ const STEPS = [
 ] as const;
 
 export default async function Home() {
-  const [latest, user, stateCounts] = await Promise.all([
+  const [latest, user, stateCounts, market] = await Promise.all([
     getLatest(8),
     getUser(),
     getStateCounts(),
+    getMarketStats(),
   ]);
   const favorites = await getFavoriteIds(user?.id);
   const typeFilters = { auto: parseFilters("auto"), moto: parseFilters("moto") };
@@ -96,6 +110,10 @@ export default async function Home() {
       {/* Portada */}
       <section>
         <div className="container-page flex flex-col items-center py-14 text-center md:py-24">
+          <p className="border-border bg-card mb-6 inline-flex max-w-full items-center gap-2 rounded-sm border px-3 py-1.5 text-sm font-semibold">
+            <ShieldCheck className="text-primary size-4 shrink-0" aria-hidden />
+            <span className="truncate">{marketLine(market)}</span>
+          </p>
           <h1 className="text-[3.3rem] leading-[0.9] uppercase sm:text-7xl md:text-8xl lg:text-9xl">
             Tu próximo auto
             <br />o moto,

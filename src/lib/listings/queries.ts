@@ -267,3 +267,14 @@ export async function previewFilters(f: Filters, cap: number, buckets = 28) {
     return { count: count ?? 0, histogram };
   });
 }
+
+/** Cifras públicas del mercado: anuncios activos y vendidos (el dueño marca la venta). */
+export async function getMarketStats() {
+  return safe({ active: 0, sold: 0, sold30d: 0 }, async () => {
+    const supabase = await createClient();
+    const { data, error } = await supabase.rpc("market_stats");
+    if (error) throw error;
+    const d = data as { active: number; sold: number; sold_30d: number };
+    return { active: d.active, sold: d.sold, sold30d: d.sold_30d };
+  });
+}

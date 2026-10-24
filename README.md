@@ -56,6 +56,8 @@ Las siluetas de los 32 estados (`public/estados/*.svg`) se generan desde GeoJSON
 
 Los iconos de la interfaz son de [Hugeicons](https://hugeicons.com) (versión gratuita, trazo redondeado), envueltos en `src/components/ui/icons.tsx`.
 
+La frase sobre el mercado en la portada usa la función `market_stats()` (migración 10): cifras agregadas de anuncios activos y vendidos, sin datos personales. Si aún no la aplicaste, la portada muestra una frase sin números.
+
 Qué incluyen las migraciones: enums, `profiles` (trigger al registrarse), `listings` (columnas nullable + `CHECK` por tipo, búsqueda de texto completo en español), fotos, favoritos, reportes (3 reportes ⇒ pausa automática), límites y rate limiting en SQL, mediana de precios, **RLS en todas las tablas**, bucket de fotos y expiración diaria con `pg_cron`.
 
 ### Autenticación
