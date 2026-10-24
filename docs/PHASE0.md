@@ -76,9 +76,11 @@ Choix de simplicité : pas de couche API séparée ; lectures dans des Server Co
 ## 2. Schéma de base de données
 
 ### Décision : annonces en **une seule table, colonnes nullable**
+
 Auto et moto partagent ~90 % des champs ; seuls 5 champs diffèrent. Une table d'attributs (EAV) compliquerait les filtres, les index et les types pour un gain nul. On garantit la cohérence par des `CHECK` (ex. `vehicle_type = 'auto'` ⇒ `body_type` non nul et `moto_type`/`engine_cc` nuls). Si un 3ᵉ type de véhicule arrive un jour, on ajoutera des colonnes.
 
 ### Types enum (Postgres `enum`)
+
 `vehicle_type`, `listing_status` (`active|paused|sold|expired|removed`), `transmission_type`, `fuel_type`, `invoice_type`, `body_type`, `traction_type`, `moto_type`, `report_reason`, `report_status`, `user_role`.
 Valeurs conservées telles que dans ton cahier des charges (`automatica`, `hibrido`, `sin_factura`…).
 
@@ -95,17 +97,18 @@ Vue publique **`public_profiles`** : id, display_name, city, state, avatar_url, 
 (« Otro » = `brand_id`/`model_id` nuls + texte libre dans `brand`/`model` de l'annonce.)
 
 **`listings`**
-| Groupe | Colonnes |
-|---|---|
-| Identité | `id uuid pk`, `user_id → profiles`, `vehicle_type`, `status default 'active'`, `slug` (généré), `title` (généré côté serveur : marque + modèle + année + version) |
-| Véhicule | `brand`, `model`, `version`, `brand_id?`, `model_id?`, `year` (1980..année+1), `color`, `transmission`, `fuel`, `mileage_km >= 0`, `owners_count`, `invoice_type`, `plates_state_id?`, `tenencia_al_corriente bool` |
-| Auto | `body_type?`, `doors?`, `engine_liters?`, `traction?` |
-| Moto | `moto_type?`, `engine_cc?` |
-| Prix / lieu | `price_mxn int > 0`, `negotiable`, `state_id → mx_states`, `city` |
-| Contenu | `description` (≤ 2000 car.) |
-| Modération | `needs_review bool default false`, `review_reasons text[]`, `reports_count int default 0`, `removed_reason?` |
-| Cycle de vie | `created_at`, `updated_at`, `expires_at` (+60 j), `sold_at?`, `views_count int default 0` |
-| Recherche | `search tsvector` colonne générée : `to_tsvector('spanish', unaccent(title || ' ' || description))` |
+
+| Groupe       | Colonnes                                                                                                                                                                                                            |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Identité     | `id uuid pk`, `user_id → profiles`, `vehicle_type`, `status default 'active'`, `slug` (généré), `title` (généré côté serveur : marque + modèle + année + version)                                                   |
+| Véhicule     | `brand`, `model`, `version`, `brand_id?`, `model_id?`, `year` (1980..année+1), `color`, `transmission`, `fuel`, `mileage_km >= 0`, `owners_count`, `invoice_type`, `plates_state_id?`, `tenencia_al_corriente bool` |
+| Auto         | `body_type?`, `doors?`, `engine_liters?`, `traction?`                                                                                                                                                               |
+| Moto         | `moto_type?`, `engine_cc?`                                                                                                                                                                                          |
+| Prix / lieu  | `price_mxn int > 0`, `negotiable`, `state_id → mx_states`, `city`                                                                                                                                                   |
+| Contenu      | `description` (≤ 2000 car.)                                                                                                                                                                                         |
+| Modération   | `needs_review bool default false`, `review_reasons text[]`, `reports_count int default 0`, `removed_reason?`                                                                                                        |
+| Cycle de vie | `created_at`, `updated_at`, `expires_at` (+60 j), `sold_at?`, `views_count int default 0`                                                                                                                           |
+| Recherche    | `search tsvector` colonne générée : `to_tsvector('spanish', unaccent(title                                                                                                                                          |     | ' ' |     | description))` |
 
 Ajouts par rapport au cahier des charges : `slug`, `needs_review` + `review_reasons` (exigés par §7), `reports_count` (règle des 3 signalements), `is_blocked` / `is_pro` sur `profiles`, `sold_at`.
 
@@ -118,35 +121,41 @@ Ajouts par rapport au cahier des charges : `slug`, `needs_review` + `review_reas
 **`rate_events`** — `id`, `user_id`, `action` (`create_listing|report`), `created_at`. Sert au rate limiting **en SQL** (pas de Redis/Upstash, donc 0 € supplémentaire). Purge périodique.
 
 ### Index
+
 - `listings (vehicle_type, status, state_id)`, `(brand, model)`, `(price_mxn)`, `(year)`, `(created_at desc)`, `(user_id, status)`, `(expires_at) where status='active'`
 - GIN sur `search`
 - `listing_photos (listing_id, position)`, `reports (status, created_at)`, `favorites (listing_id)`
 
 ### Fonctions SQL
+
 - `median_price(vehicle_type, brand, model, year ± 2)` → médiane des annonces actives similaires, `null` si < 5 (aide au prix + signal « prix > 40 % sous la médiane »).
 - `is_admin()` (`security definer`) utilisée par les politiques RLS.
 - `can_create_listing(uid)` : ≤ 5 actives (sauf `is_pro`) et ≤ 10 créations/24 h.
 
 ### RLS (résumé des politiques)
-| Table | Lecture | Écriture |
-|---|---|---|
-| `listings` | publique si `status='active'` **et** `expires_at > now()` ; propriétaire : toutes les siennes ; admin : tout | propriétaire : insert/update/delete des siennes (hors `needs_review`, `reports_count`, statut `removed`, protégés par trigger/colonnes) ; admin : tout |
-| `listing_photos` | via annonce visible | propriétaire de l'annonce ; admin |
-| `profiles` | propriétaire (son propre profil complet) ; admin ; **le public passe par `public_profiles`** | propriétaire sur ses champs (pas `role`, `is_blocked`, `phone_verified`) ; admin |
-| `favorites` | propriétaire | propriétaire |
-| `reports` | admin ; reporter voit les siens | utilisateur connecté non bloqué ; update statut : admin |
-| `catalog_*`, `mx_states` | publique | admin seulement |
-| `rate_events` | aucune | via fonctions `security definer` uniquement |
+
+| Table                    | Lecture                                                                                                      | Écriture                                                                                                                                               |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `listings`               | publique si `status='active'` **et** `expires_at > now()` ; propriétaire : toutes les siennes ; admin : tout | propriétaire : insert/update/delete des siennes (hors `needs_review`, `reports_count`, statut `removed`, protégés par trigger/colonnes) ; admin : tout |
+| `listing_photos`         | via annonce visible                                                                                          | propriétaire de l'annonce ; admin                                                                                                                      |
+| `profiles`               | propriétaire (son propre profil complet) ; admin ; **le public passe par `public_profiles`**                 | propriétaire sur ses champs (pas `role`, `is_blocked`, `phone_verified`) ; admin                                                                       |
+| `favorites`              | propriétaire                                                                                                 | propriétaire                                                                                                                                           |
+| `reports`                | admin ; reporter voit les siens                                                                              | utilisateur connecté non bloqué ; update statut : admin                                                                                                |
+| `catalog_*`, `mx_states` | publique                                                                                                     | admin seulement                                                                                                                                        |
+| `rate_events`            | aucune                                                                                                       | via fonctions `security definer` uniquement                                                                                                            |
 
 Un utilisateur `is_blocked` ne peut ni publier ni signaler (vérifié dans les politiques d'insertion) ; ses annonces actives passent en `removed`.
 
 ### Expiration
+
 Pas de cron obligatoire : la RLS et les requêtes filtrent `expires_at > now()`. Un job `pg_cron` quotidien (inclus dans Supabase gratuit) passe en plus les annonces échues à `expired` pour la propreté.
 
 ### Stockage photos
+
 Bucket `listing-photos` (public en lecture, chemin `{user_id}/{listing_id}/{uuid}.webp`). Politique Storage : écriture/suppression seulement dans son propre dossier `{user_id}/`, types `image/webp|jpeg|png`, max 1 Mo. Compression + suppression EXIF faites côté client (re-encodage canvas → WebP = métadonnées éliminées).
 
 ### Numéro de téléphone
+
 Jamais dans le HTML des pages publiques. `GET /api/contacto/[id]` exige une session, renvoie le lien `wa.me` + le numéro, avec `Cache-Control: no-store`, rate-limité. Les boutons WhatsApp/Llamar de la fiche appellent cette route au clic.
 
 ---
@@ -164,17 +173,17 @@ Aucune dépendance payante.
 
 ## 4. Plan des migrations (`supabase/migrations/`)
 
-| # | Fichier | Contenu |
-|---|---|---|
-| 1 | `0001_extensions_enums.sql` | `unaccent`, `pg_trgm`, enums |
-| 2 | `0002_geo_catalog.sql` | `mx_states`, `catalog_brands`, `catalog_models` |
-| 3 | `0003_profiles.sql` | `profiles`, trigger création depuis `auth.users`, `public_profiles`, `is_admin()` |
-| 4 | `0004_listings.sql` | `listings` + CHECK + index + tsvector |
-| 5 | `0005_photos_favorites_reports.sql` | tables + triggers (limite 12 photos, `reports_count`, auto-pause à 3) |
-| 6 | `0006_rate_limit_functions.sql` | `rate_events`, `can_create_listing`, `median_price` |
-| 7 | `0007_rls.sql` | toutes les politiques |
-| 8 | `0008_storage.sql` | bucket + politiques Storage |
-| 9 | `0009_cron_expiry.sql` | job `pg_cron` d'expiration |
+| #    | Fichier                                     | Contenu                                                                                                         |
+| ---- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| 1    | `0001_extensions_enums.sql`                 | `unaccent`, `pg_trgm`, enums                                                                                    |
+| 2    | `0002_geo_catalog.sql`                      | `mx_states`, `catalog_brands`, `catalog_models`                                                                 |
+| 3    | `0003_profiles.sql`                         | `profiles`, trigger création depuis `auth.users`, `public_profiles`, `is_admin()`                               |
+| 4    | `0004_listings.sql`                         | `listings` + CHECK + index + tsvector                                                                           |
+| 5    | `0005_photos_favorites_reports.sql`         | tables + triggers (limite 12 photos, `reports_count`, auto-pause à 3)                                           |
+| 6    | `0006_rate_limit_functions.sql`             | `rate_events`, `can_create_listing`, `median_price`                                                             |
+| 7    | `0007_rls.sql`                              | toutes les politiques                                                                                           |
+| 8    | `0008_storage.sql`                          | bucket + politiques Storage                                                                                     |
+| 9    | `0009_cron_expiry.sql`                      | job `pg_cron` d'expiration                                                                                      |
 | seed | `seed/01_states.sql`, `seed/02_catalog.sql` | 32 États ; ~20 marques autos + ~15 marques motos avec modèles principaux. Démo (30 autos + 15 motos) en phase 6 |
 
 ---
@@ -207,6 +216,7 @@ Vercel Hobby (gratuit ; usage commercial formellement réservé au plan Pro — 
 9. Hors périmètre confirmé : e-mails de renouvellement (phase ultérieure).
 
 **Questions pour toi**
+
 - Fournisseur SMS préféré (Twilio par défaut) ? Ou on démarre e-mail seulement ?
 - Nom de domaine déjà choisi ? (impacte `NEXT_PUBLIC_SITE_URL`, sitemap, OG.)
 - OK pour un **nouveau dépôt monorepo simple à la racine de `/home/user/Trato`** (pas de sous-dossier `trato/`) ?

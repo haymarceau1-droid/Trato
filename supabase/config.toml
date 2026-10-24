@@ -1,0 +1,25 @@
+# Configuración mínima para la CLI de Supabase (supabase start / db reset).
+project_id = "trato"
+
+[db]
+major_version = 15
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[auth]
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000/auth/callback"]
+enable_signup = true
+
+[auth.email]
+enable_confirmations = true
+
+[auth.sms]
+enable_signup = true
+enable_confirmations = true
+# Para producción configura Twilio / MessageBird / Vonage aquí o en el dashboard.
+# En local los OTP de prueba se definen con [auth.sms.test_otp].
+[auth.sms.test_otp]
+5215512345678 = "123456"
