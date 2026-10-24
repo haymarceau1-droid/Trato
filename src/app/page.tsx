@@ -11,6 +11,7 @@ import { site } from "@/config/site";
 import { BODY_TYPES, MOTO_TYPES, MX_STATES, PRICE_RANGES } from "@/lib/constants";
 import { buildUrl, parseFilters } from "@/lib/listings/filters-url";
 import { BrandLogo } from "@/components/ui/brand-logo";
+import { StateShape } from "@/components/ui/state-shape";
 import { POPULAR_BRANDS } from "@/lib/catalog";
 import { slugify } from "@/lib/listings/slug";
 import { getFavoriteIds, getLatest, getUser } from "@/lib/listings/queries";
@@ -321,10 +322,24 @@ export default async function Home() {
               </ul>
             </div>
           ))}
-          <LinkList
-            title="Autos por estado (los 32)"
-            items={MX_STATES.map((s) => ({ label: s.name, href: `/autos/${s.slug}` }))}
-          />
+          <div>
+            <h3 className="text-muted-foreground mb-3 text-sm font-semibold tracking-widest uppercase">
+              Autos por estado
+            </h3>
+            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
+              {MX_STATES.map((st) => (
+                <li key={st.slug}>
+                  <Link
+                    href={`/autos/${st.slug}`}
+                    className="border-border bg-card hover:border-foreground flex min-h-28 flex-col items-center justify-center gap-2 rounded-md border p-3 text-center"
+                  >
+                    <StateShape slug={st.slug} className="size-12" />
+                    <span className="text-sm leading-tight font-semibold">{st.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 

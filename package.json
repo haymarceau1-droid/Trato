@@ -14,7 +14,8 @@
     "seed:demo": "tsx scripts/seed-demo.ts",
     "catalog:seed": "tsx scripts/generate-seed.ts",
     "demo:sql": "tsx scripts/generate-demo-sql.ts",
-    "catalog:logos": "tsx scripts/generate-logos.ts"
+    "catalog:logos": "tsx scripts/generate-logos.ts",
+    "catalog:states": "tsx scripts/generate-states.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",

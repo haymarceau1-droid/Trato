@@ -52,6 +52,8 @@ El catálogo (≈80 marcas y ≈1,000 modelos de autos y motos del mercado mexic
 
 Los logos de marca (monocromos, `public/logos/*.svg`) salen de [Simple Icons](https://simpleicons.org) (datos CC0; las marcas son de sus dueños y se usan solo para identificarlas). Cubren ~40 marcas; el resto muestra un monograma. Se regeneran con `npm run catalog:logos`.
 
+Las siluetas de los 32 estados (`public/estados/*.svg`) se generan desde GeoJSON abierto ([angelnmara/geojson](https://github.com/angelnmara/geojson)), simplificado, con `npm run catalog:states`.
+
 Qué incluyen las migraciones: enums, `profiles` (trigger al registrarse), `listings` (columnas nullable + `CHECK` por tipo, búsqueda de texto completo en español), fotos, favoritos, reportes (3 reportes ⇒ pausa automática), límites y rate limiting en SQL, mediana de precios, **RLS en todas las tablas**, bucket de fotos y expiración diaria con `pg_cron`.
 
 ### Autenticación

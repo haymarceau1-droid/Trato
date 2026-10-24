@@ -9,6 +9,7 @@ import { searchDescription, searchHeading } from "@/lib/seo/metadata";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LinkButton } from "@/components/ui/button";
 import { BrandLogo } from "@/components/ui/brand-logo";
+import { StateShape } from "@/components/ui/state-shape";
 import { ActiveFilters } from "./active-filters";
 import { DesktopFilters, MobileFilters, SortSelect } from "./filters";
 import { ListingGrid } from "./listing-card";
@@ -70,6 +71,7 @@ export async function SearchPage(type: VehicleType, { params, searchParams }: Pr
                 className="size-8"
               />
             )}
+            {filters.state && <StateShape slug={filters.state} className="size-9" />}
             {heading}
           </h1>
           <p className="text-muted-foreground text-sm" aria-live="polite">
@@ -121,8 +123,9 @@ export async function SearchPage(type: VehicleType, { params, searchParams }: Pr
             <li key={s.slug}>
               <Link
                 href={`/${vehiclePath(type)}/${s.slug}`}
-                className="border-border bg-card hover:bg-muted inline-flex min-h-11 items-center rounded-sm border px-4 text-sm"
+                className="border-border bg-card hover:bg-muted inline-flex min-h-11 items-center gap-2 rounded-sm border px-3 text-sm"
               >
+                <StateShape slug={s.slug} className="size-5" />
                 {s.name}
               </Link>
             </li>

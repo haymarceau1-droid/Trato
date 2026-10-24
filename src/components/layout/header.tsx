@@ -3,6 +3,7 @@ import { Heart, MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
 import { getUser } from "@/lib/listings/queries";
 import { t } from "@/i18n";
 import { LinkButton } from "@/components/ui/button";
+import { HeaderBar } from "./header-bar";
 import { HeaderNav } from "./header-nav";
 import { Logo } from "./logo";
 
@@ -14,7 +15,7 @@ export async function Header() {
   const initial = user?.profile?.display_name?.charAt(0).toUpperCase();
   return (
     <header className="pointer-events-none sticky top-0 z-40 px-3 py-3 md:px-4">
-      <div className="theme-dark bg-background/95 text-foreground pointer-events-auto mx-auto flex h-14 max-w-5xl items-center gap-2 rounded-md border border-white/10 py-1 pr-1.5 pl-4 shadow-2xl ring-1 shadow-black/30 ring-black/40 backdrop-blur-xl md:h-16 md:pr-2 md:pl-5">
+      <HeaderBar>
         <Logo />
         <HeaderNav />
         <div className="ml-auto flex items-center gap-1 md:ml-0">
@@ -50,7 +51,7 @@ export async function Header() {
             <Plus className="size-4" aria-hidden /> {t("nav.publish")}
           </LinkButton>
         </div>
-      </div>
+      </HeaderBar>
     </header>
   );
 }

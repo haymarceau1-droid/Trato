@@ -15,7 +15,10 @@ const links = [
 export function HeaderNav() {
   const path = usePathname();
   return (
-    <nav aria-label="Principal" className="mx-auto hidden items-center gap-1 md:flex">
+    <nav
+      aria-label="Principal"
+      className="mx-auto hidden max-w-xl items-center gap-1 overflow-hidden transition-[max-width,opacity] duration-300 group-data-[compact=true]/bar:pointer-events-none group-data-[compact=true]/bar:max-w-0 group-data-[compact=true]/bar:opacity-0 md:flex"
+    >
       {links.map((l) => {
         const active = l.match.some((m) => path === m || path.startsWith(m + "/"));
         return (
