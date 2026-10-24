@@ -1,12 +1,16 @@
+import type { ReactNode } from "react";
+
 /** Atajos de un toque para rellenar un campo de texto. */
 export function QuickPick({
   label,
   items,
   onPick,
+  icon,
 }: {
   label: string;
   items: string[];
   onPick: (v: string) => void;
+  icon?: (item: string) => ReactNode;
 }) {
   if (!items.length) return null;
   return (
@@ -20,8 +24,9 @@ export function QuickPick({
             <button
               type="button"
               onClick={() => onPick(i)}
-              className="border-border bg-card hover:border-foreground min-h-11 rounded-sm border px-3 text-sm font-medium"
+              className="border-border bg-card hover:border-foreground inline-flex min-h-11 items-center gap-2 rounded-sm border px-3 text-sm font-medium"
             >
+              {icon?.(i)}
               {i}
             </button>
           </li>

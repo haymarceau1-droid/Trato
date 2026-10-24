@@ -10,6 +10,9 @@ import { brand } from "@/config/brand";
 import { site } from "@/config/site";
 import { BODY_TYPES, MOTO_TYPES, MX_STATES, PRICE_RANGES } from "@/lib/constants";
 import { buildUrl, parseFilters } from "@/lib/listings/filters-url";
+import { BrandLogo } from "@/components/ui/brand-logo";
+import { POPULAR_BRANDS } from "@/lib/catalog";
+import { slugify } from "@/lib/listings/slug";
 import { getFavoriteIds, getLatest, getUser } from "@/lib/listings/queries";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LinkButton } from "@/components/ui/button";
@@ -48,19 +51,6 @@ const FAQ = [
     "¿Puedo pagar o cobrar dentro de la app?",
     `No, y es a propósito: ${brand.name} nunca toca tu dinero. El pago se hace en persona, al recibir el vehículo y firmar la compraventa.`,
   ],
-] as const;
-
-const BRANDS = [
-  ["autos", "nissan", "Nissan"],
-  ["autos", "chevrolet", "Chevrolet"],
-  ["autos", "volkswagen", "Volkswagen"],
-  ["autos", "toyota", "Toyota"],
-  ["autos", "kia", "Kia"],
-  ["autos", "mazda", "Mazda"],
-  ["motos", "italika", "Italika"],
-  ["motos", "honda", "Honda Motos"],
-  ["motos", "yamaha", "Yamaha"],
-  ["motos", "vento", "Vento"],
 ] as const;
 
 const STEPS = [
@@ -307,14 +297,30 @@ export default async function Home() {
       <section className="container-page pb-14" aria-labelledby="explora">
         <div className="rule pt-3">
           <h2 id="explora" className="mb-6 text-3xl">
-            Marcas y estados
+            Elige por marca o por estado
           </h2>
         </div>
-        <div className="grid gap-8 md:grid-cols-2">
-          <LinkList
-            title="Marcas"
-            items={BRANDS.map(([t, slug, label]) => ({ label, href: `/${t}/${slug}` }))}
-          />
+        <div className="space-y-10">
+          {(["auto", "moto"] as const).map((type) => (
+            <div key={type}>
+              <h3 className="text-muted-foreground mb-3 text-sm font-semibold tracking-widest uppercase">
+                {type === "auto" ? "Marcas de autos" : "Marcas de motos"}
+              </h3>
+              <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+                {POPULAR_BRANDS[type].map((name) => (
+                  <li key={name}>
+                    <Link
+                      href={`/${type === "auto" ? "autos" : "motos"}/${slugify(name)}`}
+                      className="border-border bg-card hover:border-foreground flex min-h-24 flex-col items-center justify-center gap-2 rounded-md border p-4 text-center"
+                    >
+                      <BrandLogo name={name} className="size-9" />
+                      <span className="text-sm font-semibold">{name}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
           <LinkList
             title="Autos por estado (los 32)"
             items={MX_STATES.map((s) => ({ label: s.name, href: `/autos/${s.slug}` }))}

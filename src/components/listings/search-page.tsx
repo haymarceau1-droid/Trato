@@ -8,6 +8,7 @@ import { getFavoriteIds, getUser, searchListings } from "@/lib/listings/queries"
 import { searchDescription, searchHeading } from "@/lib/seo/metadata";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LinkButton } from "@/components/ui/button";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import { ActiveFilters } from "./active-filters";
 import { DesktopFilters, MobileFilters, SortSelect } from "./filters";
 import { ListingGrid } from "./listing-card";
@@ -62,7 +63,15 @@ export async function SearchPage(type: VehicleType, { params, searchParams }: Pr
       </nav>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-extrabold">{heading}</h1>
+          <h1 className="flex items-center gap-3 text-2xl font-extrabold">
+            {filters.brand && (
+              <BrandLogo
+                name={brands.find((b) => b.slug === filters.brand)?.name ?? filters.brand}
+                className="size-8"
+              />
+            )}
+            {heading}
+          </h1>
           <p className="text-muted-foreground text-sm" aria-live="polite">
             {total.toLocaleString("es-MX")} resultados{filters.q ? ` para “${filters.q}”` : ""}
           </p>

@@ -32,6 +32,7 @@ import { cn } from "@/lib/utils";
 import type { CatalogBrand } from "@/types";
 import { Button, LinkButton } from "@/components/ui/button";
 import { Field, Input, Select, Textarea } from "@/components/ui/field";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import { QuickPick } from "@/components/ui/chips";
 import { Segmented } from "@/components/ui/segmented";
 import { POPULAR_BRANDS } from "@/lib/catalog";
@@ -392,6 +393,7 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
               <QuickPick
                 label="Marcas populares"
                 items={type ? POPULAR_BRANDS[type] : []}
+                icon={(b) => <BrandLogo name={b} className="size-5" />}
                 onPick={(b) => setValue("brand", b, { shouldValidate: true })}
               />
             )}

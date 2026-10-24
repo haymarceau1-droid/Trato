@@ -19,6 +19,7 @@ import { listingJsonLd } from "@/lib/seo/jsonld";
 import type { Listing, PublicProfile } from "@/types";
 import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 import { Badge } from "@/components/ui/badge";
+import { BrandLogo } from "@/components/ui/brand-logo";
 import { Button, LinkButton } from "@/components/ui/button";
 import { ScamTips } from "@/components/trust/scam-tips";
 import { VerifiedBadge } from "@/components/trust/verified-badge";
@@ -109,7 +110,10 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
       )}
 
       <header className="mb-5 space-y-3">
-        <h1 className="text-3xl leading-tight md:text-4xl">{l.title}</h1>
+        <h1 className="flex items-center gap-3 text-3xl leading-tight md:text-4xl">
+          <BrandLogo name={l.brand} className="size-9 shrink-0 md:size-11" />
+          {l.title}
+        </h1>
         <div className="text-muted-foreground flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
           <span className="plate">
             {l.city}, {stateName(l.state)}

@@ -13,7 +13,8 @@
     "test:e2e": "playwright test",
     "seed:demo": "tsx scripts/seed-demo.ts",
     "catalog:seed": "tsx scripts/generate-seed.ts",
-    "demo:sql": "tsx scripts/generate-demo-sql.ts"
+    "demo:sql": "tsx scripts/generate-demo-sql.ts",
+    "catalog:logos": "tsx scripts/generate-logos.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
@@ -26,6 +27,8 @@
     "postcss": "^8.5.31",
     "prettier": "^3.9.10",
     "prettier-plugin-tailwindcss": "^0.8.1",
+    "simple-icons": "^16.35.0",
+    "simple-icons-v13": "npm:simple-icons@^13.21.0",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.15",
     "typescript": "^6.0.3",

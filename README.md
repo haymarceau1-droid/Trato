@@ -50,6 +50,8 @@ Local con Docker: `supabase start && supabase db reset` (aplica migraciones y se
 
 El catálogo (≈80 marcas y ≈1,000 modelos de autos y motos del mercado mexicano) y los 32 estados viven en `src/lib/catalog.ts` y `src/lib/constants.ts`; `npm run catalog:seed` regenera `supabase/seed.sql` desde ahí. La app lee el catálogo directo del código (no depende de la base) y el formulario siempre permite escribir una marca o modelo que no esté en la lista. Las migraciones, el seed y `demo.sql` se probaron sobre PostgreSQL 16 (con `auth` y `storage` simulados).
 
+Los logos de marca (monocromos, `public/logos/*.svg`) salen de [Simple Icons](https://simpleicons.org) (datos CC0; las marcas son de sus dueños y se usan solo para identificarlas). Cubren ~40 marcas; el resto muestra un monograma. Se regeneran con `npm run catalog:logos`.
+
 Qué incluyen las migraciones: enums, `profiles` (trigger al registrarse), `listings` (columnas nullable + `CHECK` por tipo, búsqueda de texto completo en español), fotos, favoritos, reportes (3 reportes ⇒ pausa automática), límites y rate limiting en SQL, mediana de precios, **RLS en todas las tablas**, bucket de fotos y expiración diaria con `pg_cron`.
 
 ### Autenticación
