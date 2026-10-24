@@ -228,3 +228,19 @@ export async function getMedianPrice(
     return (data as number | null) ?? null;
   });
 }
+
+/** Anuncios activos por estado (slug → cantidad), para colorear el mapa de la portada. */
+export async function getStateCounts(): Promise<Record<string, number>> {
+  return safe({} as Record<string, number>, async () => {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("listings")
+      .select("state")
+      .eq("status", "active")
+      .gt("expires_at", new Date().toISOString())
+      .limit(5000);
+    const counts: Record<string, number> = {};
+    for (const r of data ?? []) counts[r.state as string] = (counts[r.state as string] ?? 0) + 1;
+    return counts;
+  });
+}

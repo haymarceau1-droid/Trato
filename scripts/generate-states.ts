@@ -69,6 +69,45 @@ const area = (r: Pt[]) =>
     ) / 2,
   );
 
+/** Mapa de México completo (una sola proyección) para la portada: src/lib/mexico-map.ts. */
+function writeMap(data: Collection) {
+  const W = 960;
+  const feats = data.features.map((f) => {
+    const base = slugify(f.properties.name);
+    const slug = ALIAS[base] ?? base;
+    const polys = f.geometry.type === "Polygon" ? [f.geometry.coordinates] : f.geometry.coordinates;
+    return {
+      slug,
+      rings: polys.flatMap((p) => p).map((r) => r.map(([lon, lat]): Pt => [lon * COS_LAT, -lat])),
+    };
+  });
+  const all = feats.flatMap((f) => f.rings.flat());
+  const minX = Math.min(...all.map((p) => p[0]));
+  const maxX = Math.max(...all.map((p) => p[0]));
+  const minY = Math.min(...all.map((p) => p[1]));
+  const maxY = Math.max(...all.map((p) => p[1]));
+  const scale = W / (maxX - minX);
+  const H = Math.ceil((maxY - minY) * scale);
+  const paths: Record<string, string> = {};
+  for (const f of feats) {
+    paths[f.slug] = f.rings
+      .map((r): Pt[] => r.map(([x, y]) => [(x - minX) * scale, (y - minY) * scale]))
+      .filter((r) => area(r) > 2.5)
+      .map((r) => simplifyRing(r, 0.7))
+      .filter((r) => r.length >= 3)
+      .map((r) => "M" + r.map(([x, y]) => `${+x.toFixed(1)} ${+y.toFixed(1)}`).join("L") + "Z")
+      .join("");
+  }
+  const body = Object.entries(paths)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([k, d]) => `  ${JSON.stringify(k)}: ${JSON.stringify(d)},`)
+    .join("\n");
+  writeFileSync(
+    "src/lib/mexico-map.ts",
+    `// GENERADO por scripts/generate-states.ts (npm run catalog:states). No editar a mano.\nexport const MAP_VIEWBOX = "0 0 ${W} ${H}";\nexport const MAP_PATHS: Record<string, string> = {\n${body}\n};\n`,
+  );
+}
+
 async function main() {
   const data = (await (await fetch(URL)).json()) as Collection;
   mkdirSync("public/estados", { recursive: true });
@@ -108,6 +147,7 @@ async function main() {
     );
     done.add(slug);
   }
+  writeMap(data);
   const missing = MX_STATES.filter((s) => !done.has(s.slug)).map((s) => s.name);
   if (missing.length) throw new Error(`Faltan: ${missing.join(", ")}`);
   console.log(`public/estados: ${done.size} siluetas`);

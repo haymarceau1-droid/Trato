@@ -8,13 +8,13 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { brand } from "@/config/brand";
 import { site } from "@/config/site";
-import { BODY_TYPES, MOTO_TYPES, MX_STATES, PRICE_RANGES } from "@/lib/constants";
+import { BODY_TYPES, MOTO_TYPES, PRICE_RANGES } from "@/lib/constants";
 import { buildUrl, parseFilters } from "@/lib/listings/filters-url";
 import { BrandLogo } from "@/components/ui/brand-logo";
-import { StateShape } from "@/components/ui/state-shape";
+import { MexicoMap } from "@/components/home/mexico-map";
 import { POPULAR_BRANDS } from "@/lib/catalog";
 import { slugify } from "@/lib/listings/slug";
-import { getFavoriteIds, getLatest, getUser } from "@/lib/listings/queries";
+import { getFavoriteIds, getLatest, getStateCounts, getUser } from "@/lib/listings/queries";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LinkButton } from "@/components/ui/button";
 import { ListingGrid } from "@/components/listings/listing-card";
@@ -70,7 +70,11 @@ const STEPS = [
 ] as const;
 
 export default async function Home() {
-  const [latest, user] = await Promise.all([getLatest(8), getUser()]);
+  const [latest, user, stateCounts] = await Promise.all([
+    getLatest(8),
+    getUser(),
+    getStateCounts(),
+  ]);
   const favorites = await getFavoriteIds(user?.id);
   const typeFilters = { auto: parseFilters("auto"), moto: parseFilters("moto") };
 
@@ -323,22 +327,10 @@ export default async function Home() {
             </div>
           ))}
           <div>
-            <h3 className="text-muted-foreground mb-3 text-sm font-semibold tracking-widest uppercase">
-              Autos por estado
+            <h3 className="text-muted-foreground mb-4 text-sm font-semibold tracking-widest uppercase">
+              Por estado
             </h3>
-            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
-              {MX_STATES.map((st) => (
-                <li key={st.slug}>
-                  <Link
-                    href={`/autos/${st.slug}`}
-                    className="border-border bg-card hover:border-foreground flex min-h-28 flex-col items-center justify-center gap-2 rounded-md border p-3 text-center"
-                  >
-                    <StateShape slug={st.slug} className="size-12" />
-                    <span className="text-sm leading-tight font-semibold">{st.name}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <MexicoMap counts={stateCounts} />
           </div>
         </div>
       </section>
