@@ -25,7 +25,7 @@ export const TemplateNotice = () => (
     role="note"
     className="border-warning/40 bg-warning-soft text-warning rounded-sm border p-4 text-sm font-medium"
   >
-    Documento base (gabarit) por completar. Antes de lanzar, hazlo revisar por un abogado mexicano y
-    reemplaza los campos entre [corchetes].
+    Documento base por completar. Antes de lanzar, reemplaza los campos entre [corchetes] (datos del
+    responsable, proveedores, jurisdicción) y hazlo revisar por un abogado mexicano.
   </p>
 );
