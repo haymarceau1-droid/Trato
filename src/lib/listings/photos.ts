@@ -2,9 +2,9 @@ import { SUPABASE_URL } from "@/lib/supabase/env";
 
 export const PHOTO_BUCKET = "listing-photos";
 
-/** Acepta rutas del bucket o URLs absolutas (fotos de relleno de la demo). */
+/** Acepta rutas del bucket, URLs absolutas o archivos locales de /public (página de ejemplo). */
 export const photoUrl = (path: string) =>
-  path.startsWith("http")
+  path.startsWith("http") || path.startsWith("/")
     ? path
     : `${SUPABASE_URL}/storage/v1/object/public/${PHOTO_BUCKET}/${path}`;
 

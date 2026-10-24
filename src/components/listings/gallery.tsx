@@ -48,78 +48,104 @@ export function Gallery({ photos, title }: { photos: string[]; title: string }) 
   if (!photos.length) return <div className="bg-muted aspect-[4/3] rounded-md" />;
 
   return (
-    <div
-      className={cn(full ? "fixed inset-0 z-50 flex flex-col justify-center bg-black" : "relative")}
-      {...(full ? { role: "dialog", "aria-modal": true, "aria-label": "Galería de fotos" } : {})}
-    >
-      <div ref={emblaRef} className={cn("overflow-hidden", !full && "rounded-md")}>
-        <div className="flex">
-          {photos.map((src, i) => (
-            <div
-              key={src}
-              className={cn(
-                "relative min-w-0 flex-[0_0_100%]",
-                full ? "h-[80dvh]" : "bg-muted aspect-[4/3]",
-              )}
-            >
-              <Image
-                src={src}
-                alt={`${title} — foto ${i + 1} de ${photos.length}`}
-                fill
-                priority={i === 0}
-                sizes={full ? "100vw" : "(min-width: 1024px) 60vw, 100vw"}
-                className={full ? "object-contain" : "cursor-zoom-in object-cover"}
-                onClick={() => setFull(true)}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {photos.length > 1 && (
-        <>
-          <button
-            type="button"
-            onClick={prev}
-            aria-label="Foto anterior"
-            className="absolute top-1/2 left-2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-black/50 text-white"
-          >
-            <ChevronLeft />
-          </button>
-          <button
-            type="button"
-            onClick={next}
-            aria-label="Foto siguiente"
-            className="absolute top-1/2 right-2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-black/50 text-white"
-          >
-            <ChevronRight />
-          </button>
-        </>
-      )}
-      <span
-        className="absolute bottom-3 left-3 rounded-full bg-black/60 px-3 py-1 text-xs font-semibold text-white"
-        aria-live="polite"
+    <div className="space-y-2">
+      <div
+        className={cn(
+          full ? "fixed inset-0 z-50 flex flex-col justify-center bg-black" : "relative",
+        )}
+        {...(full ? { role: "dialog", "aria-modal": true, "aria-label": "Galería de fotos" } : {})}
       >
-        {index + 1} / {photos.length}
-      </span>
-      {full ? (
-        <button
-          type="button"
-          onClick={() => setFull(false)}
-          aria-label="Cerrar galería"
-          className="absolute top-3 right-3 grid size-11 place-items-center rounded-full bg-black/60 text-white"
+        <div ref={emblaRef} className={cn("overflow-hidden", !full && "rounded-md")}>
+          <div className="flex">
+            {photos.map((src, i) => (
+              <div
+                key={src}
+                className={cn(
+                  "relative min-w-0 flex-[0_0_100%]",
+                  full ? "h-[80dvh]" : "bg-muted aspect-[4/3]",
+                )}
+              >
+                <Image
+                  src={src}
+                  alt={`${title} — foto ${i + 1} de ${photos.length}`}
+                  fill
+                  priority={i === 0}
+                  sizes={full ? "100vw" : "(min-width: 1024px) 60vw, 100vw"}
+                  className={full ? "object-contain" : "cursor-zoom-in object-cover"}
+                  onClick={() => setFull(true)}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {photos.length > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={prev}
+              aria-label="Foto anterior"
+              className="absolute top-1/2 left-2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-black/50 text-white"
+            >
+              <ChevronLeft />
+            </button>
+            <button
+              type="button"
+              onClick={next}
+              aria-label="Foto siguiente"
+              className="absolute top-1/2 right-2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-black/50 text-white"
+            >
+              <ChevronRight />
+            </button>
+          </>
+        )}
+        <span
+          className="absolute bottom-3 left-3 rounded-full bg-black/60 px-3 py-1 text-xs font-semibold text-white"
+          aria-live="polite"
         >
-          <X />
-        </button>
-      ) : (
-        <button
-          type="button"
-          onClick={() => setFull(true)}
-          aria-label="Ver en pantalla completa"
-          className="absolute right-3 bottom-3 grid size-11 place-items-center rounded-full bg-black/60 text-white"
-        >
-          <Maximize2 className="size-5" />
-        </button>
+          {index + 1} / {photos.length}
+        </span>
+        {full ? (
+          <button
+            type="button"
+            onClick={() => setFull(false)}
+            aria-label="Cerrar galería"
+            className="absolute top-3 right-3 grid size-11 place-items-center rounded-full bg-black/60 text-white"
+          >
+            <X />
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setFull(true)}
+            aria-label="Ver en pantalla completa"
+            className="absolute right-3 bottom-3 grid size-11 place-items-center rounded-full bg-black/60 text-white"
+          >
+            <Maximize2 className="size-5" />
+          </button>
+        )}
+      </div>
+      {!full && photos.length > 1 && (
+        <ul className="no-scrollbar flex gap-2 overflow-x-auto" aria-label="Miniaturas">
+          {photos.map((src, i) => (
+            <li key={src} className="shrink-0">
+              <button
+                type="button"
+                onClick={() => embla?.scrollTo(i)}
+                aria-label={`Ver foto ${i + 1}`}
+                aria-current={i === index}
+                className={cn(
+                  "relative block h-14 w-[4.5rem] overflow-hidden rounded-sm border-2 sm:h-16 sm:w-24",
+                  i === index
+                    ? "border-primary"
+                    : "border-transparent opacity-70 hover:opacity-100",
+                )}
+              >
+                <Image src={src} alt="" fill sizes="96px" className="object-cover" />
+              </button>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
