@@ -18,7 +18,7 @@ export async function Header() {
       <HeaderBar>
         <Logo className="origin-left transition-transform group-data-[compact=true]/bar:scale-[0.92]" />
         <HeaderNav />
-        <div className="ml-auto flex items-center gap-1 md:ml-0">
+        <div className="ml-auto flex items-center gap-1 lg:ml-0">
           <Link href="/autos" aria-label="Buscar autos y motos" className={iconLink}>
             <MagnifyingGlass className="size-5" aria-hidden />
           </Link>

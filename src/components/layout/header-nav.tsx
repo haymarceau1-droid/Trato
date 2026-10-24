@@ -16,7 +16,7 @@ const links = [
 export function HeaderNav() {
   const path = usePathname();
   return (
-    <nav aria-label="Principal" className="mx-auto hidden items-center gap-1 md:flex">
+    <nav aria-label="Principal" className="mx-auto hidden items-center gap-1 lg:flex">
       {links.map((l) => {
         const active = l.match.some((m) => path === m || path.startsWith(m + "/"));
         return (

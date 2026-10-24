@@ -53,8 +53,8 @@ export function ListingCard({
             <Gauge weight="bold" className="size-4" aria-hidden /> {formatKm(listing.mileage_km)}
           </span>
         </p>
-        <p className="flex items-center justify-between gap-2">
-          <span className="plate max-w-[70%] truncate">{listing.city}</span>
+        <p className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
+          <span className="plate max-w-full truncate">{listing.city}</span>
           {listing.negotiable && <span className="text-primary text-xs font-bold">Negociable</span>}
         </p>
       </div>

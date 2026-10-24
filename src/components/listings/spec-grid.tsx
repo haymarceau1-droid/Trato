@@ -66,7 +66,7 @@ export function SpecGrid({ l }: { l: Listing }) {
             </span>
             <div className="min-w-0">
               <dt className="text-muted-foreground text-xs">{k}</dt>
-              <dd className="truncate font-semibold">{v}</dd>
+              <dd className="leading-tight font-semibold break-words">{v}</dd>
             </div>
           </div>
         ))}

@@ -18,6 +18,7 @@ import {
   Edit02Icon,
   EngineIcon,
   FavouriteIcon,
+  FullScreenIcon,
   Flag01Icon,
   Fuel01Icon,
   GaugeIcon,
@@ -28,7 +29,6 @@ import {
   Invoice01Icon,
   Location01Icon,
   Mail01Icon,
-  Maximize01Icon,
   Motorbike01Icon,
   PaletteIcon,
   PauseIcon,
@@ -121,5 +121,5 @@ export const Trash = make(Delete02Icon);
 export const User = make(User02Icon);
 export const Users = make(UserGroupIcon);
 export const X = make(Cancel01Icon);
-export const ArrowsOut = make(Maximize01Icon);
+export const ArrowsOut = make(FullScreenIcon);
 export const ArrowsClockwise = make(Refresh01Icon);

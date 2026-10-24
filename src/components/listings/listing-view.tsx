@@ -127,8 +127,8 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
         </div>
       </header>
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_22rem]">
-        <div className="min-w-0 space-y-8">
+      <div className="grid gap-x-8 gap-y-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
+        <div className="min-w-0 space-y-6 lg:col-start-1 lg:row-start-1">
           <Gallery photos={photos} title={l.title} />
 
           <ul aria-label="Datos clave" className="flex flex-wrap gap-2">
@@ -142,28 +142,9 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
               </li>
             ))}
           </ul>
-
-          <section aria-labelledby="descripcion">
-            <h2 id="descripcion" className="rule mb-3 pt-3 text-2xl">
-              Lo que dice el vendedor
-            </h2>
-            <p className="max-w-prose text-[15px] leading-relaxed whitespace-pre-line">
-              {l.description ||
-                "El vendedor no agregó descripción. Pregúntale lo que quieras saber."}
-            </p>
-          </section>
-
-          <section aria-labelledby="caracteristicas">
-            <h2 id="caracteristicas" className="rule mb-4 pt-3 text-2xl">
-              Ficha técnica
-            </h2>
-            <SpecGrid l={l} />
-          </section>
-
-          <ScamTips showRepuve />
         </div>
 
-        <aside className="space-y-4 lg:sticky lg:top-20 lg:self-start">
+        <aside className="space-y-4 lg:sticky lg:top-28 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-start">
           <div className="border-border bg-card space-y-4 rounded-md border p-5">
             <div>
               <p className="text-muted-foreground text-xs font-semibold tracking-widest uppercase">
@@ -250,6 +231,27 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
             </div>
           )}
         </aside>
+
+        <div className="min-w-0 space-y-8 lg:col-start-1 lg:row-start-2">
+          <section aria-labelledby="descripcion">
+            <h2 id="descripcion" className="rule mb-3 pt-3 text-2xl">
+              Lo que dice el vendedor
+            </h2>
+            <p className="max-w-prose text-[15px] leading-relaxed whitespace-pre-line">
+              {l.description ||
+                "El vendedor no agregó descripción. Pregúntale lo que quieras saber."}
+            </p>
+          </section>
+
+          <section aria-labelledby="caracteristicas">
+            <h2 id="caracteristicas" className="rule mb-4 pt-3 text-2xl">
+              Ficha técnica
+            </h2>
+            <SpecGrid l={l} />
+          </section>
+
+          <ScamTips showRepuve />
+        </div>
       </div>
 
       {similar.length > 0 && (
