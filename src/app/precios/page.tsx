@@ -76,7 +76,7 @@ function Bullets({ items }: { items: readonly string[] }) {
 export default function PricingPage() {
   return (
     <>
-      <section className="container-page py-14 text-center md:py-20">
+      <section className="container-page pt-4 pb-14 text-center md:pt-6 md:pb-20">
         <h1 className="mx-auto max-w-4xl text-5xl leading-[0.95] uppercase md:text-7xl">
           Gratis para ti. <span className="text-primary">Pagas solo si quieres más.</span>
         </h1>

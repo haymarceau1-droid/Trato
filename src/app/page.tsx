@@ -104,7 +104,7 @@ export default async function Home() {
 
       {/* Portada */}
       <section>
-        <div className="container-page flex flex-col items-center py-14 text-center md:py-24">
+        <div className="container-page flex flex-col items-center pt-4 pb-14 text-center md:pt-6 md:pb-24">
           <p className="border-border bg-card mb-6 inline-flex max-w-full items-center gap-2 rounded-sm border px-3 py-1.5 text-sm font-semibold">
             <ShieldCheck className="text-primary size-4 shrink-0" aria-hidden />
             <span className="truncate">{marketLine(market)}</span>
