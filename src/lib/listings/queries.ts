@@ -39,34 +39,38 @@ export const getUser = cache(async () => {
   }
 });
 
+/** Aplica los filtros a una consulta de `listings` (con o sin el rango de precio). */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function applyFilters(q: any, f: Filters, { price = true }: { price?: boolean } = {}) {
+  q = q
+    .eq("vehicle_type", f.type)
+    .eq("status", "active")
+    .gt("expires_at", new Date().toISOString());
+  if (f.q) {
+    const text = f.q.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    q = q.textSearch("search", text, { type: "websearch", config: "spanish" });
+  }
+  if (f.state) q = q.eq("state", f.state);
+  if (f.city) q = q.eq("city_slug", f.city);
+  if (f.brand) q = q.eq("brand_slug", f.brand);
+  if (f.model) q = q.eq("model_slug", f.model);
+  if (f.body) q = q.eq(f.type === "auto" ? "body_type" : "moto_type", f.body);
+  if (f.yearMin) q = q.gte("year", f.yearMin);
+  if (f.yearMax) q = q.lte("year", f.yearMax);
+  if (price && f.priceMin) q = q.gte("price_mxn", f.priceMin);
+  if (price && f.priceMax) q = q.lte("price_mxn", f.priceMax);
+  if (f.kmMax) q = q.lte("mileage_km", f.kmMax);
+  if (f.transmission) q = q.eq("transmission", f.transmission);
+  if (f.fuel) q = q.eq("fuel", f.fuel);
+  if (f.ccMin) q = q.gte("engine_cc", f.ccMin);
+  if (f.ccMax) q = q.lte("engine_cc", f.ccMax);
+  return q;
+}
+
 export async function searchListings(f: Filters): Promise<{ items: Listing[]; total: number }> {
   return safe({ items: [], total: 0 }, async () => {
     const supabase = await createClient();
-    let q = supabase
-      .from("listings")
-      .select(SELECT, { count: "exact" })
-      .eq("vehicle_type", f.type)
-      .eq("status", "active")
-      .gt("expires_at", new Date().toISOString());
-
-    if (f.q) {
-      const text = f.q.normalize("NFD").replace(/[̀-ͯ]/g, "");
-      q = q.textSearch("search", text, { type: "websearch", config: "spanish" });
-    }
-    if (f.state) q = q.eq("state", f.state);
-    if (f.city) q = q.eq("city_slug", f.city);
-    if (f.brand) q = q.eq("brand_slug", f.brand);
-    if (f.model) q = q.eq("model_slug", f.model);
-    if (f.body) q = q.eq(f.type === "auto" ? "body_type" : "moto_type", f.body);
-    if (f.yearMin) q = q.gte("year", f.yearMin);
-    if (f.yearMax) q = q.lte("year", f.yearMax);
-    if (f.priceMin) q = q.gte("price_mxn", f.priceMin);
-    if (f.priceMax) q = q.lte("price_mxn", f.priceMax);
-    if (f.kmMax) q = q.lte("mileage_km", f.kmMax);
-    if (f.transmission) q = q.eq("transmission", f.transmission);
-    if (f.fuel) q = q.eq("fuel", f.fuel);
-    if (f.ccMin) q = q.gte("engine_cc", f.ccMin);
-    if (f.ccMax) q = q.lte("engine_cc", f.ccMax);
+    let q = applyFilters(supabase.from("listings").select(SELECT, { count: "exact" }), f);
 
     switch (f.sort) {
       case "precio_asc":
@@ -242,5 +246,24 @@ export async function getStateCounts(): Promise<Record<string, number>> {
     const counts: Record<string, number> = {};
     for (const r of data ?? []) counts[r.state as string] = (counts[r.state as string] ?? 0) + 1;
     return counts;
+  });
+}
+
+/** Vista previa de filtros: cuántos resultados hay y cómo se reparten los precios (sin filtrar por precio). */
+export async function previewFilters(f: Filters, cap: number, buckets = 28) {
+  return safe({ count: 0, histogram: Array<number>(buckets).fill(0) }, async () => {
+    const supabase = await createClient();
+    const { count } = await applyFilters(
+      supabase.from("listings").select("id", { count: "exact", head: true }),
+      f,
+    );
+    const { data } = await applyFilters(supabase.from("listings").select("price_mxn"), f, {
+      price: false,
+    }).limit(2000);
+    const histogram = Array<number>(buckets).fill(0);
+    for (const r of (data ?? []) as { price_mxn: number }[]) {
+      histogram[Math.min(buckets - 1, Math.floor((r.price_mxn / cap) * buckets))]++;
+    }
+    return { count: count ?? 0, histogram };
   });
 }

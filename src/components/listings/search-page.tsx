@@ -13,8 +13,9 @@ import { BrandLogo } from "@/components/ui/brand-logo";
 import { StateShape } from "@/components/ui/state-shape";
 import { site } from "@/config/site";
 import { ActiveFilters } from "./active-filters";
+import { FilterBar } from "@/components/search/filter-bar";
+import { SortSelect } from "@/components/search/sort-select";
 import { QuickFilters } from "./quick-filters";
-import { DesktopFilters, MobileFilters, SortSelect } from "./filters";
 import { ListingGrid } from "./listing-card";
 import { Pagination } from "./pagination";
 
@@ -101,40 +102,38 @@ export function SearchView({
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <MobileFilters filters={filters} brands={brands} />
           <SortSelect filters={filters} />
         </div>
       </header>
 
       <div className="mt-5 space-y-4">
-        <QuickFilters filters={filters} />
+        <FilterBar filters={filters} brands={brands}>
+          <QuickFilters filters={filters} />
+        </FilterBar>
         <ActiveFilters filters={filters} brands={brands} />
       </div>
 
-      <div className="mt-6 flex gap-8">
-        <DesktopFilters filters={filters} brands={brands} />
-        <div className="min-w-0 flex-1">
-          {items.length ? (
-            <>
-              <ListingGrid items={items} favorites={favorites} dense />
-              <Pagination filters={filters} total={total} />
-            </>
-          ) : (
-            <EmptyState
-              title="No hay autos ni motos con esos filtros… todavía"
-              hint="Prueba con un rango de precio o de año más amplio, o quita la marca. Cada día se publican vehículos nuevos."
-            >
-              <div className="flex flex-wrap justify-center gap-2">
-                <LinkButton href={`/${vehiclePath(type)}`} variant="outline">
-                  Quitar filtros
-                </LinkButton>
-                <LinkButton href={`/${vehiclePath(other.value)}`} variant="ghost">
-                  Ver {other.plural.toLowerCase()}
-                </LinkButton>
-              </div>
-            </EmptyState>
-          )}
-        </div>
+      <div className="mt-6">
+        {items.length ? (
+          <>
+            <ListingGrid items={items} favorites={favorites} />
+            <Pagination filters={filters} total={total} />
+          </>
+        ) : (
+          <EmptyState
+            title="No hay autos ni motos con esos filtros… todavía"
+            hint="Prueba con un rango de precio o de año más amplio, o quita la marca. Cada día se publican vehículos nuevos."
+          >
+            <div className="flex flex-wrap justify-center gap-2">
+              <LinkButton href={`/${vehiclePath(type)}`} variant="outline">
+                Quitar filtros
+              </LinkButton>
+              <LinkButton href={`/${vehiclePath(other.value)}`} variant="ghost">
+                Ver {other.plural.toLowerCase()}
+              </LinkButton>
+            </div>
+          </EmptyState>
+        )}
       </div>
 
       <section aria-labelledby="por-estado" className="mt-14">

@@ -117,3 +117,6 @@ export const MX_STATES = [
 
 export const stateBySlug = (slug?: string | null) => MX_STATES.find((s) => s.slug === slug);
 export const stateName = (slug?: string | null) => stateBySlug(slug)?.name ?? slug ?? "";
+
+/** Tope del control deslizante de precio (lo que pasa de aquí cuenta como "+"). */
+export const PRICE_CAP = { auto: 800_000, moto: 250_000 } as const;

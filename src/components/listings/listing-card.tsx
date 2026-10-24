@@ -62,24 +62,9 @@ export function ListingCard({
   );
 }
 
-export function ListingGrid({
-  items,
-  favorites,
-  dense,
-}: {
-  items: Listing[];
-  favorites: Set<string>;
-  /** Con panel lateral de filtros: una columna menos en escritorio para que las tarjetas respiren. */
-  dense?: boolean;
-}) {
+export function ListingGrid({ items, favorites }: { items: Listing[]; favorites: Set<string> }) {
   return (
-    <ul
-      className={
-        dense
-          ? "grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 xl:grid-cols-3"
-          : "grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
-      }
-    >
+    <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
       {items.map((l, i) => (
         <li key={l.id}>
           <ListingCard listing={l} favorite={favorites.has(l.id)} priority={i < 3} />

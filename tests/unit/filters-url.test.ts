@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { buildUrl, parseFilters } from "@/lib/listings/filters-url";
+import {
+  buildUrl,
+  countActiveFilters,
+  normalizeFilters,
+  parseFilters,
+} from "@/lib/listings/filters-url";
 import { listingPath, parseListingId, slugify } from "@/lib/listings/slug";
 
 describe("parseFilters / buildUrl", () => {
@@ -64,5 +69,32 @@ describe("slug", () => {
     const path = listingPath({ slug: "nissan-versa-2019-monterrey", id });
     expect(parseListingId(path.replace("/anuncio/", ""))).toBe(id);
     expect(parseListingId("sin-id")).toBeNull();
+  });
+});
+
+describe("countActiveFilters / normalizeFilters", () => {
+  it("cuenta grupos de filtros, no campos", () => {
+    const f = parseFilters("auto", ["nuevo-leon", "monterrey"], {
+      precio_min: "1",
+      precio_max: "9",
+      transmision: "manual",
+    });
+    expect(countActiveFilters(f)).toBe(3); // ubicación + precio + transmisión
+    expect(countActiveFilters(parseFilters("moto"))).toBe(0);
+  });
+
+  it("normaliza filtros no confiables (valores raros se descartan)", () => {
+    const dirty = {
+      type: "auto",
+      sort: "hack",
+      page: 99,
+      priceMax: -5,
+      kmMax: 1e12,
+      brand: "nissan",
+    } as never;
+    const f = normalizeFilters(dirty);
+    expect(f.sort).toBe("recientes");
+    expect(f.brand).toBe("nissan");
+    expect(f.page).toBe(1);
   });
 });

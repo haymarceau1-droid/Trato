@@ -16,7 +16,7 @@ export function QuickFilters({ filters: f }: { filters: Filters }) {
   const types = f.type === "auto" ? BODY_TYPES : MOTO_TYPES;
   return (
     <div className="space-y-2">
-      <ul aria-label="Marcas" className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
+      <ul aria-label="Marcas" className="no-scrollbar flex gap-2 overflow-x-auto pb-1">
         {logoBrands(f.type, 14).map((name) => {
           const slug = slugify(name);
           const active = f.brand === slug;
@@ -41,7 +41,7 @@ export function QuickFilters({ filters: f }: { filters: Filters }) {
       </ul>
       <ul
         aria-label={f.type === "auto" ? "Carrocería" : "Tipo de moto"}
-        className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-1"
+        className="no-scrollbar flex gap-2 overflow-x-auto pb-1"
       >
         {types.map((t) => {
           const active = f.body === t.value;

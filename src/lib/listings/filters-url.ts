@@ -140,3 +140,11 @@ export function countActiveFilters(f: Filters): number {
   ];
   return groups.filter((g) => g.some((v) => v !== undefined && v !== "")).length;
 }
+
+/** Reconstruye filtros válidos a partir de datos no confiables (p. ej. de un Server Action). */
+export function normalizeFilters(input: Filters): Filters {
+  const url = new URL(buildUrl({ ...input, page: 1 }), "http://local");
+  const type = input.type === "moto" ? "moto" : "auto";
+  const segments = url.pathname.split("/").filter(Boolean).slice(1);
+  return parseFilters(type, segments, Object.fromEntries(url.searchParams));
+}
