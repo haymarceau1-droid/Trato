@@ -4,7 +4,7 @@ import type { Listing } from "@/types";
 import { formatKm, formatMXN } from "@/lib/format";
 import { coverOf, photoUrl } from "@/lib/listings/photos";
 import { listingPath } from "@/lib/listings/slug";
-import { CalendarBlank, Gauge } from "@phosphor-icons/react/dist/ssr";
+import { CalendarBlank, Gauge } from "@/components/ui/icons";
 import { FavoriteButton } from "./favorite-button";
 
 export function ListingCard({

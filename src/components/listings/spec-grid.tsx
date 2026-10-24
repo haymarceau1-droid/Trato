@@ -12,8 +12,8 @@ import {
   Receipt,
   Users,
   Tire,
-} from "@phosphor-icons/react/dist/ssr";
-import type { Icon as IconType } from "@phosphor-icons/react";
+} from "@/components/ui/icons";
+import type { IconType } from "@/components/ui/icons";
 import type { Listing } from "@/types";
 import {
   BODY_TYPES,

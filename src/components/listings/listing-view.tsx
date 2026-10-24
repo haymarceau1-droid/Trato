@@ -10,7 +10,7 @@ import {
   PencilSimple,
   Receipt,
   ShieldCheck,
-} from "@phosphor-icons/react/dist/ssr";
+} from "@/components/ui/icons";
 import { brand } from "@/config/brand";
 import { FUELS, INVOICE_TYPES, TRANSMISSIONS, labelOf, stateName } from "@/lib/constants";
 import { formatKm, formatMXN, formatMonthYear, timeAgo } from "@/lib/format";

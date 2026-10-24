@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Phone } from "@phosphor-icons/react/dist/ssr";
+import { Phone } from "@/components/ui/icons";
 import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 import { Button } from "@/components/ui/button";
 

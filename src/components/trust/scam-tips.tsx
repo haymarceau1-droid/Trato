@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Check } from "@phosphor-icons/react/dist/ssr";
+import { Check } from "@/components/ui/icons";
 import { tList } from "@/i18n";
 import { site } from "@/config/site";
 

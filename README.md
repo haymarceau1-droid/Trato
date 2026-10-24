@@ -54,6 +54,8 @@ Los logos de marca (monocromos, `public/logos/*.svg`) salen de [Simple Icons](ht
 
 Las siluetas de los 32 estados (`public/estados/*.svg`) se generan desde GeoJSON abierto ([angelnmara/geojson](https://github.com/angelnmara/geojson)), simplificado, con `npm run catalog:states`.
 
+Los iconos de la interfaz son de [Hugeicons](https://hugeicons.com) (versión gratuita, trazo redondeado), envueltos en `src/components/ui/icons.tsx`.
+
 Qué incluyen las migraciones: enums, `profiles` (trigger al registrarse), `listings` (columnas nullable + `CHECK` por tipo, búsqueda de texto completo en español), fotos, favoritos, reportes (3 reportes ⇒ pausa automática), límites y rate limiting en SQL, mediana de precios, **RLS en todas las tablas**, bucket de fotos y expiración diaria con `pg_cron`.
 
 ### Autenticación

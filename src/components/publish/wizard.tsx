@@ -5,11 +5,7 @@ import Link from "next/link";
 import { useForm, type FieldPath } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
-import {
-  Motorcycle as Bike,
-  Car,
-  CheckCircle as CheckCircle2,
-} from "@phosphor-icons/react/dist/ssr";
+import { Motorcycle as Bike, Car, CheckCircle as CheckCircle2 } from "@/components/ui/icons";
 import { createListing, getPriceHint, updateListing } from "@/actions/listings";
 import { site } from "@/config/site";
 import {
@@ -35,7 +31,7 @@ import { Field, Input, Select, Textarea } from "@/components/ui/field";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { QuickPick } from "@/components/ui/chips";
 import { Segmented } from "@/components/ui/segmented";
-import { POPULAR_BRANDS } from "@/lib/catalog";
+import { logoBrands } from "@/lib/brand-picks";
 import { MX_CITIES } from "@/lib/cities";
 import { PhotoUploader, type PhotoItem } from "./photo-uploader";
 
@@ -392,7 +388,7 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
             {!v.brand && (
               <QuickPick
                 label="Marcas populares"
-                items={type ? POPULAR_BRANDS[type] : []}
+                items={type ? logoBrands(type, 12) : []}
                 icon={(b) => <BrandLogo name={b} className="size-5" />}
                 onPick={(b) => setValue("brand", b, { shouldValidate: true })}
               />

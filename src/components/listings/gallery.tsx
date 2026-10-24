@@ -8,7 +8,7 @@ import {
   CaretRight as ChevronRight,
   ArrowsOut as Maximize2,
   X,
-} from "@phosphor-icons/react/dist/ssr";
+} from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
 
 export function Gallery({ photos, title }: { photos: string[]; title: string }) {

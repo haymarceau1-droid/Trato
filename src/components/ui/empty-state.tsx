@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { CarProfile } from "@phosphor-icons/react/dist/ssr";
+import { CarProfile } from "@/components/ui/icons";
 
 export const EmptyState = ({
   title,

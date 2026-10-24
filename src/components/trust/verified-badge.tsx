@@ -1,4 +1,4 @@
-import { SealCheck as BadgeCheck } from "@phosphor-icons/react/dist/ssr";
+import { SealCheck as BadgeCheck } from "@/components/ui/icons";
 import { Badge } from "@/components/ui/badge";
 
 export const VerifiedBadge = () => (

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, ShareNetwork as Share2 } from "@phosphor-icons/react/dist/ssr";
+import { Check, ShareNetwork as Share2 } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 
 export function ShareButton({ title }: { title: string }) {

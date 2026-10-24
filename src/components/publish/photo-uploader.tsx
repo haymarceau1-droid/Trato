@@ -23,7 +23,7 @@ import {
   ImageSquare as ImagePlus,
   Star,
   Trash as Trash2,
-} from "@phosphor-icons/react/dist/ssr";
+} from "@/components/ui/icons";
 import { site } from "@/config/site";
 import { compressImage } from "@/lib/images/compress";
 import { PHOTO_BUCKET } from "@/lib/listings/photos";

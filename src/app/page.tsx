@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  ArrowUpRight,
-  CaretRight as ChevronRight,
-  Car,
-  Motorcycle,
-} from "@phosphor-icons/react/dist/ssr";
+import { ArrowUpRight, CaretRight as ChevronRight, Car, Motorcycle } from "@/components/ui/icons";
 import { brand } from "@/config/brand";
 import { site } from "@/config/site";
 import { BODY_TYPES, MOTO_TYPES, PRICE_RANGES } from "@/lib/constants";
 import { buildUrl, parseFilters } from "@/lib/listings/filters-url";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { MexicoMap } from "@/components/home/mexico-map";
-import { POPULAR_BRANDS } from "@/lib/catalog";
+import { logoBrands } from "@/lib/brand-picks";
 import { slugify } from "@/lib/listings/slug";
 import { getFavoriteIds, getLatest, getStateCounts, getUser } from "@/lib/listings/queries";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -312,7 +307,7 @@ export default async function Home() {
                 {type === "auto" ? "Marcas de autos" : "Marcas de motos"}
               </h3>
               <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-                {POPULAR_BRANDS[type].map((name) => (
+                {logoBrands(type, type === "auto" ? 18 : undefined).map((name) => (
                   <li key={name}>
                     <Link
                       href={`/${type === "auto" ? "autos" : "motos"}/${slugify(name)}`}

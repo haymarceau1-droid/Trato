@@ -12,7 +12,7 @@ import {
   ArrowsClockwise as RefreshCw,
   Tag,
   Trash as Trash2,
-} from "@phosphor-icons/react/dist/ssr";
+} from "@/components/ui/icons";
 import { deleteListing, renewListing, setListingStatus } from "@/actions/listings";
 import type { Listing } from "@/types";
 import { formatDate, formatMXN } from "@/lib/format";

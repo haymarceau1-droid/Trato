@@ -5,7 +5,7 @@ import {
   HandCoins,
   Handshake,
   SealCheck,
-} from "@phosphor-icons/react/dist/ssr";
+} from "@/components/ui/icons";
 import { brand } from "@/config/brand";
 import { MX_STATES } from "@/lib/constants";
 import { Logo } from "./logo";

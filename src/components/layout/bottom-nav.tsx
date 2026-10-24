@@ -8,7 +8,7 @@ import {
   PlusCircle,
   MagnifyingGlass as Search,
   User,
-} from "@phosphor-icons/react/dist/ssr";
+} from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
 
 const items = [

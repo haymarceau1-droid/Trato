@@ -2,7 +2,7 @@
 
 import { useOptimistic, useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Heart } from "@phosphor-icons/react/dist/ssr";
+import { Heart } from "@/components/ui/icons";
 import { toggleFavorite } from "@/actions/favorites";
 import { cn } from "@/lib/utils";
 

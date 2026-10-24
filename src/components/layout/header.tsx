@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Heart, MagnifyingGlass, Plus } from "@phosphor-icons/react/dist/ssr";
+import { Heart, MagnifyingGlass, Plus } from "@/components/ui/icons";
 import { getUser } from "@/lib/listings/queries";
 import { t } from "@/i18n";
 import { LinkButton } from "@/components/ui/button";
