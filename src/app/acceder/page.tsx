@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ShieldCheck } from "@/components/ui/icons";
 import { brand } from "@/config/brand";
@@ -31,23 +32,25 @@ export default async function LoginPage({
           </p>
         )}
         <AuthForm next={safeNext(next)} />
-        <p className="text-muted-foreground flex items-start gap-2 text-xs">
+        <div className="text-muted-foreground flex items-start gap-2 text-xs leading-relaxed">
           <ShieldCheck className="text-primary mt-0.5 size-4 shrink-0" aria-hidden />
-          Tu número solo se muestra a quien inicia sesión y quiere contactarte por tu vehículo;
-          nunca aparece en Google. Al continuar confirmas que tienes 18 años o más y aceptas los{" "}
-          <a href="/terminos" className="underline">
-            términos
-          </a>{" "}
-          y el{" "}
-          <a href="/privacidad" className="underline">
-            aviso de privacidad
-          </a>
-          . Usamos solo cookies necesarias (
-          <a href="/cookies" className="underline">
-            más información
-          </a>
-          ).
-        </p>
+          <p className="min-w-0">
+            Tu número solo se muestra a quien inicia sesión y quiere contactarte por tu vehículo;
+            nunca aparece en Google. Al continuar confirmas que tienes 18 años o más y aceptas los{" "}
+            <Link href="/terminos" className="underline">
+              términos
+            </Link>{" "}
+            y el{" "}
+            <Link href="/privacidad" className="underline">
+              aviso de privacidad
+            </Link>
+            . Usamos solo cookies necesarias (
+            <Link href="/cookies" className="underline">
+              más información
+            </Link>
+            ).
+          </p>
+        </div>
       </div>
     </div>
   );
