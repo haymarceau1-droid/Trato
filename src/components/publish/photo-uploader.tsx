@@ -18,7 +18,12 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { GripVertical, ImagePlus, Star, Trash2 } from "lucide-react";
+import {
+  DotsSixVertical as GripVertical,
+  ImageSquare as ImagePlus,
+  Star,
+  Trash as Trash2,
+} from "@phosphor-icons/react/dist/ssr";
 import { site } from "@/config/site";
 import { compressImage } from "@/lib/images/compress";
 import { PHOTO_BUCKET } from "@/lib/listings/photos";

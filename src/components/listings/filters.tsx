@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { SlidersHorizontal, X } from "lucide-react";
+import { SlidersHorizontal, X } from "@phosphor-icons/react/dist/ssr";
 import { BODY_TYPES, FUELS, MOTO_TYPES, MX_STATES, SORTS, TRANSMISSIONS } from "@/lib/constants";
 import { buildUrl, type Filters } from "@/lib/listings/filters-url";
 import { slugify } from "@/lib/listings/slug";

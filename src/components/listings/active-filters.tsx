@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { X } from "lucide-react";
+import { X } from "@phosphor-icons/react/dist/ssr";
 import { BODY_TYPES, FUELS, MOTO_TYPES, TRANSMISSIONS, labelOf, stateName } from "@/lib/constants";
 import { formatMXN, formatKm } from "@/lib/format";
 import { buildUrl, type Filters } from "@/lib/listings/filters-url";

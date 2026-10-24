@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Flag } from "lucide-react";
+import { Flag } from "@phosphor-icons/react/dist/ssr";
 import { createReport } from "@/actions/reports";
 import { REPORT_REASONS } from "@/lib/constants";
 import { Button } from "@/components/ui/button";

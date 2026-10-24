@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { MessageCircle, Phone } from "lucide-react";
+import { WhatsappLogo as MessageCircle, Phone } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/ui/button";
 
 function useContact(listingId: string) {

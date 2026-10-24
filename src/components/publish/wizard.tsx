@@ -5,7 +5,11 @@ import Link from "next/link";
 import { useForm, type FieldPath } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
-import { Bike, Car, CheckCircle2 } from "lucide-react";
+import {
+  Motorcycle as Bike,
+  Car,
+  CheckCircle as CheckCircle2,
+} from "@phosphor-icons/react/dist/ssr";
 import { createListing, getPriceHint, updateListing } from "@/actions/listings";
 import { site } from "@/config/site";
 import {

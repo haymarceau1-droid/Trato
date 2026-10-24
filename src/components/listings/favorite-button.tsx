@@ -2,7 +2,7 @@
 
 import { useOptimistic, useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Heart } from "lucide-react";
+import { Heart } from "@phosphor-icons/react/dist/ssr";
 import { toggleFavorite } from "@/actions/favorites";
 import { cn } from "@/lib/utils";
 
@@ -33,12 +33,13 @@ export function FavoriteButton({
         })
       }
       className={cn(
-        "bg-card/90 hover:bg-card grid size-11 place-items-center rounded-full shadow-sm backdrop-blur",
+        "wiggle bg-card border-foreground hover:bg-muted grid size-11 place-items-center rounded-sm border-2",
         className,
       )}
     >
       <Heart
-        className={cn("size-5", fav ? "fill-danger text-danger" : "text-foreground")}
+        weight={fav ? "fill" : "bold"}
+        className={cn("size-5", fav ? "text-danger" : "text-foreground")}
         aria-hidden
       />
     </button>

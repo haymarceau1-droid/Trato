@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Heart, Plus, User } from "lucide-react";
+import { Heart, Plus, User } from "@phosphor-icons/react/dist/ssr";
 import { getUser } from "@/lib/listings/queries";
 import { t } from "@/i18n";
 import { LinkButton } from "@/components/ui/button";

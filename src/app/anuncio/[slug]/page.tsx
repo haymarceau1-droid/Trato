@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { Clock, Eye, MapPin, Pencil } from "lucide-react";
+import { Clock, Eye, MapPin, PencilSimple as Pencil } from "@phosphor-icons/react/dist/ssr";
 import { brand } from "@/config/brand";
 import { stateName } from "@/lib/constants";
 import { formatMXN, formatMonthYear, timeAgo } from "@/lib/format";

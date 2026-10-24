@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Heart, Home, PlusCircle, Search, User } from "lucide-react";
+import {
+  Heart,
+  House as Home,
+  PlusCircle,
+  MagnifyingGlass as Search,
+  User,
+} from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
 
 const items = [
@@ -36,7 +42,7 @@ export function BottomNav() {
                   active ? "text-primary" : "text-muted-foreground",
                 )}
               >
-                <Icon className="size-5" aria-hidden />
+                <Icon weight={active ? "fill" : "regular"} className="size-6" aria-hidden />
                 {label}
               </Link>
             </li>

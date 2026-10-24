@@ -4,7 +4,15 @@ import { useState, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Eye, Pencil, Pause, Play, RefreshCw, Tag, Trash2 } from "lucide-react";
+import {
+  Eye,
+  PencilSimple as Pencil,
+  Pause,
+  Play,
+  ArrowsClockwise as RefreshCw,
+  Tag,
+  Trash as Trash2,
+} from "@phosphor-icons/react/dist/ssr";
 import { deleteListing, renewListing, setListingStatus } from "@/actions/listings";
 import type { Listing } from "@/types";
 import { formatDate, formatMXN } from "@/lib/format";

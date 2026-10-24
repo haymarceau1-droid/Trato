@@ -1,3 +1,19 @@
+import {
+  CalendarBlank,
+  CarProfile,
+  Certificate,
+  Engine,
+  Gauge,
+  GasPump,
+  GearSix,
+  MapPinArea,
+  Motorcycle,
+  Palette,
+  Receipt,
+  Users,
+  Tire,
+} from "@phosphor-icons/react/dist/ssr";
+import type { Icon as IconType } from "@phosphor-icons/react";
 import type { Listing } from "@/types";
 import {
   BODY_TYPES,
@@ -11,37 +27,47 @@ import {
 } from "@/lib/constants";
 import { formatKm } from "@/lib/format";
 
+type Row = [label: string, value: string | null, icon: IconType];
+
 export function SpecGrid({ l }: { l: Listing }) {
-  const rows: [string, string | null][] = [
-    ["Año", String(l.year)],
-    ["Kilometraje", formatKm(l.mileage_km)],
-    ["Transmisión", labelOf(TRANSMISSIONS, l.transmission)],
-    ["Combustible", labelOf(FUELS, l.fuel)],
+  const rows: Row[] = [
+    ["Año", String(l.year), CalendarBlank],
+    ["Kilometraje", formatKm(l.mileage_km), Gauge],
+    ["Transmisión", labelOf(TRANSMISSIONS, l.transmission), GearSix],
+    ["Combustible", labelOf(FUELS, l.fuel), GasPump],
     ...(l.vehicle_type === "auto"
       ? ([
-          ["Carrocería", labelOf(BODY_TYPES, l.body_type)],
-          ["Puertas", l.doors ? String(l.doors) : null],
-          ["Motor", l.engine_liters ? `${l.engine_liters} L` : null],
-          ["Tracción", l.traction ? labelOf(TRACTIONS, l.traction) : null],
-        ] as [string, string | null][])
+          ["Carrocería", labelOf(BODY_TYPES, l.body_type), CarProfile],
+          ["Puertas", l.doors ? String(l.doors) : null, CarProfile],
+          ["Motor", l.engine_liters ? `${l.engine_liters} L` : null, Engine],
+          ["Tracción", l.traction ? labelOf(TRACTIONS, l.traction) : null, Tire],
+        ] as Row[])
       : ([
-          ["Tipo", labelOf(MOTO_TYPES, l.moto_type)],
-          ["Cilindrada", l.engine_cc ? `${l.engine_cc} cc` : null],
-        ] as [string, string | null][])),
-    ["Color", l.color],
-    ["Dueños", l.owners_count ? String(l.owners_count) : null],
-    ["Factura", labelOf(INVOICE_TYPES, l.invoice_type)],
-    ["Placas de", l.plates_state ? stateName(l.plates_state) : null],
-    ["Tenencia al corriente", l.tenencia_al_corriente ? "Sí" : "No"],
+          ["Tipo", labelOf(MOTO_TYPES, l.moto_type), Motorcycle],
+          ["Cilindrada", l.engine_cc ? `${l.engine_cc} cc` : null, Engine],
+        ] as Row[])),
+    ["Color", l.color, Palette],
+    ["Dueños", l.owners_count ? String(l.owners_count) : null, Users],
+    ["Factura", labelOf(INVOICE_TYPES, l.invoice_type), Receipt],
+    ["Placas de", l.plates_state ? stateName(l.plates_state) : null, MapPinArea],
+    ["Tenencia al corriente", l.tenencia_al_corriente ? "Sí" : "No", Certificate],
   ];
   return (
-    <dl className="border-border bg-border grid grid-cols-2 gap-px overflow-hidden rounded-md border sm:grid-cols-3">
+    <dl className="grid grid-cols-2 gap-3 sm:grid-cols-3">
       {rows
         .filter(([, v]) => v)
-        .map(([k, v]) => (
-          <div key={k} className="bg-card p-3">
-            <dt className="text-muted-foreground text-xs">{k}</dt>
-            <dd className="font-semibold">{v}</dd>
+        .map(([k, v, Icon]) => (
+          <div
+            key={k}
+            className="border-border bg-card flex items-center gap-3 rounded-md border p-3"
+          >
+            <span className="bg-primary-soft text-primary grid size-10 shrink-0 place-items-center rounded-sm">
+              <Icon weight="duotone" className="size-6" aria-hidden />
+            </span>
+            <div className="min-w-0">
+              <dt className="text-muted-foreground text-xs">{k}</dt>
+              <dd className="truncate font-semibold">{v}</dd>
+            </div>
           </div>
         ))}
     </dl>

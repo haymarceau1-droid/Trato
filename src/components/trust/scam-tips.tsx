@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Check } from "@phosphor-icons/react/dist/ssr";
 import { tList } from "@/i18n";
 import { site } from "@/config/site";
 
@@ -16,7 +17,7 @@ export function ScamTips({ showRepuve = false }: { showRepuve?: boolean }) {
               aria-hidden
               className="border-foreground mt-0.5 grid size-5 shrink-0 place-items-center border-2 text-xs"
             >
-              ✓
+              <Check weight="bold" className="size-3.5" />
             </span>
             {i}
           </li>

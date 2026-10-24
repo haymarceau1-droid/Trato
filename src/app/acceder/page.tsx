@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "@phosphor-icons/react/dist/ssr";
 import { brand } from "@/config/brand";
 import { AuthForm } from "@/components/auth/auth-form";
 import { safeNext } from "@/lib/safe-next";

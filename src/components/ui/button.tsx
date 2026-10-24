@@ -3,13 +3,15 @@ import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 const base =
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-sm px-4 text-sm font-semibold transition-colors disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-sm px-4 text-sm font-semibold transition-[transform,box-shadow,colors] disabled:pointer-events-none disabled:opacity-50";
+const sticker =
+  "border-2 border-foreground shadow-[3px_3px_0_0_var(--foreground)] hover:-translate-x-px hover:-translate-y-px hover:shadow-[4px_4px_0_0_var(--foreground)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none";
 const variants = {
-  primary: "bg-primary text-primary-foreground hover:opacity-90",
-  outline: "border border-border bg-card text-foreground hover:bg-muted",
+  primary: `${sticker} bg-primary text-primary-foreground`,
+  outline: `${sticker} bg-card text-foreground`,
   ghost: "text-foreground hover:bg-muted",
-  danger: "bg-danger text-white hover:opacity-90",
-  soft: "bg-primary-soft text-primary hover:opacity-90",
+  danger: `${sticker} bg-danger text-white`,
+  soft: `${sticker} bg-primary-soft text-primary`,
 } as const;
 const sizes = { md: "", lg: "min-h-12 px-6 text-base", icon: "w-11 px-0" } as const;
 

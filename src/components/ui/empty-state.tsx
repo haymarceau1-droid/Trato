@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { CarProfile } from "@phosphor-icons/react/dist/ssr";
 
 export const EmptyState = ({
   title,
@@ -9,8 +10,9 @@ export const EmptyState = ({
   hint?: string;
   children?: ReactNode;
 }) => (
-  <div className="border-border bg-card flex flex-col items-center gap-3 rounded-md border border-dashed px-6 py-12 text-center">
-    <p className="text-lg font-semibold">{title}</p>
+  <div className="border-border bg-card flex flex-col items-center gap-3 rounded-md border-2 border-dashed px-6 py-12 text-center">
+    <CarProfile weight="duotone" className="text-primary size-16" aria-hidden />
+    <p className="font-display text-2xl">{title}</p>
     {hint && <p className="text-muted-foreground max-w-md text-sm">{hint}</p>}
     {children}
   </div>

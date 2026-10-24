@@ -4,6 +4,7 @@ import type { Listing } from "@/types";
 import { formatKm, formatMXN } from "@/lib/format";
 import { coverOf, photoUrl } from "@/lib/listings/photos";
 import { listingPath } from "@/lib/listings/slug";
+import { CalendarBlank, Gauge } from "@phosphor-icons/react/dist/ssr";
 import { FavoriteButton } from "./favorite-button";
 
 export function ListingCard({
@@ -17,7 +18,7 @@ export function ListingCard({
 }) {
   const cover = coverOf(listing);
   return (
-    <article className="group border-border bg-card hover:border-foreground relative overflow-hidden rounded-sm border transition-colors">
+    <article className="group border-foreground bg-card pop relative overflow-hidden rounded-sm border-2">
       <div className="bg-muted relative aspect-[4/3]">
         {cover && (
           <Image
@@ -29,7 +30,7 @@ export function ListingCard({
             className="object-cover"
           />
         )}
-        <p className="font-display bg-primary text-primary-foreground absolute bottom-0 left-0 px-2.5 py-1 text-lg">
+        <p className="font-display bg-primary text-primary-foreground tag-sticker absolute bottom-2 left-2 px-2.5 py-0.5 text-lg">
           {formatMXN(listing.price_mxn)}
         </p>
         <FavoriteButton
@@ -44,8 +45,13 @@ export function ListingCard({
             {listing.title}
           </Link>
         </h3>
-        <p className="text-muted-foreground text-sm">
-          {listing.year} · {formatKm(listing.mileage_km)}
+        <p className="text-muted-foreground flex items-center gap-3 text-sm">
+          <span className="inline-flex items-center gap-1">
+            <CalendarBlank weight="bold" className="size-4" aria-hidden /> {listing.year}
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <Gauge weight="bold" className="size-4" aria-hidden /> {formatKm(listing.mileage_km)}
+          </span>
         </p>
         <p className="flex items-center justify-between gap-2">
           <span className="plate max-w-[70%] truncate">{listing.city}</span>

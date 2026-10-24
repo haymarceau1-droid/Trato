@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search } from "lucide-react";
+import { MagnifyingGlass as Search } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/utils";
 
 /** Pestañas pegadas a la barra, como carpeta de archivo. */
