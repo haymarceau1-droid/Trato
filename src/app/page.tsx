@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  ArrowUpRight,
-  CaretRight as ChevronRight,
-  Car,
-  Motorcycle,
-  ShieldCheck,
-} from "@/components/ui/icons";
+import { ArrowUpRight, CaretRight as ChevronRight, ShieldCheck } from "@/components/ui/icons";
 import { brand } from "@/config/brand";
+import { cn } from "@/lib/utils";
 import { site } from "@/config/site";
 import { BODY_TYPES, MOTO_TYPES, PRICE_RANGES } from "@/lib/constants";
 import { buildUrl, parseFilters } from "@/lib/listings/filters-url";
@@ -150,45 +145,61 @@ export default async function Home() {
       </section>
 
       {/* Dos puertas */}
-      <section className="grid md:grid-cols-2" aria-label="Categorías">
-        <Link
-          href="/autos"
-          className="bg-card text-foreground group relative flex items-end justify-between gap-4 overflow-hidden p-8 md:p-12"
-        >
-          <Car
-            weight="duotone"
-            aria-hidden
-            className="text-primary absolute -right-4 -bottom-6 size-44 opacity-30 md:size-56"
-          />
-          <span>
-            <span className="font-display block text-4xl uppercase md:text-5xl">Autos</span>
-            <span className="opacity-90">Sedanes, SUV, pickups, vans</span>
-          </span>
-          <ArrowUpRight
-            className="size-10 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
-            aria-hidden
-          />
-        </Link>
-        <Link
-          href="/motos"
-          className="theme-dark bg-background text-foreground group relative flex items-end justify-between gap-4 overflow-hidden p-8 md:p-12"
-        >
-          <Motorcycle
-            weight="duotone"
-            aria-hidden
-            className="text-primary absolute -right-4 -bottom-6 size-44 opacity-30 md:size-56"
-          />
-          <span>
-            <span className="font-display block text-4xl uppercase md:text-5xl">Motos</span>
-            <span className="text-muted-foreground">
-              Scooters, de trabajo, deportivas, choppers
-            </span>
-          </span>
-          <ArrowUpRight
-            className="size-10 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
-            aria-hidden
-          />
-        </Link>
+      <section className="container-page grid gap-4 pb-4 md:grid-cols-2" aria-label="Categorías">
+        {(
+          [
+            {
+              type: "auto",
+              href: "/autos",
+              title: "Autos",
+              hint: "Sedanes, SUV, pickups y vans",
+              dark: false,
+            },
+            {
+              type: "moto",
+              href: "/motos",
+              title: "Motos",
+              hint: "Scooters, de trabajo, deportivas y choppers",
+              dark: true,
+            },
+          ] as const
+        ).map(({ type, href, title, hint, dark }) => (
+          <Link
+            key={type}
+            href={href}
+            className={cn(
+              "group flex min-h-72 flex-col justify-between rounded-md border-2 p-6 transition-colors md:p-8",
+              dark
+                ? "theme-dark bg-background text-foreground hover:border-primary border-[#0a0a0a]"
+                : "border-border bg-card text-foreground hover:border-primary",
+            )}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <p className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
+                {hint}
+              </p>
+              <ArrowUpRight
+                className="group-hover:text-primary size-8 shrink-0 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+                aria-hidden
+              />
+            </div>
+            <div>
+              <h2 className="text-7xl leading-[0.85] uppercase md:text-8xl">{title}</h2>
+              <ul
+                aria-label={`Marcas de ${title.toLowerCase()}`}
+                className="text-muted-foreground mt-6 flex flex-wrap items-center gap-x-6 gap-y-3"
+              >
+                {logoBrands(type, 6).map((name) => (
+                  <li key={name} title={name} className="flex items-center gap-2">
+                    <BrandLogo name={name} className="size-7" />
+                    <span className="sr-only">{name}</span>
+                  </li>
+                ))}
+                <li className="text-sm font-semibold underline underline-offset-4">y muchas más</li>
+              </ul>
+            </div>
+          </Link>
+        ))}
       </section>
 
       {/* Recién publicados */}
