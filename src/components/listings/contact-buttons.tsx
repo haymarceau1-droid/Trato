@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { WhatsappLogo, Phone } from "@phosphor-icons/react/dist/ssr";
+import { Phone } from "@phosphor-icons/react/dist/ssr";
+import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 import { Button } from "@/components/ui/button";
 
 function useContact(listingId: string) {
@@ -35,7 +36,7 @@ export function ContactButtons({ listingId }: { listingId: string }) {
     <div className="space-y-2">
       <div className="grid grid-cols-2 gap-2">
         <Button size="lg" variant="whatsapp" disabled={busy !== null} onClick={() => contact("wa")}>
-          <WhatsappLogo weight="fill" className="size-7" aria-hidden /> WhatsApp
+          <WhatsAppIcon className="size-5" /> WhatsApp
         </Button>
         <Button size="lg" variant="outline" disabled={busy !== null} onClick={() => contact("tel")}>
           <Phone className="size-5" aria-hidden /> Llamar
@@ -67,7 +68,7 @@ export function MobileContactBar({ listingId, price }: { listingId: string; pric
           disabled={busy !== null}
           onClick={() => contact("wa")}
         >
-          <WhatsappLogo weight="fill" className="size-7" aria-hidden /> WhatsApp
+          <WhatsAppIcon className="size-5" /> WhatsApp
         </Button>
         <Button
           variant="outline"

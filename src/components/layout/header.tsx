@@ -8,8 +8,8 @@ import { Logo } from "./logo";
 export async function Header() {
   const user = await getUser();
   return (
-    <header className="theme-dark bg-background text-foreground border-primary sticky top-0 z-40 border-b-4">
-      <div className="container-page flex h-14 items-center gap-3">
+    <header className="pointer-events-none sticky top-0 z-40 px-3 py-3 md:px-4">
+      <div className="theme-dark bg-background/90 text-foreground border-border pointer-events-auto mx-auto flex h-14 max-w-6xl items-center gap-3 rounded-md border px-3 shadow-xl shadow-black/25 backdrop-blur-md md:px-4">
         <Logo />
         <nav aria-label="Principal" className="ml-4 hidden items-center gap-1 md:flex">
           {[

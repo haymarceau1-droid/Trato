@@ -10,7 +10,6 @@ import {
   PencilSimple,
   Receipt,
   ShieldCheck,
-  WhatsappLogo,
 } from "@phosphor-icons/react/dist/ssr";
 import { brand } from "@/config/brand";
 import { FUELS, INVOICE_TYPES, TRANSMISSIONS, labelOf, stateName } from "@/lib/constants";
@@ -18,6 +17,7 @@ import { formatKm, formatMXN, formatMonthYear, timeAgo } from "@/lib/format";
 import { photoUrl } from "@/lib/listings/photos";
 import { listingJsonLd } from "@/lib/seo/jsonld";
 import type { Listing, PublicProfile } from "@/types";
+import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 import { Badge } from "@/components/ui/badge";
 import { Button, LinkButton } from "@/components/ui/button";
 import { ScamTips } from "@/components/trust/scam-tips";
@@ -180,7 +180,7 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
             ) : demo ? (
               <div className="grid grid-cols-2 gap-2">
                 <Button size="lg" variant="whatsapp">
-                  <WhatsappLogo weight="fill" className="size-7" aria-hidden /> WhatsApp
+                  <WhatsAppIcon className="size-5" /> WhatsApp
                 </Button>
                 <Button size="lg" variant="outline">
                   Llamar
