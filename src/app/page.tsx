@@ -14,6 +14,7 @@ import { brand } from "@/config/brand";
 import { site } from "@/config/site";
 import { BODY_TYPES, MOTO_TYPES, MX_STATES, PRICE_RANGES } from "@/lib/constants";
 import { buildUrl, parseFilters } from "@/lib/listings/filters-url";
+import { HeroGauge } from "@/components/home/hero-gauge";
 import { getFavoriteIds, getLatest, getUser } from "@/lib/listings/queries";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LinkButton } from "@/components/ui/button";
@@ -115,46 +116,88 @@ export default async function Home() {
       />
 
       {/* Portada */}
-      <section className="theme-dark bg-background text-foreground">
-        <div className="container-page grid gap-10 py-10 md:py-16 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
+      <section className="theme-dark bg-background text-foreground relative overflow-hidden">
+        <div aria-hidden className="grid-lines pointer-events-none absolute inset-0" />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-40 bottom-0 size-[42rem] rounded-full bg-[radial-gradient(closest-side,rgb(212_20_28/0.28),transparent)]"
+        />
+
+        <div className="container-page relative grid gap-12 pt-8 pb-14 md:pt-14 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
           <div>
-            <p className="text-muted-foreground mb-4 text-sm font-semibold tracking-widest uppercase">
+            <p className="text-muted-foreground mb-6 flex items-center gap-3 text-xs font-semibold tracking-[0.2em] uppercase">
+              <span aria-hidden className="bg-primary h-px w-10" />
               Autos y motos usados · Todo México
             </p>
-            <h1 className="text-5xl leading-[0.95] md:text-7xl">
-              Tu próximo auto
-              <br />o moto usado,
+            <h1 className="text-[3.4rem] leading-[0.92] md:text-8xl">
+              Tu próximo
+              <br />
+              auto o moto,
               <br />
               <span className="text-primary">sin sustos.</span>
             </h1>
-            <p className="text-muted-foreground mt-6 max-w-lg text-lg">
+            <p className="text-muted-foreground mt-7 max-w-lg text-lg">
               Publica tu auto o moto gratis o encuentra el que buscas. Cada vendedor confirma su
               celular por SMS y tú decides cuándo y dónde ver el vehículo. Nadie te cobra comisión
               ni te pide dinero por adelantado.
             </p>
-            <SearchBox className="mt-8 max-w-xl" />
-            <p className="mt-4 text-sm">
-              <Link
-                href="/publicar"
-                className="text-primary font-semibold underline underline-offset-4"
-              >
-                ¿Vendes? Publica gratis en 3 minutos
-              </Link>
-            </p>
+            <SearchBox className="mt-9 max-w-xl" />
+            <ul
+              className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm"
+              aria-label="Búsquedas frecuentes"
+            >
+              <li className="text-muted-foreground">Lo más buscado:</li>
+              {[
+                ["/autos/suv", "SUV"],
+                ["/autos/pickup", "Pickups"],
+                ["/autos/sedan", "Sedanes"],
+                ["/motos/scooter", "Scooters"],
+                ["/motos/trabajo", "Motos de trabajo"],
+              ].map(([href, label]) => (
+                <li key={href}>
+                  <Link
+                    href={href!}
+                    className="hover:text-primary inline-flex min-h-11 items-center font-semibold underline decoration-white/25 underline-offset-4 hover:decoration-current"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-          <dl className="grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-1">
-            {FACTS.map(([n, text], i) => {
-              const Icon = [Coins, Timer, ImagesSquare, UserCircle][i]!;
-              return (
-                <div key={n} className="border-border border-t-2 pt-3">
-                  <Icon weight="duotone" className="text-primary mb-1 size-7" aria-hidden />
-                  <dt className="font-display text-primary text-5xl leading-none">{n}</dt>
-                  <dd className="text-muted-foreground mt-1 text-sm">{text}</dd>
-                </div>
-              );
-            })}
-          </dl>
+
+          <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+            <HeroGauge className="mx-auto w-full max-w-[28rem]" />
+            <ul className="text-muted-foreground mx-auto mt-6 grid max-w-[28rem] grid-cols-2 gap-x-6 text-sm">
+              {[
+                ["01", "Celular verificado por SMS"],
+                ["02", "Pago en persona, sin anticipos"],
+              ].map(([n, text]) => (
+                <li key={n} className="flex gap-3 border-t border-white/15 pt-2">
+                  <span className="font-display text-primary">{n}</span>
+                  {text}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
+
+        {/* Cifras */}
+        <dl className="container-page relative grid grid-cols-2 border-t border-white/15 md:grid-cols-4">
+          {FACTS.map(([n, text], i) => {
+            const Icon = [Coins, Timer, ImagesSquare, UserCircle][i]!;
+            return (
+              <div
+                key={n}
+                className="border-white/15 py-6 pr-4 odd:border-r md:border-r md:pl-6 md:first:pl-0 md:last:border-r-0 md:odd:border-r"
+              >
+                <Icon weight="duotone" className="text-primary mb-2 size-6" aria-hidden />
+                <dt className="font-display text-4xl leading-none md:text-5xl">{n}</dt>
+                <dd className="text-muted-foreground mt-1 max-w-[16rem] text-sm">{text}</dd>
+              </div>
+            );
+          })}
+        </dl>
         <div aria-hidden className="stripes h-3" />
       </section>
 
