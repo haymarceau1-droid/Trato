@@ -117,3 +117,39 @@ export const sampleSimilar = (): Listing[] => [
     listing_photos: photos("np300", 4),
   }),
 ];
+
+/** Doce anuncios ficticios variados para la página testigo de resultados. */
+export const sampleResults = (): Listing[] => {
+  const rows: [string, string, number, number, number, string, string, boolean][] = [
+    ["Nissan", "Versa", 2019, 215000, 78000, "Monterrey", "nuevo-leon", true],
+    ["Nissan", "March", 2018, 148000, 82000, "Puebla", "puebla", false],
+    ["Nissan", "Sentra", 2017, 205000, 98000, "Guadalajara", "jalisco", true],
+    ["Nissan", "Kicks", 2020, 335000, 54000, "Ciudad de México", "ciudad-de-mexico", false],
+    ["Nissan", "NP300", 2016, 189000, 142000, "Querétaro", "queretaro", true],
+    ["Nissan", "Tsuru", 2014, 79000, 190000, "León", "guanajuato", true],
+    ["Nissan", "X-Trail", 2018, 289000, 91000, "Mérida", "yucatan", false],
+    ["Nissan", "Versa", 2021, 259000, 36000, "Tijuana", "baja-california", false],
+    ["Nissan", "Frontier", 2017, 349000, 120000, "Hermosillo", "sonora", true],
+    ["Nissan", "Altima", 2016, 175000, 133000, "Saltillo", "coahuila", true],
+    ["Nissan", "Kicks", 2019, 295000, 61000, "Toluca", "estado-de-mexico", false],
+    ["Nissan", "March", 2020, 169000, 47000, "Veracruz", "veracruz", true],
+  ];
+  return rows.map(([brand, model, year, price, km, city, state, neg], i) =>
+    sampleListing({
+      id: `00000000-0000-4000-8000-0000000001${String(i).padStart(2, "0")}`,
+      brand,
+      model,
+      model_slug: model.toLowerCase().replace(/[^a-z0-9]/g, ""),
+      title: `${brand} ${model} ${year}`,
+      slug: `${brand}-${model}-${year}-${city}`.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+      year,
+      price_mxn: price,
+      mileage_km: km,
+      city,
+      state,
+      city_slug: city.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+      negotiable: neg,
+      listing_photos: photos(`r${i}`, i),
+    }),
+  );
+};

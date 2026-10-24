@@ -45,7 +45,7 @@ export function ListingCard({
             {listing.title}
           </Link>
         </h3>
-        <p className="text-muted-foreground flex items-center gap-3 text-sm">
+        <p className="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm whitespace-nowrap">
           <span className="inline-flex items-center gap-1">
             <CalendarBlank weight="bold" className="size-4" aria-hidden /> {listing.year}
           </span>
@@ -62,12 +62,27 @@ export function ListingCard({
   );
 }
 
-export function ListingGrid({ items, favorites }: { items: Listing[]; favorites: Set<string> }) {
+export function ListingGrid({
+  items,
+  favorites,
+  dense,
+}: {
+  items: Listing[];
+  favorites: Set<string>;
+  /** Con panel lateral de filtros: una columna menos en escritorio para que las tarjetas respiren. */
+  dense?: boolean;
+}) {
   return (
-    <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+    <ul
+      className={
+        dense
+          ? "grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 xl:grid-cols-3"
+          : "grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
+      }
+    >
       {items.map((l, i) => (
         <li key={l.id}>
-          <ListingCard listing={l} favorite={favorites.has(l.id)} priority={i < 2} />
+          <ListingCard listing={l} favorite={favorites.has(l.id)} priority={i < 3} />
         </li>
       ))}
     </ul>

@@ -43,7 +43,12 @@ export function ActiveFilters({
     });
   if (f.priceMin || f.priceMax)
     chips.push({
-      label: `${f.priceMin ? formatMXN(f.priceMin) : "Hasta"}${f.priceMax ? ` – ${formatMXN(f.priceMax)}` : "+"}`,
+      label:
+        f.priceMin && f.priceMax
+          ? `${formatMXN(f.priceMin)} – ${formatMXN(f.priceMax)}`
+          : f.priceMax
+            ? `Hasta ${formatMXN(f.priceMax)}`
+            : `Desde ${formatMXN(f.priceMin!)}`,
       without: { priceMin: undefined, priceMax: undefined },
     });
   if (f.kmMax) chips.push({ label: `Hasta ${formatKm(f.kmMax)}`, without: { kmMax: undefined } });

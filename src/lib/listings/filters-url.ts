@@ -123,3 +123,20 @@ export function buildUrl(f: Filters): string {
   const qs = q.toString();
   return qs ? `${base}?${qs}` : base;
 }
+
+/** Cuántos filtros hay aplicados (sin contar orden ni página), para el contador del botón. */
+export function countActiveFilters(f: Filters): number {
+  const groups: unknown[][] = [
+    [f.q],
+    [f.state, f.city],
+    [f.brand, f.model],
+    [f.body],
+    [f.yearMin, f.yearMax],
+    [f.priceMin, f.priceMax],
+    [f.kmMax],
+    [f.ccMin, f.ccMax],
+    [f.transmission],
+    [f.fuel],
+  ];
+  return groups.filter((g) => g.some((v) => v !== undefined && v !== "")).length;
+}
