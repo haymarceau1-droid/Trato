@@ -10,6 +10,7 @@ import {
   PencilSimple,
   Receipt,
   ShieldCheck,
+  WhatsappLogo,
 } from "@phosphor-icons/react/dist/ssr";
 import { brand } from "@/config/brand";
 import { FUELS, INVOICE_TYPES, TRANSMISSIONS, labelOf, stateName } from "@/lib/constants";
@@ -178,10 +179,10 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
               </LinkButton>
             ) : demo ? (
               <div className="grid grid-cols-2 gap-2">
-                <Button size="lg" disabled>
-                  WhatsApp
+                <Button size="lg" variant="whatsapp">
+                  <WhatsappLogo weight="fill" className="size-7" aria-hidden /> WhatsApp
                 </Button>
-                <Button size="lg" variant="outline" disabled>
+                <Button size="lg" variant="outline">
                   Llamar
                 </Button>
               </div>

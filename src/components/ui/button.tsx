@@ -10,6 +10,8 @@ const variants = {
   ghost: "text-foreground hover:bg-muted",
   danger: "bg-danger text-white hover:opacity-90",
   soft: "bg-primary-soft text-primary hover:opacity-90",
+  // Verde de WhatsApp con texto oscuro: contraste AA (el blanco sobre #25D366 no lo cumple).
+  whatsapp: "bg-[#25D366] text-[#0a0a0a] hover:opacity-90",
 } as const;
 const sizes = { md: "", lg: "min-h-12 px-6 text-base", icon: "w-11 px-0" } as const;
 

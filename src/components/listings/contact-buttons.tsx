@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { WhatsappLogo as MessageCircle, Phone } from "@phosphor-icons/react/dist/ssr";
+import { WhatsappLogo, Phone } from "@phosphor-icons/react/dist/ssr";
 import { Button } from "@/components/ui/button";
 
 function useContact(listingId: string) {
@@ -34,8 +34,8 @@ export function ContactButtons({ listingId }: { listingId: string }) {
   return (
     <div className="space-y-2">
       <div className="grid grid-cols-2 gap-2">
-        <Button size="lg" disabled={busy !== null} onClick={() => contact("wa")}>
-          <MessageCircle className="size-5" aria-hidden /> WhatsApp
+        <Button size="lg" variant="whatsapp" disabled={busy !== null} onClick={() => contact("wa")}>
+          <WhatsappLogo weight="fill" className="size-7" aria-hidden /> WhatsApp
         </Button>
         <Button size="lg" variant="outline" disabled={busy !== null} onClick={() => contact("tel")}>
           <Phone className="size-5" aria-hidden /> Llamar
@@ -61,8 +61,13 @@ export function MobileContactBar({ listingId, price }: { listingId: string; pric
     <div className="border-foreground bg-card fixed inset-x-0 bottom-14 z-30 border-t-2 px-4 py-2 md:hidden">
       <div className="flex items-center gap-3">
         <p className="font-display text-xl">{price}</p>
-        <Button className="ml-auto flex-1" disabled={busy !== null} onClick={() => contact("wa")}>
-          <MessageCircle className="size-5" aria-hidden /> WhatsApp
+        <Button
+          className="ml-auto flex-1"
+          variant="whatsapp"
+          disabled={busy !== null}
+          onClick={() => contact("wa")}
+        >
+          <WhatsappLogo weight="fill" className="size-7" aria-hidden /> WhatsApp
         </Button>
         <Button
           variant="outline"
