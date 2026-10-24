@@ -29,7 +29,7 @@ export function PhoneForm({ initial }: { initial?: string | null }) {
         hint="Los compradores te contactarán aquí. Solo lo ven usuarios con sesión."
       >
         <div className="flex gap-2">
-          <span className="border-border bg-muted grid min-h-11 place-items-center rounded-xl border px-3 text-sm font-semibold">
+          <span className="border-border bg-muted grid min-h-11 place-items-center rounded-sm border px-3 text-sm font-semibold">
             +52
           </span>
           <Input

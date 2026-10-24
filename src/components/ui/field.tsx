@@ -2,7 +2,7 @@ import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 export const inputClass =
-  "min-h-11 w-full rounded-xl border border-border bg-card px-3 text-base text-foreground placeholder:text-muted-foreground aria-[invalid=true]:border-danger";
+  "min-h-11 w-full rounded-sm border border-border bg-card px-3 text-base text-foreground placeholder:text-muted-foreground aria-[invalid=true]:border-danger";
 
 export function Field({
   label,

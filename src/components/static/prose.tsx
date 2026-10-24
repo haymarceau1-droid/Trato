@@ -23,9 +23,9 @@ export function Prose({
 export const TemplateNotice = () => (
   <p
     role="note"
-    className="border-warning/40 bg-warning-soft text-warning rounded-xl border p-4 text-sm font-medium"
+    className="border-warning/40 bg-warning-soft text-warning rounded-sm border p-4 text-sm font-medium"
   >
-    ⚠️ Documento base (gabarit) por completar. Antes de lanzar, hazlo revisar por un abogado
-    mexicano y reemplaza los campos entre [corchetes].
+    Documento base (gabarit) por completar. Antes de lanzar, hazlo revisar por un abogado mexicano y
+    reemplaza los campos entre [corchetes].
   </p>
 );

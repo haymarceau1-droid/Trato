@@ -8,7 +8,7 @@ import { Logo } from "./logo";
 export async function Header() {
   const user = await getUser();
   return (
-    <header className="border-border bg-background/90 sticky top-0 z-40 border-b backdrop-blur">
+    <header className="theme-dark bg-background text-foreground border-primary sticky top-0 z-40 border-b-4">
       <div className="container-page flex h-14 items-center gap-3">
         <Logo />
         <nav aria-label="Principal" className="ml-4 hidden items-center gap-1 md:flex">
@@ -21,7 +21,7 @@ export async function Header() {
             <Link
               key={href}
               href={href!}
-              className="hover:bg-muted rounded-lg px-3 py-2 text-sm font-medium"
+              className="hover:bg-muted rounded-sm px-3 py-2 text-sm font-medium"
             >
               {label}
             </Link>
@@ -33,14 +33,14 @@ export async function Header() {
               <Link
                 href="/favoritos"
                 aria-label={t("nav.favorites")}
-                className="hover:bg-muted hidden size-11 place-items-center rounded-xl md:grid"
+                className="hover:bg-muted hidden size-11 place-items-center rounded-sm md:grid"
               >
                 <Heart className="size-5" />
               </Link>
               <Link
                 href="/mis-anuncios"
                 aria-label={t("nav.account")}
-                className="hover:bg-muted hidden size-11 place-items-center rounded-xl md:grid"
+                className="hover:bg-muted hidden size-11 place-items-center rounded-sm md:grid"
               >
                 <User className="size-5" />
               </Link>
@@ -48,7 +48,7 @@ export async function Header() {
           ) : (
             <Link
               href="/acceder"
-              className="hover:bg-muted hidden min-h-11 items-center rounded-xl px-3 text-sm font-semibold md:inline-flex"
+              className="hover:bg-muted hidden min-h-11 items-center rounded-sm px-3 text-sm font-semibold md:inline-flex"
             >
               {t("nav.login")}
             </Link>

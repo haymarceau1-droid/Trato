@@ -14,8 +14,8 @@ export default function ContactPage() {
         Respondemos en uno o dos días hábiles. Para denunciar un anuncio, usa el botón{" "}
         <strong>Reportar</strong> dentro del anuncio: es la forma más rápida de que lo revisemos.
       </p>
-      <p role="note" className="bg-warning-soft text-warning rounded-xl p-3 text-sm">
-        ⚠️ Por completar: reemplaza el correo de contacto en <code>src/config/brand.ts</code>.
+      <p role="note" className="bg-warning-soft text-warning rounded-sm p-3 text-sm">
+        Por completar: reemplaza el correo de contacto en <code>src/config/brand.ts</code>.
       </p>
     </Prose>
   );

@@ -22,7 +22,7 @@ export default async function PublishPage() {
       {user.profile?.phone ? (
         <PublishWizard userId={user.id} catalog={{ auto, moto }} />
       ) : (
-        <div className="border-border bg-card mx-auto max-w-md space-y-4 rounded-2xl border p-6">
+        <div className="border-border bg-card mx-auto max-w-md space-y-4 rounded-md border p-6">
           <h1 className="text-2xl font-extrabold">Antes de publicar</h1>
           <p className="text-muted-foreground text-sm">
             Necesitamos tu WhatsApp para que los compradores te contacten.

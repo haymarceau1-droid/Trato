@@ -41,13 +41,13 @@ export default async function AdminHome() {
     <div className="space-y-8">
       <dl className="grid grid-cols-2 gap-3 md:grid-cols-4">
         {stats.map(([k, v]) => (
-          <div key={k} className="border-border bg-card rounded-2xl border p-4">
+          <div key={k} className="border-border bg-card rounded-md border p-4">
             <dt className="text-muted-foreground text-sm">{k}</dt>
             <dd className="font-display text-3xl">{v}</dd>
           </div>
         ))}
       </dl>
-      <section aria-labelledby="por-dia" className="border-border bg-card rounded-2xl border p-4">
+      <section aria-labelledby="por-dia" className="border-border bg-card rounded-md border p-4">
         <h2 id="por-dia" className="mb-4 font-bold">
           Anuncios nuevos por día (14 días)
         </h2>

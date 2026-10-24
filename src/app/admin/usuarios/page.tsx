@@ -28,9 +28,9 @@ export default async function UsersPage({
           defaultValue={q}
           placeholder="Buscar por nombre"
           aria-label="Buscar usuario"
-          className="border-border bg-card min-h-11 flex-1 rounded-xl border px-3"
+          className="border-border bg-card min-h-11 flex-1 rounded-sm border px-3"
         />
-        <button className="bg-primary text-primary-foreground min-h-11 rounded-xl px-4 text-sm font-semibold">
+        <button className="bg-primary text-primary-foreground min-h-11 rounded-sm px-4 text-sm font-semibold">
           Buscar
         </button>
       </form>
@@ -38,7 +38,7 @@ export default async function UsersPage({
         {(data ?? []).map((u) => (
           <li
             key={u.id}
-            className="border-border bg-card flex flex-wrap items-center justify-between gap-3 rounded-2xl border p-3"
+            className="border-border bg-card flex flex-wrap items-center justify-between gap-3 rounded-md border p-3"
           >
             <div className="space-y-1">
               <p className="font-semibold">{u.display_name}</p>

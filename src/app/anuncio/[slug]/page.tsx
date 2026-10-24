@@ -111,7 +111,7 @@ export default async function ListingPage({ params }: Props) {
       {!live && (
         <p
           role="status"
-          className="bg-warning-soft text-warning mb-4 rounded-xl p-3 text-sm font-medium"
+          className="bg-warning-soft text-warning mb-4 rounded-sm p-3 text-sm font-medium"
         >
           {statusNote[l.status as keyof typeof statusNote]}
         </p>
@@ -145,11 +145,11 @@ export default async function ListingPage({ params }: Props) {
         </div>
 
         <aside className="space-y-4 lg:sticky lg:top-20 lg:self-start">
-          <div className="border-border bg-card hidden space-y-3 rounded-2xl border p-5 lg:block">
+          <div className="border-border bg-card hidden space-y-3 rounded-md border p-5 lg:block">
             <PriceBlock l={l} />
           </div>
 
-          <div className="border-border bg-card space-y-3 rounded-2xl border p-4">
+          <div className="border-border bg-card space-y-3 rounded-md border p-4">
             {isOwner ? (
               <LinkButton
                 href={`/mis-anuncios/${l.id}/editar`}
@@ -173,7 +173,7 @@ export default async function ListingPage({ params }: Props) {
           </div>
 
           {seller && (
-            <div className="border-border bg-card rounded-2xl border p-4">
+            <div className="border-border bg-card rounded-md border p-4">
               <p className="text-muted-foreground text-xs">Vendedor</p>
               <Link href={`/vendedor/${seller.id}`} className="text-lg font-bold hover:underline">
                 {seller.display_name}

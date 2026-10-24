@@ -9,10 +9,10 @@ export const Logo = ({ className }: { className?: string }) => (
   >
     <span
       aria-hidden
-      className="bg-primary text-primary-foreground grid size-8 place-items-center rounded-lg text-lg"
+      className="bg-primary text-primary-foreground -skew-x-6 px-2 text-xl leading-8 tracking-wide"
     >
       {brand.logoMark}
     </span>
-    <span className="text-2xl">{brand.name}</span>
+    <span className="text-2xl tracking-wide uppercase">{brand.name}</span>
   </Link>
 );

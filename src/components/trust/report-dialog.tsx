@@ -32,7 +32,7 @@ export function ReportDialog({ listingId }: { listingId: string }) {
       <dialog
         ref={ref}
         aria-label="Reportar anuncio"
-        className="bg-card text-foreground m-auto w-[min(92vw,26rem)] rounded-2xl p-5 backdrop:bg-black/50"
+        className="bg-card text-foreground m-auto w-[min(92vw,26rem)] rounded-md p-5 backdrop:bg-black/50"
       >
         <h2 className="mb-1 text-lg font-bold">Reportar anuncio</h2>
         <p className="text-muted-foreground mb-4 text-sm">

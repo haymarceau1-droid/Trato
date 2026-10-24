@@ -73,7 +73,7 @@ export function AuthForm({ next }: { next: string }) {
       <div
         role="tablist"
         aria-label="Método de acceso"
-        className="bg-muted grid grid-cols-2 rounded-xl p-1"
+        className="bg-muted grid grid-cols-2 rounded-sm p-1"
       >
         {(["phone", "email"] as const).map((m) => (
           <button
@@ -86,7 +86,7 @@ export function AuthForm({ next }: { next: string }) {
               setError(null);
             }}
             className={cn(
-              "min-h-10 rounded-lg text-sm font-semibold",
+              "min-h-10 rounded-sm text-sm font-semibold",
               mode === m ? "bg-card shadow-sm" : "text-muted-foreground",
             )}
           >
@@ -108,7 +108,7 @@ export function AuthForm({ next }: { next: string }) {
             hint="Te enviamos un código por SMS. Así verificamos tu teléfono."
           >
             <div className="flex gap-2">
-              <span className="border-border bg-muted grid min-h-11 place-items-center rounded-xl border px-3 text-sm font-semibold">
+              <span className="border-border bg-muted grid min-h-11 place-items-center rounded-sm border px-3 text-sm font-semibold">
                 +52
               </span>
               <Input
@@ -189,7 +189,7 @@ export function AuthForm({ next }: { next: string }) {
       )}
 
       {mode === "email" && sentEmail && (
-        <p role="status" className="bg-primary-soft text-primary rounded-xl p-4 text-sm">
+        <p role="status" className="bg-primary-soft text-primary rounded-sm p-4 text-sm">
           Listo. Revisa tu correo ({email}) y toca el enlace para entrar. Si no lo ves, busca en
           spam.
         </p>

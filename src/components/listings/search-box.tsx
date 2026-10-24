@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
+/** Pestañas pegadas a la barra, como carpeta de archivo. */
 export function SearchBox({ className }: { className?: string }) {
   const router = useRouter();
   const [type, setType] = useState<"autos" | "motos">("autos");
@@ -14,17 +14,13 @@ export function SearchBox({ className }: { className?: string }) {
   return (
     <form
       role="search"
-      className={cn("space-y-3", className)}
+      className={className}
       onSubmit={(e) => {
         e.preventDefault();
         router.push(q.trim() ? `/${type}?q=${encodeURIComponent(q.trim())}` : `/${type}`);
       }}
     >
-      <div
-        role="radiogroup"
-        aria-label="Tipo de vehículo"
-        className="bg-muted inline-flex rounded-xl p-1"
-      >
+      <div role="radiogroup" aria-label="Tipo de vehículo" className="flex">
         {(["autos", "motos"] as const).map((v) => (
           <button
             key={v}
@@ -33,27 +29,37 @@ export function SearchBox({ className }: { className?: string }) {
             aria-checked={type === v}
             onClick={() => setType(v)}
             className={cn(
-              "min-h-10 rounded-lg px-5 text-sm font-semibold",
-              type === v ? "bg-card shadow-sm" : "text-muted-foreground",
+              "font-display min-h-11 px-6 text-lg tracking-wide uppercase",
+              type === v
+                ? "bg-white text-[#0a0a0a]"
+                : "bg-muted text-muted-foreground hover:text-foreground",
             )}
           >
-            {v === "autos" ? "Autos" : "Motos"}
+            {v}
           </button>
         ))}
       </div>
-      <div className="flex gap-2">
+      <div className="flex bg-white">
         <input
           type="search"
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder={type === "autos" ? "Busca: Nissan Versa 2019" : "Busca: Italika FT150"}
+          placeholder={
+            type === "autos"
+              ? "Marca, modelo o año. Ej. Versa 2019"
+              : "Marca o modelo. Ej. Italika FT150"
+          }
           aria-label="Buscar"
-          className="border-border bg-card min-h-12 min-w-0 flex-1 rounded-xl border px-4 text-base"
+          className="min-h-14 min-w-0 flex-1 bg-transparent px-4 text-base text-[#0a0a0a] placeholder:text-[#6b6361]"
         />
-        <Button type="submit" size="lg" aria-label="Buscar">
+        <button
+          type="submit"
+          aria-label="Buscar"
+          className="bg-primary text-primary-foreground font-display inline-flex min-h-14 items-center gap-2 px-5 text-lg uppercase hover:opacity-90"
+        >
           <Search className="size-5" aria-hidden />
           <span className="hidden sm:inline">Buscar</span>
-        </Button>
+        </button>
       </div>
     </form>
   );

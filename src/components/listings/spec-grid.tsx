@@ -35,7 +35,7 @@ export function SpecGrid({ l }: { l: Listing }) {
     ["Tenencia al corriente", l.tenencia_al_corriente ? "Sí" : "No"],
   ];
   return (
-    <dl className="border-border bg-border grid grid-cols-2 gap-px overflow-hidden rounded-2xl border sm:grid-cols-3">
+    <dl className="border-border bg-border grid grid-cols-2 gap-px overflow-hidden rounded-md border sm:grid-cols-3">
       {rows
         .filter(([, v]) => v)
         .map(([k, v]) => (

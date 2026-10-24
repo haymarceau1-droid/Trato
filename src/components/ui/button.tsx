@@ -3,7 +3,7 @@ import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 const base =
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold transition-colors disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-sm px-4 text-sm font-semibold transition-colors disabled:pointer-events-none disabled:opacity-50";
 const variants = {
   primary: "bg-primary text-primary-foreground hover:opacity-90",
   outline: "border border-border bg-card text-foreground hover:bg-muted",

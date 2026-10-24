@@ -26,7 +26,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <Link
             key={href}
             href={href!}
-            className="border-border bg-card hover:bg-muted inline-flex min-h-11 shrink-0 items-center rounded-xl border px-4 text-sm font-semibold"
+            className="border-border bg-card hover:bg-muted inline-flex min-h-11 shrink-0 items-center rounded-sm border px-4 text-sm font-semibold"
           >
             {label}
           </Link>

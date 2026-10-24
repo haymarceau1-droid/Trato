@@ -28,7 +28,7 @@ export default async function ReviewPage() {
   return (
     <ul className="space-y-3">
       {data.map((l) => (
-        <li key={l.id} className="border-border bg-card space-y-2 rounded-2xl border p-4">
+        <li key={l.id} className="border-border bg-card space-y-2 rounded-md border p-4">
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone="amber">{l.status}</Badge>
             {(l.review_reasons as string[]).map((r) => (

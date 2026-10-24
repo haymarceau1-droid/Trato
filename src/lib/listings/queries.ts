@@ -23,15 +23,20 @@ async function safe<T>(fallback: T, fn: () => Promise<T>): Promise<T> {
 
 export const getUser = cache(async () => {
   if (!supabaseConfigured) return null;
-  const supabase = await createClient();
-  const { data } = await supabase.auth.getUser();
-  if (!data.user) return null;
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", data.user.id)
-    .single();
-  return { id: data.user.id, email: data.user.email ?? null, profile };
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase.auth.getUser();
+    if (!data.user) return null;
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", data.user.id)
+      .single();
+    return { id: data.user.id, email: data.user.email ?? null, profile };
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 });
 
 export async function searchListings(f: Filters): Promise<{ items: Listing[]; total: number }> {

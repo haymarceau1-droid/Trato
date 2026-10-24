@@ -1,15 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  BadgeCheck,
-  Camera,
-  ChevronRight,
-  Flag,
-  MessageCircle,
-  ShieldCheck,
-  Tag,
-  Wallet,
-} from "lucide-react";
+import { ArrowUpRight, ChevronRight } from "lucide-react";
 import { brand } from "@/config/brand";
 import { site } from "@/config/site";
 import { BODY_TYPES, MOTO_TYPES, MX_STATES, PRICE_RANGES } from "@/lib/constants";
@@ -67,6 +58,25 @@ const BRANDS = [
   ["motos", "vento", "Vento"],
 ] as const;
 
+const FACTS = [
+  ["$0", "de comisión. Tú y la otra persona cierran el trato."],
+  ["60", "días dura cada anuncio. Lo renuevas cuando quieras."],
+  ["12", "fotos por anuncio, y la primera es la portada."],
+  ["5", "anuncios activos por persona, para que nadie sature."],
+] as const;
+
+const STEPS = [
+  [
+    "Publica",
+    "Sube las fotos, elige marca y modelo, pon tu precio. Son siete pasos cortos y se guarda tu borrador.",
+  ],
+  [
+    "Te escriben",
+    "Quien esté interesado entra con su cuenta y te contacta por WhatsApp o llamada desde tu anuncio.",
+  ],
+  ["Cierran en persona", "Lugar público, papeles a la vista, pago al entregar. Nada de anticipos."],
+] as const;
+
 export default async function Home() {
   const [latest, user] = await Promise.all([getLatest(8), getUser()]);
   const favorites = await getFavoriteIds(user?.id);
@@ -92,108 +102,124 @@ export default async function Home() {
         }}
       />
 
-      {/* Hero */}
-      <section className="theme-dark border-border bg-background text-foreground border-b">
-        <div className="container-page grid gap-8 py-10 md:py-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div className="space-y-6">
-            <p className="bg-card text-primary inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-semibold shadow-sm">
-              <BadgeCheck className="size-4" aria-hidden /> Vendedores con teléfono verificado
+      {/* Portada */}
+      <section className="theme-dark bg-background text-foreground">
+        <div className="container-page grid gap-10 py-10 md:py-16 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
+          <div>
+            <p className="text-muted-foreground mb-4 text-sm font-semibold tracking-widest uppercase">
+              Clasificados de autos y motos · México
             </p>
-            <h1 className="text-4xl leading-tight font-extrabold tracking-tight md:text-5xl">
-              Compra y vende <span className="text-primary">autos y motos usados</span>, sin
-              estafas.
+            <h1 className="text-5xl leading-[0.95] md:text-7xl">
+              Compra y vende
+              <br />
+              usados.
+              <br />
+              <span className="text-primary">Sin estafas.</span>
             </h1>
-            <p className="text-muted-foreground max-w-xl text-lg">
-              Encuentra tu próximo vehículo o véndelo gratis. Sin comisiones, directo con la otra
-              persona y con consejos para cuidar tu dinero.
+            <p className="text-muted-foreground mt-6 max-w-lg text-lg">
+              Anuncios gratis, vendedores con teléfono confirmado por SMS y una regla simple: el
+              dinero se mueve en persona, nunca por adelantado.
             </p>
-            <SearchBox className="max-w-xl" />
-            <div className="flex flex-wrap gap-2">
-              <LinkButton href="/publicar" size="lg">
-                Publica gratis en 3 minutos
-              </LinkButton>
-              <LinkButton href="/consejos" size="lg" variant="outline">
-                Consejos para comprar seguro
-              </LinkButton>
-            </div>
+            <SearchBox className="mt-8 max-w-xl" />
+            <p className="mt-4 text-sm">
+              <Link
+                href="/publicar"
+                className="text-primary font-semibold underline underline-offset-4"
+              >
+                ¿Vendes? Publica gratis en 3 minutos
+              </Link>
+            </p>
           </div>
-          <ul className="grid grid-cols-2 gap-3 text-sm" aria-label="Ventajas">
-            {[
-              [Wallet, "100 % gratis", "Sin comisiones ni cargos ocultos"],
-              [ShieldCheck, "Más confianza", "Teléfono verificado por SMS"],
-              [MessageCircle, "Directo por WhatsApp", "Habla con el vendedor al instante"],
-              [Flag, "Moderación activa", "Reportes revisados por personas"],
-            ].map(([Icon, title, hint]) => {
-              const I = Icon as typeof Wallet;
-              return (
-                <li
-                  key={title as string}
-                  className="border-border bg-card rounded-2xl border p-4 shadow-sm"
-                >
-                  <I className="text-primary mb-2 size-6" aria-hidden />
-                  <p className="font-bold">{title as string}</p>
-                  <p className="text-muted-foreground">{hint as string}</p>
-                </li>
-              );
-            })}
-          </ul>
+          <dl className="grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-1">
+            {FACTS.map(([n, text]) => (
+              <div key={n} className="border-border border-t-2 pt-3">
+                <dt className="font-display text-primary text-5xl leading-none">{n}</dt>
+                <dd className="text-muted-foreground mt-1 text-sm">{text}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
+        <div aria-hidden className="stripes h-3" />
       </section>
 
-      {/* Atajos */}
-      <section className="container-page space-y-8 py-12" aria-labelledby="atajos">
-        <h2 id="atajos" className="text-2xl font-extrabold">
-          ¿Qué buscas?
-        </h2>
-        <div className="grid gap-4 md:grid-cols-2">
-          {[
-            {
-              href: "/autos",
-              title: "Autos usados",
-              hint: "Sedanes, SUV, pickups y más",
-              emoji: "🚗",
-            },
-            {
-              href: "/motos",
-              title: "Motos usadas",
-              hint: "Scooters, deportivas, de trabajo",
-              emoji: "🏍️",
-            },
-          ].map((c) => (
-            <Link
-              key={c.href}
-              href={c.href}
-              className="group border-border bg-card flex items-center justify-between rounded-2xl border p-6 transition-shadow hover:shadow-md"
-            >
-              <div>
-                <p className="font-display text-xl">{c.title}</p>
-                <p className="text-muted-foreground text-sm">{c.hint}</p>
-              </div>
-              <span className="flex items-center gap-2 text-4xl" aria-hidden>
-                {c.emoji}
-                <ChevronRight className="text-muted-foreground group-hover:text-primary size-6" />
-              </span>
-            </Link>
-          ))}
-        </div>
+      {/* Dos puertas */}
+      <section className="grid md:grid-cols-2" aria-label="Categorías">
+        <Link
+          href="/autos"
+          className="bg-primary text-primary-foreground group flex items-end justify-between gap-4 p-8 md:p-12"
+        >
+          <span>
+            <span className="font-display block text-4xl uppercase md:text-5xl">Autos</span>
+            <span className="opacity-90">Sedanes, SUV, pickups, vans</span>
+          </span>
+          <ArrowUpRight
+            className="size-10 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+            aria-hidden
+          />
+        </Link>
+        <Link
+          href="/motos"
+          className="theme-dark bg-background text-foreground group flex items-end justify-between gap-4 p-8 md:p-12"
+        >
+          <span>
+            <span className="font-display block text-4xl uppercase md:text-5xl">Motos</span>
+            <span className="text-muted-foreground">
+              Scooters, de trabajo, deportivas, choppers
+            </span>
+          </span>
+          <ArrowUpRight
+            className="size-10 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+            aria-hidden
+          />
+        </Link>
+      </section>
 
-        <div className="space-y-5">
-          <ChipRow
-            title="Autos por carrocería"
+      {/* Recién publicados */}
+      <section className="container-page py-14" aria-labelledby="recientes">
+        <div className="rule mb-6 flex items-baseline justify-between pt-3">
+          <h2 id="recientes" className="text-3xl">
+            Recién publicados
+          </h2>
+          <Link href="/autos" className="text-sm font-semibold underline underline-offset-4">
+            Ver todos
+          </Link>
+        </div>
+        {latest.length ? (
+          <ListingGrid items={latest} favorites={favorites} />
+        ) : (
+          <EmptyState
+            title="Todavía no hay anuncios"
+            hint="Puedes ser quien publique el primero. Toma unos 3 minutos."
+          >
+            <LinkButton href="/publicar">Publicar el primero</LinkButton>
+          </EmptyState>
+        )}
+      </section>
+
+      {/* Atajos de búsqueda */}
+      <section className="container-page pb-14" aria-labelledby="atajos">
+        <div className="rule pt-3">
+          <h2 id="atajos" className="mb-6 text-3xl">
+            Busca por
+          </h2>
+        </div>
+        <div className="grid gap-8 md:grid-cols-3">
+          <LinkList
+            title="Carrocería"
             items={BODY_TYPES.map((b) => ({
               label: b.label,
               href: buildUrl({ ...typeFilters.auto, body: b.value }),
             }))}
           />
-          <ChipRow
-            title="Motos por tipo"
+          <LinkList
+            title="Tipo de moto"
             items={MOTO_TYPES.map((b) => ({
               label: b.label,
               href: buildUrl({ ...typeFilters.moto, body: b.value }),
             }))}
           />
-          <ChipRow
-            title="Autos por presupuesto"
+          <LinkList
+            title="Presupuesto (autos)"
             items={PRICE_RANGES.map((r) => ({
               label: r.label,
               href: buildUrl({
@@ -206,133 +232,94 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Últimos anuncios */}
-      <section className="container-page pb-12" aria-labelledby="recientes">
-        <div className="mb-4 flex items-end justify-between">
-          <h2 id="recientes" className="text-2xl font-extrabold">
-            Últimos anuncios
-          </h2>
-          <Link
-            href="/autos"
-            className="text-primary min-h-11 py-2 text-sm font-semibold hover:underline"
-          >
-            Ver todos →
-          </Link>
-        </div>
-        {latest.length ? (
-          <ListingGrid items={latest} favorites={favorites} />
-        ) : (
-          <EmptyState
-            title="Aún no hay anuncios"
-            hint="Sé la primera persona en publicar. Es gratis y toma 3 minutos."
-          >
-            <LinkButton href="/publicar">Publicar mi anuncio</LinkButton>
-          </EmptyState>
-        )}
-      </section>
-
       {/* Cómo funciona */}
       <section className="border-border bg-card border-y py-14" aria-labelledby="como">
         <div className="container-page">
-          <h2 id="como" className="mb-8 text-center text-2xl font-extrabold">
-            Así de fácil funciona
+          <h2 id="como" className="mb-8 text-3xl">
+            Cómo funciona
           </h2>
-          <ol className="grid gap-6 md:grid-cols-3">
-            {[
-              [
-                Camera,
-                "1. Publica",
-                "Sube fotos, elige marca, modelo y precio. Te guiamos paso a paso.",
-              ],
-              [
-                MessageCircle,
-                "2. Conecta",
-                "Los interesados te escriben por WhatsApp o te llaman desde tu anuncio.",
-              ],
-              [
-                Tag,
-                "3. Cierra con seguridad",
-                "Reúnanse en un lugar público, revisen papeles y concreten el trato.",
-              ],
-            ].map(([Icon, title, text]) => {
-              const I = Icon as typeof Camera;
-              return (
-                <li key={title as string} className="space-y-3 text-center">
-                  <span className="bg-primary-soft text-primary mx-auto grid size-14 place-items-center rounded-2xl">
-                    <I className="size-7" aria-hidden />
-                  </span>
-                  <h3 className="text-lg font-bold">{title as string}</h3>
-                  <p className="text-muted-foreground">{text as string}</p>
-                </li>
-              );
-            })}
+          <ol className="grid gap-8 md:grid-cols-3">
+            {STEPS.map(([title, text], i) => (
+              <li key={title} className="flex gap-4">
+                <span aria-hidden className="font-display text-primary text-6xl leading-none">
+                  {i + 1}
+                </span>
+                <div>
+                  <h3 className="mb-1 text-xl">{title}</h3>
+                  <p className="text-muted-foreground">{text}</p>
+                </div>
+              </li>
+            ))}
           </ol>
         </div>
       </section>
 
-      {/* Confianza */}
+      {/* Seguridad */}
       <section
-        className="container-page grid gap-6 py-14 lg:grid-cols-2 lg:items-center"
+        className="container-page grid gap-8 py-14 lg:grid-cols-2 lg:items-start"
         aria-labelledby="seguro"
       >
-        <div className="space-y-3">
-          <h2 id="seguro" className="text-2xl font-extrabold">
-            Comprar usado sin sustos
+        <div className="space-y-4">
+          <h2 id="seguro" className="text-3xl md:text-4xl">
+            La mayoría de las estafas se evitan con cuatro hábitos
           </h2>
-          <p className="text-muted-foreground">
-            Las estafas con autos usados existen, pero se evitan con cuatro hábitos. Los repetimos
-            en cada anuncio para que no se te pasen.
+          <p className="text-muted-foreground max-w-md">
+            Los repetimos en cada anuncio porque son los que más dinero ahorran. En la guía
+            explicamos cómo revisar la factura y consultar el REPUVE paso a paso.
           </p>
           <LinkButton href="/consejos" variant="outline">
-            Leer la guía completa
+            Leer la guía
           </LinkButton>
         </div>
         <ScamTips showRepuve />
       </section>
 
-      {/* CTA vendedor */}
+      {/* Vender */}
       <section className="container-page pb-14">
-        <div className="bg-primary text-primary-foreground flex flex-col items-start justify-between gap-5 rounded-3xl p-8 md:flex-row md:items-center">
-          <div className="space-y-2">
-            <h2 className="text-2xl font-extrabold md:text-3xl">¿Vas a vender tu auto o moto?</h2>
-            <p className="opacity-90">
-              Publica gratis en 3 minutos y recibe contactos directos. Hasta {site.maxActivePerUser}{" "}
-              anuncios activos por cuenta.
+        <div className="bg-primary text-primary-foreground flex flex-col gap-6 p-8 md:flex-row md:items-center md:justify-between md:p-12">
+          <div>
+            <h2 className="text-4xl md:text-5xl">¿Tienes un auto o moto que vender?</h2>
+            <p className="mt-2 max-w-lg opacity-90">
+              Es gratis, sin comisión. Hasta {site.maxActivePerUser} anuncios activos por cuenta.
             </p>
           </div>
           <Link
             href="/publicar"
-            className="bg-card text-primary inline-flex min-h-12 shrink-0 items-center rounded-xl px-6 text-base font-bold hover:opacity-90"
+            className="font-display inline-flex min-h-14 shrink-0 items-center bg-[#0a0a0a] px-8 text-xl text-white uppercase hover:opacity-90"
           >
-            Publicar ahora
+            Publicar
           </Link>
         </div>
       </section>
 
       {/* Explora */}
-      <section className="container-page space-y-6 pb-14" aria-labelledby="explora">
-        <h2 id="explora" className="text-2xl font-extrabold">
-          Explora por marca y estado
-        </h2>
-        <ChipRow
-          title="Marcas populares"
-          items={BRANDS.map(([t, slug, label]) => ({ label, href: `/${t}/${slug}` }))}
-        />
-        <ChipRow
-          title="Autos usados por estado"
-          items={MX_STATES.slice(0, 12).map((s) => ({ label: s.name, href: `/autos/${s.slug}` }))}
-        />
+      <section className="container-page pb-14" aria-labelledby="explora">
+        <div className="rule pt-3">
+          <h2 id="explora" className="mb-6 text-3xl">
+            Por marca y por estado
+          </h2>
+        </div>
+        <div className="grid gap-8 md:grid-cols-2">
+          <LinkList
+            title="Marcas"
+            items={BRANDS.map(([t, slug, label]) => ({ label, href: `/${t}/${slug}` }))}
+          />
+          <LinkList
+            title="Autos por estado"
+            items={MX_STATES.slice(0, 12).map((s) => ({ label: s.name, href: `/autos/${s.slug}` }))}
+          />
+        </div>
       </section>
 
       {/* FAQ */}
       <section className="border-border bg-card border-t py-14" aria-labelledby="faq">
         <div className="container-page max-w-3xl">
-          <h2 id="faq" className="mb-6 text-2xl font-extrabold">
+          <h2 id="faq" className="mb-6 text-3xl">
             Preguntas frecuentes
           </h2>
-          <div className="divide-border border-border divide-y rounded-2xl border">
+          <div className="divide-border border-foreground divide-y border-y-2">
             {FAQ.map(([q, a]) => (
-              <details key={q} className="group p-4">
+              <details key={q} className="group py-4">
                 <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 font-semibold">
                   {q}
                   <ChevronRight
@@ -364,18 +351,21 @@ export default async function Home() {
   );
 }
 
-function ChipRow({ title, items }: { title: string; items: { label: string; href: string }[] }) {
+function LinkList({ title, items }: { title: string; items: { label: string; href: string }[] }) {
   return (
     <div>
-      <h3 className="text-muted-foreground mb-2 text-sm font-semibold">{title}</h3>
-      <ul className="flex flex-wrap gap-2">
+      <h3 className="text-muted-foreground mb-2 text-sm font-semibold tracking-widest uppercase">
+        {title}
+      </h3>
+      <ul className="divide-border border-border divide-y border-y">
         {items.map((i) => (
           <li key={i.label}>
             <Link
               href={i.href}
-              className="border-border bg-card hover:border-primary hover:text-primary inline-flex min-h-11 items-center rounded-full border px-4 text-sm font-medium"
+              className="hover:text-primary flex min-h-11 items-center justify-between py-2 font-medium"
             >
               {i.label}
+              <ChevronRight className="size-4 opacity-40" aria-hidden />
             </Link>
           </li>
         ))}

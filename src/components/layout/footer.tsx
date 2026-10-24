@@ -31,7 +31,8 @@ const cols = [
 
 export function Footer() {
   return (
-    <footer className="border-border bg-card mt-16 border-t pb-24 md:pb-0">
+    <footer className="theme-dark bg-background text-foreground mt-16 pb-24 md:pb-0">
+      <div aria-hidden className="stripes h-3" />
       <div className="container-page grid gap-8 py-10 md:grid-cols-4">
         <div className="space-y-3">
           <Logo />

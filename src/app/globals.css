@@ -78,3 +78,34 @@ h4,
   font-weight: 400 !important;
   letter-spacing: 0;
 }
+
+@layer utilities {
+  /* Placa mexicana: etiqueta de ciudad/estado. */
+  .plate {
+    display: inline-flex;
+    align-items: center;
+    border: 2px solid var(--foreground);
+    border-radius: 3px;
+    background: #fff;
+    color: #0a0a0a;
+    padding: 0 0.4rem;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    line-height: 1.35rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  /* Franja de carreras: dos bandas paralelas inclinadas. */
+  .stripes {
+    background: repeating-linear-gradient(
+      -55deg,
+      var(--primary) 0 14px,
+      transparent 14px 22px,
+      var(--foreground) 22px 28px,
+      transparent 28px 44px
+    );
+  }
+  .rule {
+    border-top: 2px solid var(--foreground);
+  }
+}

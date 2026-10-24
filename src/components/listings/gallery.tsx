@@ -40,14 +40,14 @@ export function Gallery({ photos, title }: { photos: string[]; title: string }) 
   const prev = useCallback(() => embla?.scrollPrev(), [embla]);
   const next = useCallback(() => embla?.scrollNext(), [embla]);
 
-  if (!photos.length) return <div className="bg-muted aspect-[4/3] rounded-2xl" />;
+  if (!photos.length) return <div className="bg-muted aspect-[4/3] rounded-md" />;
 
   return (
     <div
       className={cn(full ? "fixed inset-0 z-50 flex flex-col justify-center bg-black" : "relative")}
       {...(full ? { role: "dialog", "aria-modal": true, "aria-label": "Galería de fotos" } : {})}
     >
-      <div ref={emblaRef} className={cn("overflow-hidden", !full && "rounded-2xl")}>
+      <div ref={emblaRef} className={cn("overflow-hidden", !full && "rounded-md")}>
         <div className="flex">
           {photos.map((src, i) => (
             <div

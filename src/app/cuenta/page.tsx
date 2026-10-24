@@ -14,7 +14,7 @@ export default async function AccountPage() {
     <div className="container-page max-w-xl space-y-8 py-6">
       <h1 className="text-2xl font-extrabold">Mi perfil</h1>
       <section
-        className="border-border bg-card space-y-4 rounded-2xl border p-5"
+        className="border-border bg-card space-y-4 rounded-md border p-5"
         aria-labelledby="datos"
       >
         <h2 id="datos" className="font-bold">
@@ -23,7 +23,7 @@ export default async function AccountPage() {
         <ProfileForm initial={{ display_name: p.display_name, state: p.state, city: p.city }} />
       </section>
       <section
-        className="border-border bg-card space-y-4 rounded-2xl border p-5"
+        className="border-border bg-card space-y-4 rounded-md border p-5"
         aria-labelledby="contacto"
       >
         <h2 id="contacto" className="flex items-center gap-2 font-bold">

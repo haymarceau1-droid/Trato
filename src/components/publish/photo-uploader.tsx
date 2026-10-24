@@ -49,7 +49,7 @@ function Thumb({
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
       className={cn(
-        "border-border bg-muted relative aspect-[4/3] overflow-hidden rounded-xl border",
+        "border-border bg-muted relative aspect-[4/3] overflow-hidden rounded-sm border",
         isDragging && "z-10 shadow-lg",
       )}
     >
@@ -173,7 +173,7 @@ export function PhotoUploader({
           void addFiles(e.dataTransfer.files);
         }}
         className={cn(
-          "rounded-2xl border-2 border-dashed p-6 text-center",
+          "rounded-md border-2 border-dashed p-6 text-center",
           over ? "border-primary bg-primary-soft" : "border-border bg-card",
         )}
       >
@@ -182,7 +182,7 @@ export function PhotoUploader({
         <button
           type="button"
           onClick={() => input.current?.click()}
-          className="bg-primary text-primary-foreground mt-2 inline-flex min-h-11 items-center rounded-xl px-5 text-sm font-semibold"
+          className="bg-primary text-primary-foreground mt-2 inline-flex min-h-11 items-center rounded-sm px-5 text-sm font-semibold"
         >
           Elegir fotos
         </button>

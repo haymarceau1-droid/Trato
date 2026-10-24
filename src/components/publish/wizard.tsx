@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useForm, type FieldPath } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
-import { CheckCircle2 } from "lucide-react";
+import { Bike, Car, CheckCircle2 } from "lucide-react";
 import { createListing, getPriceHint, updateListing } from "@/actions/listings";
 import { site } from "@/config/site";
 import {
@@ -247,7 +247,7 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
         {done.warnings.length > 0 && (
           <div
             role="status"
-            className="bg-warning-soft text-warning space-y-2 rounded-2xl p-4 text-left text-sm"
+            className="bg-warning-soft text-warning space-y-2 rounded-md p-4 text-left text-sm"
           >
             <p className="font-bold">Lo revisaremos antes de mostrarlo a todos</p>
             <ul className="list-disc pl-5">
@@ -298,7 +298,7 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
       {draftRestored && step === 0 && (
         <p
           role="status"
-          className="bg-primary-soft text-primary mb-4 flex items-center justify-between gap-3 rounded-xl p-3 text-sm"
+          className="bg-primary-soft text-primary mb-4 flex items-center justify-between gap-3 rounded-sm p-3 text-sm"
         >
           Recuperamos tu borrador.
           <button
@@ -321,10 +321,10 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
             <div className="grid grid-cols-2 gap-3">
               {(
                 [
-                  ["auto", "Auto", "🚗"],
-                  ["moto", "Moto", "🏍️"],
+                  ["auto", "Auto", Car],
+                  ["moto", "Moto", Bike],
                 ] as const
-              ).map(([val, label, icon]) => (
+              ).map(([val, label, Icon]) => (
                 <button
                   key={val}
                   type="button"
@@ -336,14 +336,14 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
                     setValue("model", "");
                   }}
                   className={cn(
-                    "flex min-h-32 flex-col items-center justify-center gap-2 rounded-2xl border-2 text-lg font-bold",
-                    type === val ? "border-primary bg-primary-soft" : "border-border bg-card",
+                    "flex min-h-32 flex-col items-center justify-center gap-2 rounded-md border-2 text-lg font-bold",
+                    type === val
+                      ? "border-primary bg-primary-soft text-primary"
+                      : "border-border bg-card",
                   )}
                 >
-                  <span className="text-4xl" aria-hidden>
-                    {icon}
-                  </span>
-                  {label}
+                  <Icon className="size-10" aria-hidden />
+                  <span className="font-display text-2xl uppercase">{label}</span>
                 </button>
               ))}
             </div>
@@ -594,9 +594,9 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
               />
             </Field>
             {priceHint && (
-              <p role="status" className="bg-primary-soft text-primary rounded-xl p-3 text-sm">
-                💡 El precio medio de anuncios similares es <strong>{formatMXN(priceHint)}</strong>.
-                Un precio cercano se vende más rápido.
+              <p role="status" className="bg-primary-soft text-primary rounded-sm p-3 text-sm">
+                El precio medio de anuncios similares es <strong>{formatMXN(priceHint)}</strong>. Un
+                precio cercano se vende más rápido.
               </p>
             )}
             <label className="flex min-h-11 items-center gap-3 text-sm font-medium">
@@ -688,10 +688,10 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
             {live.length > 0 && (
               <ul
                 role="status"
-                className="bg-warning-soft text-warning space-y-1 rounded-xl p-3 text-sm"
+                className="bg-warning-soft text-warning space-y-1 rounded-sm p-3 text-sm"
               >
                 {live.map((r) => (
-                  <li key={r}>⚠️ {REVIEW_MESSAGES[r]}</li>
+                  <li key={r}>{REVIEW_MESSAGES[r]}</li>
                 ))}
               </ul>
             )}
@@ -701,7 +701,7 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
         {step === 6 && (
           <div className="space-y-4">
             <h1 className="text-2xl font-extrabold">Así se verá tu anuncio</h1>
-            <article className="border-border bg-card overflow-hidden rounded-2xl border">
+            <article className="border-border bg-card overflow-hidden rounded-md border">
               {photos[0] && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
@@ -738,7 +738,7 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
               . Tu anuncio dura {site.listingTtlDays} días y puedes renovarlo.
             </p>
             {serverError && (
-              <p role="alert" className="bg-danger/10 text-danger rounded-xl p-3 text-sm">
+              <p role="alert" className="bg-danger/10 text-danger rounded-sm p-3 text-sm">
                 {serverError}
               </p>
             )}

@@ -17,7 +17,7 @@ export default async function LoginPage({
   if (await getUser()) redirect(safeNext(next));
   return (
     <div className="container-page grid min-h-[70dvh] place-items-center py-10">
-      <div className="border-border bg-card w-full max-w-md space-y-6 rounded-3xl border p-6 shadow-sm">
+      <div className="border-border bg-card w-full max-w-md space-y-6 rounded-md border p-6 shadow-sm">
         <div className="space-y-1">
           <h1 className="text-2xl font-extrabold">Entra a {brand.name}</h1>
           <p className="text-muted-foreground text-sm">
@@ -25,7 +25,7 @@ export default async function LoginPage({
           </p>
         </div>
         {error && (
-          <p role="alert" className="bg-danger/10 text-danger rounded-xl p-3 text-sm">
+          <p role="alert" className="bg-danger/10 text-danger rounded-sm p-3 text-sm">
             El enlace venció o ya se usó. Pide uno nuevo.
           </p>
         )}

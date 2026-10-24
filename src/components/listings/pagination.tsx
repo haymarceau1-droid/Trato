@@ -7,7 +7,7 @@ export function Pagination({ filters, total }: { filters: Filters; total: number
   if (pages <= 1) return null;
   const link = (page: number) => buildUrl({ ...filters, page });
   const cls =
-    "inline-flex min-h-11 items-center rounded-xl border border-border bg-card px-4 text-sm font-semibold hover:bg-muted";
+    "inline-flex min-h-11 items-center rounded-sm border border-border bg-card px-4 text-sm font-semibold hover:bg-muted";
   return (
     <nav aria-label="Paginación" className="mt-8 flex items-center justify-center gap-3">
       {filters.page > 1 && (

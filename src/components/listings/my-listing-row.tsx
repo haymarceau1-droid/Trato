@@ -37,9 +37,9 @@ export function MyListingRow({ listing: l }: { listing: Listing }) {
     });
 
   return (
-    <li className="border-border bg-card rounded-2xl border p-3">
+    <li className="border-border bg-card rounded-md border p-3">
       <div className="flex gap-3">
-        <div className="bg-muted relative size-24 shrink-0 overflow-hidden rounded-xl sm:size-28">
+        <div className="bg-muted relative size-24 shrink-0 overflow-hidden rounded-sm sm:size-28">
           {cover && (
             <Image src={photoUrl(cover)} alt="" fill sizes="112px" className="object-cover" />
           )}
