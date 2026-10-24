@@ -7,6 +7,16 @@ export const brand = {
     "Compra y vende autos y motos usados en México. Vendedores con celular verificado, sin comisiones y con una guía para revisar factura, REPUVE y tenencia.",
   contactEmail: "hola@trato.mx",
   logoMark: "T",
+  /**
+   * Datos del responsable para Términos y Aviso de privacidad (LFPDPPP exige identificarlo y dar domicilio).
+   * Reemplaza los textos entre [corchetes] antes de lanzar: mientras tanto se muestran como pendientes.
+   */
+  legal: {
+    responsable: "[Nombre completo o razón social]",
+    domicilio: "[Calle, número, colonia, código postal, ciudad y estado]",
+    rfc: "[RFC]",
+    updated: "24 de octubre de 2026",
+  },
   colors: {
     light: {
       background: "#faf8f7",

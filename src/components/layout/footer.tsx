@@ -159,13 +159,21 @@ export function Footer() {
           © {new Date().getFullYear()} {brand.name}. Hecho en México. {brand.name} no participa en
           las operaciones entre compradores y vendedores.
         </p>
-        <p className="flex gap-4">
-          <Link href="/terminos" className="hover:text-foreground underline">
-            Términos
-          </Link>
-          <Link href="/privacidad" className="hover:text-foreground underline">
-            Privacidad
-          </Link>
+        <p className="flex flex-wrap justify-center gap-x-5">
+          {[
+            ["/terminos", "Términos"],
+            ["/privacidad", "Privacidad"],
+            ["/cookies", "Cookies"],
+            ["/privacidad#arco", "Derechos ARCO"],
+          ].map(([href, label]) => (
+            <Link
+              key={href}
+              href={href!}
+              className="hover:text-foreground inline-block py-2 underline"
+            >
+              {label}
+            </Link>
+          ))}
         </p>
       </div>
     </footer>

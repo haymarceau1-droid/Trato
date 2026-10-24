@@ -34,7 +34,7 @@ export default async function LoginPage({
         <p className="text-muted-foreground flex items-start gap-2 text-xs">
           <ShieldCheck className="text-primary mt-0.5 size-4 shrink-0" aria-hidden />
           Tu número solo se muestra a quien inicia sesión y quiere contactarte por tu vehículo;
-          nunca aparece en Google. Al continuar aceptas los{" "}
+          nunca aparece en Google. Al continuar confirmas que tienes 18 años o más y aceptas los{" "}
           <a href="/terminos" className="underline">
             términos
           </a>{" "}
@@ -42,7 +42,11 @@ export default async function LoginPage({
           <a href="/privacidad" className="underline">
             aviso de privacidad
           </a>
-          .
+          . Usamos solo cookies necesarias (
+          <a href="/cookies" className="underline">
+            más información
+          </a>
+          ).
         </p>
       </div>
     </div>

@@ -3,6 +3,8 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { profileSchema, toMxE164 } from "@/lib/validation/profile";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { PHOTO_BUCKET } from "@/lib/listings/photos";
 import { createClient } from "@/lib/supabase/server";
 import { fail, requireUser, type Result } from "./_shared";
 
@@ -40,4 +42,33 @@ export async function updatePhone(raw: string): Promise<Result> {
   if (error) return fail("No pudimos guardar tu número. Nada cambió; intenta de nuevo.");
   revalidatePath("/", "layout");
   return { ok: true };
+}
+
+/**
+ * Cancelación de datos (derecho ARCO): borra fotos, anuncios, favoritos, reportes y perfil.
+ * Los anuncios, favoritos y reportes se eliminan en cascada al borrar el usuario de Auth.
+ */
+export async function deleteAccount(confirm: string): Promise<Result> {
+  const { supabase, user } = await requireUser();
+  if (!user) return fail("Inicia sesión.");
+  if (confirm.trim().toUpperCase() !== "BORRAR") return fail("Escribe BORRAR para confirmar.");
+
+  const admin = createAdminClient();
+  // Fotos propias en el bucket (carpeta {user_id}/…), en lotes.
+  const folder = async (prefix: string): Promise<string[]> => {
+    const { data } = await admin.storage.from(PHOTO_BUCKET).list(prefix, { limit: 1000 });
+    const out: string[] = [];
+    for (const f of data ?? []) {
+      if (f.id) out.push(`${prefix}/${f.name}`);
+      else out.push(...(await folder(`${prefix}/${f.name}`)));
+    }
+    return out;
+  };
+  const files = await folder(user.id);
+  if (files.length) await admin.storage.from(PHOTO_BUCKET).remove(files);
+
+  const { error } = await admin.auth.admin.deleteUser(user.id);
+  if (error) return fail("No pudimos borrar tu cuenta. Escríbenos y lo hacemos manualmente.");
+  await supabase.auth.signOut();
+  redirect("/?cuenta=borrada");
 }

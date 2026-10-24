@@ -154,10 +154,20 @@ tests/            unit/ y e2e/
 - La marcación de `needs_review` se hace en servidor con la service role; un usuario que escriba directo a la API de Supabase se salta esa detección (pero no los límites ni las RLS). Para endurecerlo, mueve la creación a una función RPC.
 - Pendiente a propósito (fuera del MVP): renovación por correo, pagos, mensajería, verificación INE.
 
+## Cumplimiento legal (México)
+
+Aplicado en el sitio (revisión legal pendiente: no sustituye a un abogado):
+
+- **Aviso de privacidad** (`/privacidad`) conforme a la LFPDPPP (ley nueva, DOF 20/03/2025): responsable y domicilio, datos, finalidades necesarias y adicionales, transferencias y encargados, derechos ARCO con plazos, cookies, menores, cambios y autoridad (Secretaría Anticorrupción y Buen Gobierno). Se enlaza donde se recaban datos (acceso, formularios) y en el pie de página.
+- **Derechos ARCO**: dentro de la cuenta (`/cuenta`) puedes descargar tus datos (`/api/mis-datos`) y borrar la cuenta (borra perfil, anuncios, fotos y favoritos); también por correo con plantilla.
+- **Cookies** (`/cookies` + aviso informativo): México no tiene una ley específica de cookies, pero sí exige informar sobre tecnologías de rastreo. Hoy solo hay cookies necesarias (sesión, borrador), así que el aviso no bloquea. **Si añades analítica o publicidad, conviértelo en consentimiento previo (opt-in)** en `src/components/legal/cookie-notice.tsx` y actualiza `/cookies`.
+- **Términos y condiciones** (`/terminos`): identifica al proveedor, aclara que el sitio solo intermedia, reglas de publicación, precios/IVA, moderación, Profeco y jurisdicción. Mayores de 18 años.
+- **Datos del responsable**: completa `brand.legal` en `src/config/brand.ts` (nombre o razón social, domicilio, RFC) y los textos entre [corchetes] en Términos y Aviso (proveedor de SMS y de correo, jurisdicción, condiciones de cobro).
+
 ## Checklist de lanzamiento
 
 - [ ] Reemplazar nombre, logo (`logoMark`) y correo en `src/config/brand.ts`
-- [ ] Completar **Términos** y **Aviso de privacidad** (son gabaritos: revisión legal) y los datos del responsable
+- [ ] Completar `brand.legal` y los [corchetes] de **Términos** y **Aviso de privacidad**; revisión legal con un abogado mexicano
 - [ ] Proveedor SMS configurado y probado con un número real; SMTP propio para correos
 - [ ] Migraciones y seed aplicados en producción; al menos un usuario `admin`
 - [ ] Variables de entorno en Vercel; `NEXT_PUBLIC_SITE_URL` = dominio final

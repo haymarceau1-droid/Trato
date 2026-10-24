@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { DataControls } from "@/components/account/data-controls";
 import { PhoneForm, ProfileForm } from "@/components/account/profile-form";
 import { VerifiedBadge } from "@/components/trust/verified-badge";
 import { getUser } from "@/lib/listings/queries";
@@ -43,6 +44,15 @@ export default async function AccountPage() {
         {user.email && (
           <p className="text-muted-foreground text-xs">Correo de acceso: {user.email}</p>
         )}
+      </section>
+      <section
+        className="border-border bg-card space-y-4 rounded-md border p-5"
+        aria-labelledby="tus-datos"
+      >
+        <h2 id="tus-datos" className="font-bold">
+          Tus datos y privacidad
+        </h2>
+        <DataControls />
       </section>
     </div>
   );
