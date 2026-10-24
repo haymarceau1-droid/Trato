@@ -60,7 +60,7 @@ export default async function AdminHome() {
             >
               <span className="text-muted-foreground text-[10px]">{n}</span>
               <div
-                className="bg-primary w-full rounded-t"
+                className="bg-primary w-full rounded-t-sm"
                 style={{ height: `${(n / max) * 100}%`, minHeight: n ? 4 : 1 }}
               />
               <span className="text-muted-foreground text-[10px]">{day.slice(8)}</span>

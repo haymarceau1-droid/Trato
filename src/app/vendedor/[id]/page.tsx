@@ -37,7 +37,7 @@ export default async function SellerPage({ params }: Props) {
       <header className="mb-8 flex items-center gap-4">
         <div
           aria-hidden
-          className="bg-primary-soft text-primary font-display grid size-16 place-items-center rounded-full text-2xl"
+          className="bg-primary-soft text-primary font-display grid size-16 place-items-center rounded-sm text-2xl"
         >
           {profile.display_name.charAt(0).toUpperCase()}
         </div>

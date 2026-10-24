@@ -112,7 +112,7 @@ export async function SearchPage(type: VehicleType, { params, searchParams }: Pr
             <li key={s.slug}>
               <Link
                 href={`/${vehiclePath(type)}/${s.slug}`}
-                className="border-border bg-card hover:bg-muted inline-flex min-h-11 items-center rounded-full border px-4 text-sm"
+                className="border-border bg-card hover:bg-muted inline-flex min-h-11 items-center rounded-sm border px-4 text-sm"
               >
                 {s.name}
               </Link>

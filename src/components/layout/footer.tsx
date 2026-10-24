@@ -69,13 +69,13 @@ export function Footer() {
           <div className="flex flex-wrap gap-3">
             <Link
               href="/autos"
-              className="font-display inline-flex min-h-12 items-center gap-2 rounded-full bg-[#0a0a0a] px-6 text-lg text-white uppercase hover:opacity-90"
+              className="font-display inline-flex min-h-12 items-center gap-2 rounded-sm bg-[#0a0a0a] px-6 text-lg text-white uppercase hover:opacity-90"
             >
               Ver autos <ArrowUpRight className="size-5" aria-hidden />
             </Link>
             <Link
               href="/motos"
-              className="font-display inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-current px-6 text-lg uppercase hover:bg-black/10"
+              className="font-display inline-flex min-h-12 items-center gap-2 rounded-sm border-2 border-current px-6 text-lg uppercase hover:bg-black/10"
             >
               Ver motos <ArrowUpRight className="size-5" aria-hidden />
             </Link>
@@ -87,7 +87,7 @@ export function Footer() {
       <ul className="container-page -mt-12 grid gap-6 pb-12 md:grid-cols-3">
         {promises.map(({ icon: Icon, title, text }) => (
           <li key={title} className="flex items-start gap-3">
-            <span className="bg-primary-soft text-primary grid size-11 shrink-0 place-items-center rounded-full">
+            <span className="bg-primary-soft text-primary grid size-11 shrink-0 place-items-center rounded-sm">
               <Icon weight="duotone" className="size-6" aria-hidden />
             </span>
             <div>
@@ -105,7 +105,7 @@ export function Footer() {
           <p className="text-muted-foreground max-w-xs text-sm">{brand.tagline}</p>
           <a
             href={`mailto:${brand.contactEmail}`}
-            className="border-border hover:border-foreground inline-flex min-h-11 items-center gap-2 rounded-full border px-4 text-sm font-medium"
+            className="border-border hover:border-foreground inline-flex min-h-11 items-center gap-2 rounded-sm border px-4 text-sm font-medium"
           >
             <EnvelopeSimple className="size-4" aria-hidden /> {brand.contactEmail}
           </a>

@@ -290,7 +290,7 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
           Paso {step + 1} de {STEPS.length} · {STEPS[step]}
         </p>
         <div
-          className="bg-muted h-2 overflow-hidden rounded-full"
+          className="bg-muted h-2 overflow-hidden rounded-sm"
           role="progressbar"
           aria-valuemin={1}
           aria-valuemax={STEPS.length}

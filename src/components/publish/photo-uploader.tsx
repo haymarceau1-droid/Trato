@@ -61,7 +61,7 @@ function Thumb({
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={photo.url} alt={`Foto ${index + 1}`} className="size-full object-cover" />
       {index === 0 && (
-        <span className="bg-primary text-primary-foreground absolute top-1.5 left-1.5 rounded-full px-2 py-0.5 text-[11px] font-bold">
+        <span className="bg-primary text-primary-foreground absolute top-1.5 left-1.5 rounded-sm px-2 py-0.5 text-[11px] font-bold">
           Portada
         </span>
       )}

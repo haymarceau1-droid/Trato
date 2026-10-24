@@ -7,14 +7,14 @@ import { HeaderNav } from "./header-nav";
 import { Logo } from "./logo";
 
 const iconLink =
-  "hover:bg-muted text-muted-foreground hover:text-foreground grid size-11 place-items-center rounded-full";
+  "hover:bg-muted text-muted-foreground hover:text-foreground grid size-11 place-items-center rounded-sm";
 
 export async function Header() {
   const user = await getUser();
   const initial = user?.profile?.display_name?.charAt(0).toUpperCase();
   return (
     <header className="pointer-events-none sticky top-0 z-40 px-3 py-3 md:px-4">
-      <div className="theme-dark bg-background/95 text-foreground pointer-events-auto mx-auto flex h-14 max-w-5xl items-center gap-2 rounded-full border border-white/10 py-1 pr-1.5 pl-4 shadow-2xl ring-1 shadow-black/30 ring-black/40 backdrop-blur-xl md:h-16 md:pr-2 md:pl-5">
+      <div className="theme-dark bg-background/95 text-foreground pointer-events-auto mx-auto flex h-14 max-w-5xl items-center gap-2 rounded-md border border-white/10 py-1 pr-1.5 pl-4 shadow-2xl ring-1 shadow-black/30 ring-black/40 backdrop-blur-xl md:h-16 md:pr-2 md:pl-5">
         <Logo />
         <HeaderNav />
         <div className="ml-auto flex items-center gap-1 md:ml-0">
@@ -33,7 +33,7 @@ export async function Header() {
               <Link
                 href="/mis-anuncios"
                 aria-label={t("nav.account")}
-                className="bg-primary-soft text-primary font-display hidden size-10 place-items-center rounded-full text-lg md:grid"
+                className="bg-primary-soft text-primary font-display hidden size-10 place-items-center rounded-sm text-lg md:grid"
               >
                 {initial}
               </Link>
@@ -41,12 +41,12 @@ export async function Header() {
           ) : (
             <Link
               href="/acceder"
-              className="hover:bg-muted hidden min-h-11 items-center rounded-full px-4 text-sm font-semibold md:inline-flex"
+              className="hover:bg-muted hidden min-h-11 items-center rounded-sm px-4 text-sm font-semibold md:inline-flex"
             >
               {t("nav.login")}
             </Link>
           )}
-          <LinkButton href="/publicar" className="rounded-full">
+          <LinkButton href="/publicar">
             <Plus className="size-4" aria-hidden /> {t("nav.publish")}
           </LinkButton>
         </div>

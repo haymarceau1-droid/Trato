@@ -217,7 +217,7 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
             <div className="border-border bg-card flex gap-3 rounded-md border p-4">
               <span
                 aria-hidden
-                className="bg-primary-soft text-primary font-display grid size-12 shrink-0 place-items-center rounded-full text-xl"
+                className="bg-primary-soft text-primary font-display grid size-12 shrink-0 place-items-center rounded-sm text-xl"
               >
                 {seller.display_name.charAt(0).toUpperCase()}
               </span>

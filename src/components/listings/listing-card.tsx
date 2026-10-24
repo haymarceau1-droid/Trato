@@ -81,9 +81,9 @@ export function ListingGridSkeleton({ count = 8 }: { count?: number }) {
         <li key={i} className="border-border bg-card overflow-hidden rounded-md border">
           <div className="bg-muted aspect-[4/3] animate-pulse" />
           <div className="space-y-2 p-3">
-            <div className="bg-muted h-5 w-2/3 animate-pulse rounded" />
-            <div className="bg-muted h-4 w-full animate-pulse rounded" />
-            <div className="bg-muted h-3 w-1/2 animate-pulse rounded" />
+            <div className="bg-muted h-5 w-2/3 animate-pulse rounded-sm" />
+            <div className="bg-muted h-4 w-full animate-pulse rounded-sm" />
+            <div className="bg-muted h-3 w-1/2 animate-pulse rounded-sm" />
           </div>
         </li>
       ))}

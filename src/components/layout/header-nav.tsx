@@ -24,7 +24,7 @@ export function HeaderNav() {
             href={l.href}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "rounded-full px-4 py-2 text-sm font-semibold transition-colors",
+              "rounded-sm px-4 py-2 text-sm font-semibold transition-colors",
               active
                 ? "bg-foreground text-background"
                 : "text-muted-foreground hover:bg-muted hover:text-foreground",

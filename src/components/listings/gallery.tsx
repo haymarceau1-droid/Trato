@@ -85,7 +85,7 @@ export function Gallery({ photos, title }: { photos: string[]; title: string }) 
               type="button"
               onClick={prev}
               aria-label="Foto anterior"
-              className="absolute top-1/2 left-2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-black/50 text-white"
+              className="absolute top-1/2 left-2 grid size-11 -translate-y-1/2 place-items-center rounded-sm bg-black/50 text-white"
             >
               <ChevronLeft />
             </button>
@@ -93,14 +93,14 @@ export function Gallery({ photos, title }: { photos: string[]; title: string }) 
               type="button"
               onClick={next}
               aria-label="Foto siguiente"
-              className="absolute top-1/2 right-2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-black/50 text-white"
+              className="absolute top-1/2 right-2 grid size-11 -translate-y-1/2 place-items-center rounded-sm bg-black/50 text-white"
             >
               <ChevronRight />
             </button>
           </>
         )}
         <span
-          className="absolute bottom-3 left-3 rounded-full bg-black/60 px-3 py-1 text-xs font-semibold text-white"
+          className="absolute bottom-3 left-3 rounded-sm bg-black/60 px-3 py-1 text-xs font-semibold text-white"
           aria-live="polite"
         >
           {index + 1} / {photos.length}
@@ -110,7 +110,7 @@ export function Gallery({ photos, title }: { photos: string[]; title: string }) 
             type="button"
             onClick={() => setFull(false)}
             aria-label="Cerrar galería"
-            className="absolute top-3 right-3 grid size-11 place-items-center rounded-full bg-black/60 text-white"
+            className="absolute top-3 right-3 grid size-11 place-items-center rounded-sm bg-black/60 text-white"
           >
             <X />
           </button>
@@ -119,7 +119,7 @@ export function Gallery({ photos, title }: { photos: string[]; title: string }) 
             type="button"
             onClick={() => setFull(true)}
             aria-label="Ver en pantalla completa"
-            className="absolute right-3 bottom-3 grid size-11 place-items-center rounded-full bg-black/60 text-white"
+            className="absolute right-3 bottom-3 grid size-11 place-items-center rounded-sm bg-black/60 text-white"
           >
             <Maximize2 className="size-5" />
           </button>
