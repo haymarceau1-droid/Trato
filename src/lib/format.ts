@@ -29,3 +29,9 @@ export function timeAgo(iso: string, now = Date.now()) {
   const months = Math.floor(days / 30);
   return `Publicado hace ${months} ${months === 1 ? "mes" : "meses"}`;
 }
+
+/** "abr 2026": mes corto y año, para espacios pequeños. */
+export const formatMonthYearShort = (iso: string) =>
+  new Intl.DateTimeFormat(site.locale, { timeZone: site.timeZone, month: "short", year: "numeric" })
+    .format(new Date(iso))
+    .replace(".", "");

@@ -1,19 +1,19 @@
 import Link from "next/link";
 import {
   CalendarBlank,
+  CaretRight,
   Clock,
   Eye,
   Gauge,
   GasPump,
   GearSix,
-  MapPin,
   PencilSimple,
   Receipt,
+  SealCheck,
   ShieldCheck,
 } from "@/components/ui/icons";
-import { brand } from "@/config/brand";
 import { FUELS, INVOICE_TYPES, TRANSMISSIONS, labelOf, stateName } from "@/lib/constants";
-import { formatKm, formatMXN, formatMonthYear, timeAgo } from "@/lib/format";
+import { formatKm, formatMXN, formatMonthYearShort, timeAgo } from "@/lib/format";
 import { photoUrl } from "@/lib/listings/photos";
 import { listingJsonLd } from "@/lib/seo/jsonld";
 import type { Listing, PublicProfile } from "@/types";
@@ -22,7 +22,6 @@ import { Badge } from "@/components/ui/badge";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { Button, LinkButton } from "@/components/ui/button";
 import { ScamTips } from "@/components/trust/scam-tips";
-import { VerifiedBadge } from "@/components/trust/verified-badge";
 import { ReportDialog } from "@/components/trust/report-dialog";
 import { ContactButtons, MobileContactBar } from "./contact-buttons";
 import { FavoriteButton } from "./favorite-button";
@@ -199,36 +198,64 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
           </div>
 
           {seller && (
-            <div className="border-border bg-card flex gap-3 rounded-md border p-4">
-              <span
-                aria-hidden
-                className="bg-primary-soft text-primary font-display grid size-12 shrink-0 place-items-center rounded-sm text-xl"
-              >
-                {seller.display_name.charAt(0).toUpperCase()}
-              </span>
-              <div className="min-w-0 space-y-1">
-                <p className="text-muted-foreground text-xs">Vendedor</p>
-                <Link
-                  href={demo ? "#" : `/vendedor/${seller.id}`}
-                  className="block truncate text-lg font-bold hover:underline"
+            <section
+              aria-labelledby="vendedor"
+              className="border-border bg-card overflow-hidden rounded-md border"
+            >
+              <div className="flex items-center gap-4 p-5">
+                <span
+                  aria-hidden
+                  className="bg-primary text-primary-foreground font-display grid size-14 shrink-0 place-items-center rounded-md text-2xl"
                 >
-                  {seller.display_name}
-                </Link>
-                <div className="flex flex-wrap items-center gap-2">
-                  {seller.phone_verified ? (
-                    <VerifiedBadge />
-                  ) : (
-                    <Badge tone="gray">Teléfono sin verificar</Badge>
-                  )}
+                  {seller.display_name.charAt(0).toUpperCase()}
+                </span>
+                <div className="min-w-0">
+                  <p className="text-muted-foreground text-xs font-semibold tracking-widest uppercase">
+                    Vendedor
+                  </p>
+                  <h2 id="vendedor" className="truncate text-2xl leading-tight">
+                    {seller.display_name}
+                  </h2>
                 </div>
-                <p className="text-muted-foreground flex items-center gap-1.5 text-sm">
-                  <MapPin className="size-4" aria-hidden />
-                  En {brand.name} desde {formatMonthYear(seller.created_at)} ·{" "}
-                  {seller.active_listings} {seller.active_listings === 1 ? "vehículo" : "vehículos"}{" "}
-                  en venta
-                </p>
               </div>
-            </div>
+
+              <dl className="border-border grid grid-cols-3 divide-x divide-[var(--border)] border-y text-center">
+                <div className="px-2 py-3">
+                  <dt className="text-muted-foreground text-xs">Desde</dt>
+                  <dd className="mt-0.5 text-[13px] font-semibold sm:text-sm">
+                    {formatMonthYearShort(seller.created_at)}
+                  </dd>
+                </div>
+                <div className="px-2 py-3">
+                  <dt className="text-muted-foreground text-xs">En venta</dt>
+                  <dd className="mt-0.5 text-[13px] font-semibold sm:text-sm">
+                    {seller.active_listings}{" "}
+                    {seller.active_listings === 1 ? "vehículo" : "vehículos"}
+                  </dd>
+                </div>
+                <div className="px-2 py-3">
+                  <dt className="text-muted-foreground text-xs">Celular</dt>
+                  <dd className="mt-0.5 text-[13px] font-semibold sm:text-sm">
+                    {seller.phone_verified ? (
+                      <span className="text-success inline-flex items-center gap-1">
+                        <SealCheck weight="fill" className="size-3.5 sm:size-4" aria-hidden />{" "}
+                        Verificado
+                      </span>
+                    ) : (
+                      <span className="text-muted-foreground">Sin verificar</span>
+                    )}
+                  </dd>
+                </div>
+              </dl>
+
+              <Link
+                href={demo ? "#" : `/vendedor/${seller.id}`}
+                className="hover:bg-muted flex min-h-12 items-center justify-between px-5 text-sm font-semibold"
+              >
+                Ver todos sus vehículos
+                <CaretRight className="size-4" aria-hidden />
+              </Link>
+            </section>
           )}
         </aside>
 
