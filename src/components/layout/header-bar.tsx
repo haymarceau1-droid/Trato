@@ -4,8 +4,8 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Barra flotante: se encoge al bajar (queda logo + acciones) y se despliega al subir
- * o al llegar arriba del todo. Los textos del menú se ocultan con una transición suave.
+ * Barra flotante: se estrecha un poco y baja de altura al bajar; se despliega al subir
+ * o al llegar arriba del todo. El menú sigue visible en ambos estados.
  */
 export function HeaderBar({ children }: { children: ReactNode }) {
   const [compact, setCompact] = useState(false);
@@ -38,7 +38,7 @@ export function HeaderBar({ children }: { children: ReactNode }) {
       className={cn(
         "group/bar theme-dark bg-background/95 text-foreground pointer-events-auto mx-auto flex items-center gap-2 rounded-md border border-white/10 py-1 pr-1.5 pl-4 shadow-2xl ring-1 shadow-black/30 ring-black/40 backdrop-blur-xl",
         "transition-[max-width,height] duration-300 ease-out md:pr-2 md:pl-5",
-        compact ? "h-12 max-w-md md:h-12" : "h-14 max-w-5xl md:h-16",
+        compact ? "h-12 max-w-4xl" : "h-14 max-w-5xl md:h-16",
       )}
     >
       {children}
