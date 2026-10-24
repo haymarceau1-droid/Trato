@@ -36,6 +36,7 @@ const cols = [
     links: [
       ["/consejos", "Consejos para comprar seguro"],
       ["/como-vender", "Cómo vender rápido"],
+      ["/precios", "Precios y planes"],
       ["/publicar", "Publicar mi vehículo"],
       ["/contacto", "Contacto"],
     ],

@@ -9,6 +9,7 @@ const links = [
   { href: "/motos", label: "Motos", match: ["/motos"] },
   { href: "/consejos", label: "Consejos", match: ["/consejos"] },
   { href: "/como-vender", label: "Cómo vender", match: ["/como-vender"] },
+  { href: "/precios", label: "Precios", match: ["/precios"] },
 ];
 
 /** Enlaces del menú con la sección actual resaltada. */
