@@ -54,10 +54,10 @@ const promises = [
 
 export function Footer() {
   return (
-    <footer className="theme-dark bg-background text-foreground mt-24 pb-24 md:pb-0">
+    <footer className="theme-dark bg-background text-foreground mt-16 pb-24 md:pb-0">
       {/* Tarjeta que sobresale del pie */}
-      <div className="container-page -translate-y-1/2">
-        <div className="flex flex-col gap-6 rounded-md bg-[#d4141c] p-8 text-white shadow-2xl shadow-black/30 md:flex-row md:items-center md:justify-between md:p-10">
+      <div className="container-page pt-14">
+        <div className="bg-primary text-primary-foreground flex flex-col gap-6 rounded-md p-8 md:flex-row md:items-center md:justify-between md:p-10">
           <div className="max-w-xl">
             <h2 className="text-3xl leading-none md:text-5xl">
               Tu siguiente auto o moto está a un mensaje.
@@ -84,7 +84,7 @@ export function Footer() {
       </div>
 
       {/* Promesas */}
-      <ul className="container-page -mt-12 grid gap-6 pb-12 md:grid-cols-3">
+      <ul className="container-page grid gap-6 py-12 md:grid-cols-3">
         {promises.map(({ icon: Icon, title, text }) => (
           <li key={title} className="flex items-start gap-3">
             <span className="bg-primary-soft text-primary grid size-11 shrink-0 place-items-center rounded-sm">

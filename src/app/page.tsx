@@ -323,7 +323,7 @@ export default async function Home() {
       </section>
 
       {/* FAQ */}
-      <section className="border-border bg-card border-t py-14" aria-labelledby="faq">
+      <section className="py-14" aria-labelledby="faq">
         <div className="container-page max-w-3xl">
           <h2 id="faq" className="mb-6 text-3xl">
             Preguntas frecuentes
