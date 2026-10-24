@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { POPULAR_BRANDS, getCatalog } from "@/lib/catalog";
 import { MX_CITIES } from "@/lib/cities";
+import { STATE_BLURBS } from "@/lib/state-blurbs";
 import { MX_STATES } from "@/lib/constants";
 
 describe("catálogo", () => {
@@ -48,5 +49,15 @@ describe("estados", () => {
     expect(MX_STATES).toHaveLength(32);
     expect(new Set(MX_STATES.map((s) => s.slug)).size).toBe(32);
     for (const s of MX_STATES) expect(MX_CITIES[s.slug]?.length, s.slug).toBeGreaterThan(0);
+  });
+});
+
+describe("frases por estado", () => {
+  it("hay una frase corta para cada uno de los 32 estados", () => {
+    for (const s of MX_STATES) {
+      const blurb = STATE_BLURBS[s.slug];
+      expect(blurb, s.slug).toBeTruthy();
+      expect(blurb!.length, s.slug).toBeLessThan(100);
+    }
   });
 });

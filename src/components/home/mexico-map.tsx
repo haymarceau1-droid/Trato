@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { MAP_PATHS, MAP_VIEWBOX } from "@/lib/mexico-map";
 import { MX_STATES, stateName } from "@/lib/constants";
+import { STATE_BLURBS } from "@/lib/state-blurbs";
 import { cn } from "@/lib/utils";
 import { StateShape } from "@/components/ui/state-shape";
 
@@ -79,7 +80,7 @@ export function MexicoMap({ counts }: { counts: Record<string, number> }) {
         </div>
 
         <div
-          className="border-border bg-card flex min-h-28 items-center gap-4 rounded-md border p-4"
+          className="border-border bg-card flex min-h-32 items-center gap-4 rounded-md border p-4"
           aria-live="polite"
         >
           {active ? (
@@ -87,6 +88,7 @@ export function MexicoMap({ counts }: { counts: Record<string, number> }) {
               <StateShape slug={active} className="size-16" />
               <div>
                 <p className="font-display text-2xl">{stateName(active)}</p>
+                <p className="mt-1 text-sm">{STATE_BLURBS[active]}</p>
                 <p className="text-muted-foreground text-sm">
                   {activeCount
                     ? `${activeCount} ${activeCount === 1 ? "anuncio" : "anuncios"} activos`
