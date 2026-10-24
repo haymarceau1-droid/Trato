@@ -4,7 +4,7 @@ import { brand } from "@/config/brand";
 export const Logo = ({ className }: { className?: string }) => (
   <Link
     href="/"
-    className={`inline-flex items-center gap-2 font-extrabold tracking-tight ${className ?? ""}`}
+    className={`font-display inline-flex items-center gap-2 ${className ?? ""}`}
     aria-label={`${brand.name} — inicio`}
   >
     <span
@@ -13,6 +13,6 @@ export const Logo = ({ className }: { className?: string }) => (
     >
       {brand.logoMark}
     </span>
-    <span className="text-xl">{brand.name}</span>
+    <span className="text-2xl">{brand.name}</span>
   </Link>
 );

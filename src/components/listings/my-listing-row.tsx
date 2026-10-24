@@ -52,7 +52,7 @@ export function MyListingRow({ listing: l }: { listing: Listing }) {
           <Link href={listingPath(l)} className="line-clamp-1 font-semibold hover:underline">
             {l.title}
           </Link>
-          <p className="font-extrabold">{formatMXN(l.price_mxn)}</p>
+          <p className="font-display">{formatMXN(l.price_mxn)}</p>
           <p className="text-muted-foreground flex items-center gap-3 text-xs">
             <span className="inline-flex items-center gap-1">
               <Eye className="size-3.5" aria-hidden /> {l.views_count}

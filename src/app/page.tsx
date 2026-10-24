@@ -93,7 +93,7 @@ export default async function Home() {
       />
 
       {/* Hero */}
-      <section className="border-border from-primary-soft to-background border-b bg-gradient-to-b">
+      <section className="theme-dark border-border bg-background text-foreground border-b">
         <div className="container-page grid gap-8 py-10 md:py-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div className="space-y-6">
             <p className="bg-card text-primary inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-semibold shadow-sm">
@@ -166,7 +166,7 @@ export default async function Home() {
               className="group border-border bg-card flex items-center justify-between rounded-2xl border p-6 transition-shadow hover:shadow-md"
             >
               <div>
-                <p className="text-xl font-extrabold">{c.title}</p>
+                <p className="font-display text-xl">{c.title}</p>
                 <p className="text-muted-foreground text-sm">{c.hint}</p>
               </div>
               <span className="flex items-center gap-2 text-4xl" aria-hidden>

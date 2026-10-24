@@ -2,10 +2,10 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 const tones = {
-  green: "bg-primary-soft text-primary",
+  green: "bg-success-soft text-success",
+  red: "bg-primary-soft text-primary",
   amber: "bg-warning-soft text-warning",
   gray: "bg-muted text-muted-foreground",
-  red: "bg-danger/10 text-danger",
 } as const;
 
 export const Badge = ({

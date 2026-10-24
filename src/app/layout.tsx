@@ -5,6 +5,8 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { SwRegister } from "@/components/layout/sw-register";
+import "@fontsource/changa-one/latin-400.css";
+import "@fontsource-variable/dm-sans/index.css";
 import "./globals.css";
 
 export const metadata: Metadata = {

@@ -43,7 +43,7 @@ export default async function AdminHome() {
         {stats.map(([k, v]) => (
           <div key={k} className="border-border bg-card rounded-2xl border p-4">
             <dt className="text-muted-foreground text-sm">{k}</dt>
-            <dd className="text-3xl font-extrabold">{v}</dd>
+            <dd className="font-display text-3xl">{v}</dd>
           </div>
         ))}
       </dl>

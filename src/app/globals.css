@@ -11,10 +11,13 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-soft: var(--primary-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
   --color-danger: var(--danger);
   --color-warning: var(--warning);
   --color-warning-soft: var(--warning-soft);
-  --font-sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "DM Sans Variable", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Changa One", "DM Sans Variable", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
@@ -63,4 +66,15 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Changa One solo existe en peso 400: se evita el "negrita falso" y se neutraliza el tracking. */
+h1,
+h2,
+h3,
+h4,
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 400 !important;
+  letter-spacing: 0;
 }

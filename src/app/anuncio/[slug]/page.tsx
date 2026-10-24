@@ -211,7 +211,7 @@ export default async function ListingPage({ params }: Props) {
 function PriceBlock({ l }: { l: Awaited<ReturnType<typeof getListing>> & object }) {
   return (
     <>
-      <p className="text-3xl font-extrabold">{formatMXN(l.price_mxn)}</p>
+      <p className="font-display text-3xl">{formatMXN(l.price_mxn)}</p>
       {l.negotiable && <Badge tone="green">Precio negociable</Badge>}
       <h1 className="text-xl font-bold">{l.title}</h1>
       <ul className="text-muted-foreground space-y-1 text-sm">

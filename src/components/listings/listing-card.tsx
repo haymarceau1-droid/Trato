@@ -37,7 +37,7 @@ export function ListingCard({
         />
       </div>
       <div className="space-y-1 p-3">
-        <p className="text-lg font-extrabold">{formatMXN(listing.price_mxn)}</p>
+        <p className="font-display text-lg">{formatMXN(listing.price_mxn)}</p>
         <h3 className="line-clamp-1 text-sm font-medium">
           <Link href={listingPath(listing)} className="after:absolute after:inset-0">
             {listing.title}

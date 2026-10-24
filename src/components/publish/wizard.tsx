@@ -711,7 +711,7 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
                 />
               )}
               <div className="space-y-2 p-4">
-                <p className="text-2xl font-extrabold">
+                <p className="font-display text-2xl">
                   {formatMXN(Number(v.price_mxn) || 0)}
                   {v.negotiable && (
                     <span className="text-primary ml-2 text-sm font-semibold">Negociable</span>
