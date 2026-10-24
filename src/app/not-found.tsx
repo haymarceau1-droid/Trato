@@ -7,9 +7,10 @@ export default function NotFound() {
         <p className="text-primary font-display text-6xl">404</p>
         <h1 className="text-2xl font-extrabold">No encontramos esa página</h1>
         <p className="text-muted-foreground">
-          Puede que el enlace esté mal escrito o que ya no exista.
+          El enlace puede estar mal escrito o la página ya no existe. Tus anuncios y favoritos están
+          a salvo.
         </p>
-        <LinkButton href="/">Volver al inicio</LinkButton>
+        <LinkButton href="/">Ir a ver autos y motos</LinkButton>
       </div>
     </div>
   );

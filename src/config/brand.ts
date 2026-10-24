@@ -3,7 +3,7 @@ export const brand = {
   name: "Trato",
   tagline: "Compra y vende autos y motos usados, sin estafas.",
   shortDescription:
-    "Anuncios gratuitos de autos y motos usados en México. Vendedores con teléfono verificado y consejos para comprar seguro.",
+    "Compra y vende autos y motos usados en México. Vendedores con celular verificado, sin comisiones y con una guía para revisar factura, REPUVE y tenencia.",
   contactEmail: "hola@trato.mx",
   logoMark: "T",
   colors: {

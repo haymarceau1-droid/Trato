@@ -21,19 +21,20 @@ export default async function LoginPage({
         <div className="space-y-1">
           <h1 className="text-2xl font-extrabold">Entra a {brand.name}</h1>
           <p className="text-muted-foreground text-sm">
-            Si no tienes cuenta, se crea sola. Es gratis.
+            Entra para ver el WhatsApp de los vendedores o publicar tu auto o moto. Si no tienes
+            cuenta, se crea sola y es gratis.
           </p>
         </div>
         {error && (
           <p role="alert" className="bg-danger/10 text-danger rounded-sm p-3 text-sm">
-            El enlace venció o ya se usó. Pide uno nuevo.
+            Ese enlace ya no sirve (vence por tu seguridad). Pide uno nuevo y entra en segundos.
           </p>
         )}
         <AuthForm next={safeNext(next)} />
         <p className="text-muted-foreground flex items-start gap-2 text-xs">
           <ShieldCheck className="text-primary mt-0.5 size-4 shrink-0" aria-hidden />
-          Tu número solo se muestra a usuarios con sesión y nunca aparece en Google. Al continuar
-          aceptas los{" "}
+          Tu número solo se muestra a quien inicia sesión y quiere contactarte por tu vehículo;
+          nunca aparece en Google. Al continuar aceptas los{" "}
           <a href="/terminos" className="underline">
             términos
           </a>{" "}

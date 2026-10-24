@@ -21,7 +21,7 @@ export const esMX = {
     results: "resultados",
     noResults: "No encontramos anuncios con esos filtros",
     noResultsHint: "Prueba quitando algún filtro o ampliando el rango de precio.",
-    error: "Algo salió mal. Intenta de nuevo.",
+    error: "No se perdió nada. Intenta de nuevo.",
     loading: "Cargando…",
     save: "Guardar",
     cancel: "Cancelar",

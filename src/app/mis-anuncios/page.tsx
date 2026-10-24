@@ -37,7 +37,10 @@ export default async function MyListingsPage() {
           ))}
         </ul>
       ) : (
-        <EmptyState title="Aún no tienes anuncios" hint="Publicar es gratis y toma 3 minutos.">
+        <EmptyState
+          title="Aún no tienes autos ni motos publicados"
+          hint="Publicar es gratis, sin comisión y toma unos 3 minutos. Puedes pausarlo o borrarlo cuando quieras."
+        >
           <LinkButton href="/publicar">Publicar mi primer anuncio</LinkButton>
         </EmptyState>
       )}

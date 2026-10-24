@@ -13,7 +13,7 @@ export default function SellPage() {
   return (
     <Prose
       title="Cómo vender rápido"
-      intro="Los anuncios bien cuidados se venden hasta 2 veces más rápido."
+      intro="No necesitas ser experto: con buenas fotos, un precio justo y un trato seguro, tu auto o moto se vende más rápido y con menos vueltas."
     >
       <h2>Fotos que venden</h2>
       <ul>

@@ -25,7 +25,7 @@ export async function updateProfile(input: unknown): Promise<Result> {
       city: parsed.data.city || null,
     })
     .eq("id", user.id);
-  if (error) return fail("No pudimos guardar tu perfil. Intenta de nuevo.");
+  if (error) return fail("No pudimos guardar tus datos. Nada cambió; intenta de nuevo.");
   revalidatePath("/cuenta");
   return { ok: true };
 }
@@ -37,7 +37,7 @@ export async function updatePhone(raw: string): Promise<Result> {
   const phone = toMxE164(raw);
   if (!phone) return fail("Escribe un celular mexicano válido de 10 dígitos.");
   const { error } = await supabase.from("profiles").update({ phone }).eq("id", user.id);
-  if (error) return fail("No pudimos guardar tu número. Intenta de nuevo.");
+  if (error) return fail("No pudimos guardar tu número. Nada cambió; intenta de nuevo.");
   revalidatePath("/", "layout");
   return { ok: true };
 }

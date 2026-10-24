@@ -18,8 +18,8 @@ export default async function FavoritesPage() {
         <ListingGrid items={items} favorites={new Set(items.map((i) => i.id))} />
       ) : (
         <EmptyState
-          title="Todavía no guardas favoritos"
-          hint="Toca el corazón en cualquier anuncio para guardarlo aquí."
+          title="Aún no guardas ningún vehículo"
+          hint="Toca el corazón en un auto o moto que te guste y compáralos aquí con calma. Nadie más ve tus favoritos."
         >
           <div className="flex gap-2">
             <LinkButton href="/autos">Ver autos</LinkButton>

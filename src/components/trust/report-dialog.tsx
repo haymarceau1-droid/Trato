@@ -36,7 +36,7 @@ export function ReportDialog({ listingId }: { listingId: string }) {
       >
         <h2 className="mb-1 text-lg font-bold">Reportar anuncio</h2>
         <p className="text-muted-foreground mb-4 text-sm">
-          Cuéntanos qué está mal. Revisamos cada reporte.
+          Cuéntanos qué viste. Revisamos cada reporte y el vendedor no sabrá quién lo envió.
         </p>
         {message?.ok ? (
           <div className="space-y-4">
@@ -61,7 +61,7 @@ export function ReportDialog({ listingId }: { listingId: string }) {
                 if (res.ok)
                   return setMessage({
                     ok: true,
-                    text: "Gracias por avisarnos. Revisaremos el anuncio.",
+                    text: "Gracias por avisarnos. Revisaremos este vehículo y tu reporte es confidencial.",
                   });
                 if (res.error.startsWith("Inicia sesión"))
                   return router.push(`/acceder?next=${encodeURIComponent(path)}`);

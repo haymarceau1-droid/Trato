@@ -13,7 +13,7 @@ export default function TipsPage() {
   return (
     <Prose
       title="Consejos para comprar seguro"
-      intro="Comprar un vehículo usado es seguro si sigues estos pasos. Guárdalos y compártelos."
+      intro="Comprar un auto o una moto usados puede ser tranquilo y seguro. Con estos seis pasos sabrás qué revisar, qué pedir y cuándo decir que no."
     >
       <h2>1. Nunca des anticipos para “apartar”</h2>
       <p>

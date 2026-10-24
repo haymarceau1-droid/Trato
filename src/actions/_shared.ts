@@ -23,11 +23,11 @@ export async function requireAdmin() {
 export function dbError(message: string | undefined): string {
   const m = message ?? "";
   if (m.includes("limite_activos"))
-    return "Ya tienes 5 anuncios activos. Pausa o marca como vendido uno para publicar otro.";
+    return "Ya tienes 5 anuncios activos, que es el máximo por persona. Pausa o marca como vendido uno y podrás publicar otro.";
   if (m.includes("limite_diario"))
-    return "Llegaste al límite de 10 publicaciones por día. Intenta mañana.";
+    return "Llegaste al límite de 10 publicaciones por día (es para cuidar la calidad). Mañana puedes seguir; tus borradores no se pierden.";
   if (m.includes("cuenta bloqueada"))
-    return "Tu cuenta está bloqueada. Escríbenos desde la página de contacto.";
+    return "Tu cuenta está en revisión. Escríbenos desde Contacto y lo resolvemos contigo.";
   if (m.includes("maximo_12_fotos")) return "Máximo 12 fotos por anuncio.";
-  return "Algo salió mal. Intenta de nuevo en un momento.";
+  return "No se perdió nada: algo falló de nuestro lado. Intenta de nuevo en un momento.";
 }

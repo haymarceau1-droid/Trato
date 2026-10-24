@@ -3,7 +3,7 @@ import { cache } from "react";
 import { site } from "@/config/site";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseConfigured } from "@/lib/supabase/env";
-import type { CatalogBrand, Listing, PublicProfile } from "@/types";
+import type { Listing, PublicProfile } from "@/types";
 import type { VehicleType } from "@/lib/constants";
 import type { Filters } from "./filters-url";
 
@@ -210,21 +210,6 @@ export async function getSellerListings(userId: string): Promise<Listing[]> {
     return (data ?? []) as Listing[];
   });
 }
-
-export const getCatalog = cache(async (type: VehicleType): Promise<CatalogBrand[]> =>
-  safe([], async () => {
-    const supabase = await createClient();
-    const { data } = await supabase
-      .from("catalog_brands")
-      .select("name, slug, vehicle_type, models:catalog_models(name, slug)")
-      .eq("vehicle_type", type)
-      .order("name");
-    return ((data ?? []) as unknown as CatalogBrand[]).map((b) => ({
-      ...b,
-      models: [...b.models].sort((a, c) => a.name.localeCompare(c.name, "es")),
-    }));
-  }),
-);
 
 export async function getMedianPrice(
   type: VehicleType,

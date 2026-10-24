@@ -6,7 +6,7 @@ import { dbError, fail, requireUser, type Result } from "./_shared";
 
 export async function createReport(input: unknown): Promise<Result> {
   const { supabase, user } = await requireUser();
-  if (!user) return fail("Inicia sesión para reportar un anuncio.");
+  if (!user) return fail("Inicia sesión para reportar este anuncio. Tu reporte es confidencial.");
   const parsed = reportSchema.safeParse(input);
   if (!parsed.success) return fail(parsed.error.issues[0]?.message ?? "Revisa el reporte.");
 
@@ -23,14 +23,17 @@ export async function createReport(input: unknown): Promise<Result> {
     p_max: site.maxReportsPerDay,
     p_window: "24 hours",
   });
-  if (!allowed) return fail("Enviaste demasiados reportes hoy. Intenta mañana.");
+  if (!allowed)
+    return fail("Hoy ya enviaste varios reportes. Si algo es urgente, escríbenos desde Contacto.");
 
   const { error } = await supabase
     .from("reports")
     .insert({ ...parsed.data, comment: parsed.data.comment || null, reporter_id: user.id });
   if (error)
     return fail(
-      error.code === "23505" ? "Ya reportaste este anuncio. Gracias." : dbError(error.message),
+      error.code === "23505"
+        ? "Ya reportaste este anuncio. Gracias: lo estamos revisando."
+        : dbError(error.message),
     );
   return { ok: true };
 }

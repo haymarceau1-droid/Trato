@@ -26,8 +26,8 @@ export default function PrivacyPage() {
       </ul>
       <h2>Finalidades</h2>
       <p>
-        Crear tu cuenta, verificar tu teléfono, publicar tus anuncios, permitir que usuarios con
-        sesión te contacten, prevenir fraudes y mejorar el servicio.
+        Crear tu cuenta, verificar tu teléfono, publicar tus anuncios, permitir que quienes inicien
+        sesión sesión te contacten, prevenir fraudes y mejorar el servicio.
       </p>
       <h2>Tu teléfono</h2>
       <p>

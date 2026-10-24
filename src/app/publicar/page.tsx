@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { PhoneForm } from "@/components/account/profile-form";
 import { PublishWizard } from "@/components/publish/wizard";
-import { getCatalog, getUser } from "@/lib/listings/queries";
+import { getCatalog } from "@/lib/catalog";
+import { getUser } from "@/lib/listings/queries";
 
 export const metadata: Metadata = { title: "Publicar anuncio", robots: { index: false } };
 
@@ -16,7 +17,8 @@ export default async function PublishPage() {
       </div>
     );
 
-  const [auto, moto] = await Promise.all([getCatalog("auto"), getCatalog("moto")]);
+  const auto = getCatalog("auto");
+  const moto = getCatalog("moto");
   return (
     <div className="container-page py-6">
       {user.profile?.phone ? (

@@ -57,11 +57,16 @@ export default async function SellerPage({ params }: Props) {
           </div>
         </div>
       </header>
-      <h2 className="mb-4 text-lg font-bold">{items.length} anuncios activos</h2>
+      <h2 className="mb-4 text-lg font-bold">
+        {items.length} {items.length === 1 ? "vehículo en venta" : "vehículos en venta"}
+      </h2>
       {items.length ? (
         <ListingGrid items={items} favorites={favorites} />
       ) : (
-        <EmptyState title="Este vendedor no tiene anuncios activos" />
+        <EmptyState
+          title="Este vendedor no tiene vehículos en venta por ahora"
+          hint="Puede que ya los haya vendido. Mira otros autos y motos."
+        />
       )}
     </div>
   );

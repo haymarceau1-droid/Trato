@@ -28,19 +28,23 @@ import { cn } from "@/lib/utils";
 import type { CatalogBrand } from "@/types";
 import { Button, LinkButton } from "@/components/ui/button";
 import { Field, Input, Select, Textarea } from "@/components/ui/field";
+import { QuickPick } from "@/components/ui/chips";
+import { Segmented } from "@/components/ui/segmented";
+import { POPULAR_BRANDS } from "@/lib/catalog";
+import { MX_CITIES } from "@/lib/cities";
 import { PhotoUploader, type PhotoItem } from "./photo-uploader";
 
 type FormValues = z.input<typeof listingSchema>;
 type Name = FieldPath<FormValues>;
 
 const STEPS = [
-  "Tipo",
-  "Vehículo",
-  "Características",
-  "Precio y lugar",
+  "Tu vehículo",
+  "Marca y modelo",
+  "Datos del vehículo",
+  "Precio y ciudad",
   "Fotos",
   "Descripción",
-  "Vista previa",
+  "Revisión final",
 ] as const;
 const DRAFT_KEY = "trato:draft:v1";
 
@@ -242,7 +246,7 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
       <div ref={topRef} className="mx-auto max-w-lg space-y-5 text-center">
         <CheckCircle2 className="text-primary mx-auto size-14" aria-hidden />
         <h1 className="text-2xl font-extrabold">
-          {edit ? "¡Cambios guardados!" : "¡Tu anuncio ya está publicado!"}
+          {edit ? "Listo, guardamos tus cambios" : "Listo, tu anuncio ya está publicado"}
         </h1>
         {done.warnings.length > 0 && (
           <div
@@ -300,7 +304,7 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
           role="status"
           className="bg-primary-soft text-primary mb-4 flex items-center justify-between gap-3 rounded-sm p-3 text-sm"
         >
-          Recuperamos tu borrador.
+          Recuperamos tu borrador: sigues justo donde te quedaste.
           <button
             type="button"
             className="font-semibold underline"
@@ -317,7 +321,9 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
       <form onSubmit={(e) => e.preventDefault()} className="space-y-5" noValidate>
         {step === 0 && (
           <fieldset className="space-y-3">
-            <legend className="mb-2 text-2xl font-extrabold">¿Qué vas a vender?</legend>
+            <legend className="mb-2 text-2xl font-extrabold">
+              ¿Vas a vender un auto o una moto?
+            </legend>
             <div className="grid grid-cols-2 gap-3">
               {(
                 [
@@ -352,7 +358,10 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
                 {err("vehicle_type")}
               </p>
             )}
-            <p className="text-muted-foreground text-sm">Publica gratis en 3 minutos.</p>
+            <p className="text-muted-foreground text-sm">
+              Es gratis, sin comisión y tu borrador se guarda solo. Puedes salir y volver cuando
+              quieras.
+            </p>
           </fieldset>
         )}
 
@@ -375,7 +384,18 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
                 ))}
               </datalist>
             </Field>
-            <Field label="Modelo" error={err("model")} hint="Si no aparece en la lista, escríbelo.">
+            {!v.brand && (
+              <QuickPick
+                label="Marcas populares"
+                items={type ? POPULAR_BRANDS[type] : []}
+                onPick={(b) => setValue("brand", b, { shouldValidate: true })}
+              />
+            )}
+            <Field
+              label="Modelo"
+              error={err("model")}
+              hint="¿No aparece? Escríbelo tal cual: también lo aceptamos."
+            >
               <Input
                 list="models"
                 autoComplete="off"
@@ -389,6 +409,13 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
                 ))}
               </datalist>
             </Field>
+            {!v.model && models.length > 0 && (
+              <QuickPick
+                label={`Modelos de ${v.brand}`}
+                items={models.slice(0, 12).map((m) => m.name)}
+                onPick={(m) => setValue("model", m, { shouldValidate: true })}
+              />
+            )}
             <div className="grid grid-cols-2 gap-3">
               <Field label="Año" error={err("year")}>
                 <Input
@@ -409,36 +436,20 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
         {step === 2 && (
           <div className="space-y-4">
             <h1 className="text-2xl font-extrabold">Características</h1>
-            <div className="grid grid-cols-2 gap-3">
-              <Field label="Transmisión" error={err("transmission")}>
-                <Select
-                  defaultValue=""
-                  aria-invalid={invalid("transmission")}
-                  {...register("transmission")}
-                >
-                  <option value="" disabled>
-                    Elige
-                  </option>
-                  {TRANSMISSIONS.map((o) => (
-                    <option key={o.value} value={o.value}>
-                      {o.label}
-                    </option>
-                  ))}
-                </Select>
-              </Field>
-              <Field label="Combustible" error={err("fuel")}>
-                <Select defaultValue="" aria-invalid={invalid("fuel")} {...register("fuel")}>
-                  <option value="" disabled>
-                    Elige
-                  </option>
-                  {FUELS.map((o) => (
-                    <option key={o.value} value={o.value}>
-                      {o.label}
-                    </option>
-                  ))}
-                </Select>
-              </Field>
-            </div>
+            <Segmented
+              label="Transmisión"
+              value={v.transmission}
+              options={TRANSMISSIONS}
+              error={err("transmission")}
+              onChange={(x) => setValue("transmission", x, { shouldValidate: true })}
+            />
+            <Segmented
+              label="Combustible"
+              value={v.fuel}
+              options={FUELS}
+              error={err("fuel")}
+              onChange={(x) => setValue("fuel", x, { shouldValidate: true })}
+            />
             <Field label="Kilometraje" error={err("mileage_km")}>
               <Input
                 type="number"
@@ -595,8 +606,9 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
             </Field>
             {priceHint && (
               <p role="status" className="bg-primary-soft text-primary rounded-sm p-3 text-sm">
-                El precio medio de anuncios similares es <strong>{formatMXN(priceHint)}</strong>. Un
-                precio cercano se vende más rápido.
+                El precio medio de autos y motos parecidos al tuyo es{" "}
+                <strong>{formatMXN(priceHint)}</strong>. Un precio cercano suele venderse más
+                rápido, y puedes cambiarlo cuando quieras.
               </p>
             )}
             <label className="flex min-h-11 items-center gap-3 text-sm font-medium">
@@ -621,11 +633,17 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
             </Field>
             <Field label="Ciudad o municipio" error={err("city")}>
               <Input
+                list="cities"
                 placeholder="Monterrey"
                 autoComplete="address-level2"
                 aria-invalid={invalid("city")}
                 {...register("city")}
               />
+              <datalist id="cities">
+                {(MX_CITIES[v.state ?? ""] ?? []).map((c) => (
+                  <option key={c} value={c} />
+                ))}
+              </datalist>
             </Field>
           </div>
         )}
@@ -634,8 +652,9 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
           <div className="space-y-4">
             <h1 className="text-2xl font-extrabold">Agrega fotos</h1>
             <p className="text-muted-foreground text-sm">
-              Las buenas fotos venden. Toma el exterior, el interior, el tablero y el motor, con luz
-              de día.
+              Un auto o moto con buenas fotos se vende más rápido. Toma el frente, los costados, el
+              interior, el tablero con el kilometraje y el motor, con luz de día. Quitamos la
+              ubicación de cada foto antes de subirla, así tu domicilio queda protegido.
             </p>
             <PhotoUploader
               userId={userId}
@@ -656,7 +675,7 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
 
         {step === 5 && (
           <div className="space-y-4">
-            <h1 className="text-2xl font-extrabold">Cuenta más del vehículo</h1>
+            <h1 className="text-2xl font-extrabold">Cuéntale al comprador cómo está</h1>
             <Field
               label="Descripción"
               error={err("description")}
@@ -665,7 +684,7 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
               <Textarea
                 rows={8}
                 maxLength={site.maxDescription}
-                placeholder="Estado general, mantenimiento, detalles, razón de venta…"
+                placeholder="Servicios, llantas, detalles de pintura, razón de venta… lo que tú preguntarías al comprar."
                 {...register("description")}
               />
             </Field>
@@ -682,8 +701,8 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
               Usar texto de ejemplo
             </Button>
             <p className="text-muted-foreground text-xs">
-              Tip: no pongas teléfono ni enlaces; los compradores te escriben por WhatsApp desde tu
-              anuncio.
+              No necesitas poner tu teléfono: los compradores te escriben por WhatsApp desde tu
+              anuncio y tu número no se publica.
             </p>
             {live.length > 0 && (
               <ul
@@ -700,7 +719,7 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
 
         {step === 6 && (
           <div className="space-y-4">
-            <h1 className="text-2xl font-extrabold">Así se verá tu anuncio</h1>
+            <h1 className="text-2xl font-extrabold">Revisa cómo se verá tu anuncio</h1>
             <article className="border-border bg-card overflow-hidden rounded-md border">
               {photos[0] && (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -735,7 +754,8 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
               <Link href="/terminos" className="underline" target="_blank">
                 términos
               </Link>
-              . Tu anuncio dura {site.listingTtlDays} días y puedes renovarlo.
+              . Tu anuncio dura {site.listingTtlDays} días y puedes editarlo, pausarlo, renovarlo o
+              marcarlo como vendido cuando quieras.
             </p>
             {serverError && (
               <p role="alert" className="bg-danger/10 text-danger rounded-sm p-3 text-sm">

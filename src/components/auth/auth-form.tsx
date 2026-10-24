@@ -28,7 +28,11 @@ export function AuthForm({ next }: { next: string }) {
     try {
       await fn();
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Algo salió mal. Intenta de nuevo.");
+      setError(
+        e instanceof Error
+          ? e.message
+          : "No se guardó nada raro: solo falló el intento. Vuelve a probar.",
+      );
     } finally {
       setBusy(false);
     }
@@ -37,9 +41,12 @@ export function AuthForm({ next }: { next: string }) {
   const sendPhone = () =>
     run(async () => {
       const number = toMxE164(phone);
-      if (!number) throw new Error("Escribe un celular mexicano válido de 10 dígitos.");
+      if (!number) throw new Error("Revisa tu número: debe ser un celular mexicano de 10 dígitos.");
       const { error } = await createClient().auth.signInWithOtp({ phone: number });
-      if (error) throw new Error("No pudimos enviar el código. Intenta en un momento.");
+      if (error)
+        throw new Error(
+          "No pudimos enviar el código todavía. Espera un momento e intenta de nuevo, o entra con tu correo.",
+        );
       setE164(number);
     });
 
@@ -51,7 +58,8 @@ export function AuthForm({ next }: { next: string }) {
         token: code.trim(),
         type: "sms",
       });
-      if (error) throw new Error("El código no es correcto o ya venció.");
+      if (error)
+        throw new Error("Ese código no coincide o ya venció. Pide uno nuevo, tarda unos segundos.");
       router.replace(safeNext(next));
       router.refresh();
     });
@@ -64,7 +72,10 @@ export function AuthForm({ next }: { next: string }) {
         email,
         options: { emailRedirectTo: redirect },
       });
-      if (error) throw new Error("No pudimos enviar el enlace. Intenta en un momento.");
+      if (error)
+        throw new Error(
+          "No pudimos enviar el enlace todavía. Espera un momento e intenta de nuevo.",
+        );
       setSentEmail(true);
     });
 
@@ -105,7 +116,7 @@ export function AuthForm({ next }: { next: string }) {
         >
           <Field
             label="Tu celular"
-            hint="Te enviamos un código por SMS. Así verificamos tu teléfono."
+            hint="Te enviamos un código por SMS, sin costo para ti. Así los compradores saben que eres una persona real."
           >
             <div className="flex gap-2">
               <span className="border-border bg-muted grid min-h-11 place-items-center rounded-sm border px-3 text-sm font-semibold">

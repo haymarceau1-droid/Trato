@@ -13,8 +13,8 @@ export default function TermsPage() {
       <TemplateNotice />
       <h2>1. Quiénes somos</h2>
       <p>
-        {brand.name} es una plataforma de anuncios clasificados operada por [razón social / persona
-        física], con domicilio en [domicilio]. Contacto: {brand.contactEmail}.
+        {brand.name} es un sitio de anuncios clasificados de autos y motos usados operado por [razón
+        social / persona física], con domicilio en [domicilio]. Contacto: {brand.contactEmail}.
       </p>
       <h2>2. Qué hacemos y qué no</h2>
       <p>

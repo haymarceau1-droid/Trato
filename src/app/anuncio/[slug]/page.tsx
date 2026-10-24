@@ -17,7 +17,7 @@ import { listingPath, parseListingId } from "@/lib/listings/slug";
 import { listingJsonLd } from "@/lib/seo/jsonld";
 import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/button";
-import { ContactButtons } from "@/components/listings/contact-buttons";
+import { ContactButtons, MobileContactBar } from "@/components/listings/contact-buttons";
 import { FavoriteButton } from "@/components/listings/favorite-button";
 import { Gallery } from "@/components/listings/gallery";
 import { ListingGrid } from "@/components/listings/listing-card";
@@ -87,7 +87,7 @@ export default async function ListingPage({ params }: Props) {
   const live = l.status === "active";
 
   return (
-    <div className="container-page py-4 md:py-6">
+    <div className="container-page pt-4 pb-20 md:py-6">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -95,6 +95,7 @@ export default async function ListingPage({ params }: Props) {
         }}
       />
       {live && <ViewBeacon listingId={l.id} />}
+      {live && !isOwner && <MobileContactBar listingId={l.id} price={formatMXN(l.price_mxn)} />}
       <nav aria-label="Migas de pan" className="text-muted-foreground mb-3 text-sm">
         <Link href={l.vehicle_type === "auto" ? "/autos" : "/motos"} className="hover:underline">
           {l.vehicle_type === "auto" ? "Autos" : "Motos"}

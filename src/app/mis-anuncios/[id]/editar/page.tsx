@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { PublishWizard } from "@/components/publish/wizard";
 import { photoUrl } from "@/lib/listings/photos";
-import { getCatalog, getListing, getUser } from "@/lib/listings/queries";
+import { getCatalog } from "@/lib/catalog";
+import { getListing, getUser } from "@/lib/listings/queries";
 
 export const metadata: Metadata = { title: "Editar anuncio", robots: { index: false } };
 
@@ -13,7 +14,8 @@ export default async function EditPage({ params }: { params: Promise<{ id: strin
   const l = await getListing(id);
   if (!l || l.user_id !== user.id) notFound();
 
-  const [auto, moto] = await Promise.all([getCatalog("auto"), getCatalog("moto")]);
+  const auto = getCatalog("auto");
+  const moto = getCatalog("moto");
   const photos = [...l.listing_photos]
     .sort((a, b) => a.position - b.position)
     .map((p) => ({ path: p.storage_path, url: photoUrl(p.storage_path) }));

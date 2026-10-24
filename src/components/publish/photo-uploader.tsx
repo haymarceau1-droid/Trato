@@ -136,7 +136,9 @@ export function PhotoUploader({
         if (upErr) throw upErr;
         onChange([...latest.current, { path, url: URL.createObjectURL(blob) }]);
       } catch {
-        setError("No pudimos subir una de las fotos. Revisa tu conexión e intenta de nuevo.");
+        setError(
+          "Una foto no se pudo subir, pero las demás están bien. Revisa tu conexión y vuelve a elegirla.",
+        );
       } finally {
         setBusy((n) => n - 1);
       }

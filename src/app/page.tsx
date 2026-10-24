@@ -20,28 +20,28 @@ export const metadata: Metadata = {
 
 const FAQ = [
   [
-    "¿Publicar cuesta algo?",
-    `No. Publicar y contactar vendedores es gratis. ${brand.name} no cobra comisiones ni interviene en el pago: tú y la otra persona cierran el trato directamente.`,
+    "¿Cuánto cuesta vender mi auto o moto?",
+    `Nada. Publicar, editar y renovar es gratis, y ${brand.name} no cobra comisión cuando lo vendes. Tú y el comprador cierran el trato directamente.`,
   ],
   [
-    "¿Cómo sé que un vendedor es confiable?",
-    "Los vendedores con el distintivo “Teléfono verificado” confirmaron su número con un código por SMS. Aun así, sigue siempre nuestros consejos: no des anticipos, revisa la factura y verifica el vehículo en el REPUVE.",
+    "¿Cómo sé que el vendedor es real?",
+    "Los vendedores con “Teléfono verificado” confirmaron su celular con un código por SMS. Aun así, revisa siempre el vehículo en persona: factura original, tarjeta de circulación y consulta en el REPUVE.",
   ],
   [
-    "¿Dónde veo el teléfono del vendedor?",
-    "Al iniciar sesión, puedes contactar al vendedor por WhatsApp o llamada desde el anuncio. Así protegemos los números de spam.",
+    "¿Quién ve mi número de teléfono?",
+    "Solo las personas que inician sesión y te contactan desde tu anuncio. Nunca se muestra en la página pública ni en Google, así evitas llamadas de spam.",
   ],
   [
-    "¿Cuánto dura un anuncio?",
-    `${site.listingTtlDays} días. Puedes renovarlo cuando quieras desde Mis anuncios, o marcarlo como vendido.`,
+    "¿Qué hago si me piden dinero antes de ver el auto?",
+    "No lo des: es la estafa más común. Apartados, depósitos y “gastos de envío” son señal de alerta. Usa el botón Reportar y lo revisamos.",
   ],
   [
-    "¿Puedo pagar dentro de la app?",
-    `No. ${brand.name} no procesa pagos ni retiene dinero. Desconfía de quien te pida pagar por adelantado o fuera de un trato en persona.`,
+    "¿Cuánto dura mi anuncio y puedo cambiarlo?",
+    `${site.listingTtlDays} días. Puedes editar precio y fotos, pausarlo, renovarlo o marcarlo como vendido cuando quieras desde Mis anuncios.`,
   ],
   [
-    "Vi un anuncio sospechoso, ¿qué hago?",
-    "Usa el botón Reportar en el anuncio. Nuestro equipo lo revisa y, si un anuncio recibe varios reportes, se pausa automáticamente mientras lo revisamos.",
+    "¿Puedo pagar o cobrar dentro de la app?",
+    `No, y es a propósito: ${brand.name} nunca toca tu dinero. El pago se hace en persona, al recibir el vehículo y firmar la compraventa.`,
   ],
 ] as const;
 
@@ -59,22 +59,25 @@ const BRANDS = [
 ] as const;
 
 const FACTS = [
-  ["$0", "de comisión. Tú y la otra persona cierran el trato."],
-  ["60", "días dura cada anuncio. Lo renuevas cuando quieras."],
-  ["12", "fotos por anuncio, y la primera es la portada."],
-  ["5", "anuncios activos por persona, para que nadie sature."],
+  ["$0", "de comisión por vender tu auto o moto. El trato lo cierras tú."],
+  ["60", "días para venderlo. Renuévalo con un toque si hace falta."],
+  ["12", "fotos para mostrar tu auto o moto con todo detalle."],
+  ["5", "anuncios por persona: aquí encuentras vendedores particulares, no lotes de reventa."],
 ] as const;
 
 const STEPS = [
   [
-    "Publica",
-    "Sube las fotos, elige marca y modelo, pon tu precio. Son siete pasos cortos y se guarda tu borrador.",
+    "Publica tu auto o moto",
+    "Sube las fotos, elige marca y modelo, pon el precio. Son siete pasos cortos y tu borrador se guarda solo.",
   ],
   [
-    "Te escriben",
-    "Quien esté interesado entra con su cuenta y te contacta por WhatsApp o llamada desde tu anuncio.",
+    "Te escriben por WhatsApp",
+    "Solo quien inicia sesión ve tu contacto. Tu número nunca aparece en Google ni en el anuncio.",
   ],
-  ["Cierran en persona", "Lugar público, papeles a la vista, pago al entregar. Nada de anticipos."],
+  [
+    "Revisan el vehículo contigo",
+    "Prueba de manejo en un lugar público, papeles a la vista y pago al entregar. Sin anticipos.",
+  ],
 ] as const;
 
 export default async function Home() {
@@ -107,7 +110,7 @@ export default async function Home() {
         <div className="container-page grid gap-10 py-10 md:py-16 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
           <div>
             <p className="text-muted-foreground mb-4 text-sm font-semibold tracking-widest uppercase">
-              Clasificados de autos y motos · México
+              Autos y motos usados · Todo México
             </p>
             <h1 className="text-5xl leading-[0.95] md:text-7xl">
               Compra y vende
@@ -117,8 +120,9 @@ export default async function Home() {
               <span className="text-primary">Sin estafas.</span>
             </h1>
             <p className="text-muted-foreground mt-6 max-w-lg text-lg">
-              Anuncios gratis, vendedores con teléfono confirmado por SMS y una regla simple: el
-              dinero se mueve en persona, nunca por adelantado.
+              Publica tu auto o moto gratis o encuentra el que buscas. Cada vendedor confirma su
+              celular por SMS y tú decides cuándo y dónde ver el vehículo. Nadie te cobra comisión
+              ni te pide dinero por adelantado.
             </p>
             <SearchBox className="mt-8 max-w-xl" />
             <p className="mt-4 text-sm">
@@ -188,8 +192,8 @@ export default async function Home() {
           <ListingGrid items={latest} favorites={favorites} />
         ) : (
           <EmptyState
-            title="Todavía no hay anuncios"
-            hint="Puedes ser quien publique el primero. Toma unos 3 minutos."
+            title="Aún no hay autos ni motos publicados"
+            hint="Publica el primero: es gratis, sin comisión y toma unos 3 minutos."
           >
             <LinkButton href="/publicar">Publicar el primero</LinkButton>
           </EmptyState>
@@ -261,11 +265,12 @@ export default async function Home() {
       >
         <div className="space-y-4">
           <h2 id="seguro" className="text-3xl md:text-4xl">
-            La mayoría de las estafas se evitan con cuatro hábitos
+            Comprar un usado con tranquilidad: cuatro hábitos
           </h2>
           <p className="text-muted-foreground max-w-md">
-            Los repetimos en cada anuncio porque son los que más dinero ahorran. En la guía
-            explicamos cómo revisar la factura y consultar el REPUVE paso a paso.
+            Son los que más dinero ahorran a quien compra un auto o una moto. Los recordamos en cada
+            anuncio y en la guía te explicamos, paso a paso, cómo revisar la factura y consultar el
+            REPUVE.
           </p>
           <LinkButton href="/consejos" variant="outline">
             Leer la guía
@@ -278,9 +283,10 @@ export default async function Home() {
       <section className="container-page pb-14">
         <div className="bg-primary text-primary-foreground flex flex-col gap-6 p-8 md:flex-row md:items-center md:justify-between md:p-12">
           <div>
-            <h2 className="text-4xl md:text-5xl">¿Tienes un auto o moto que vender?</h2>
+            <h2 className="text-4xl md:text-5xl">¿Vas a vender tu auto o moto?</h2>
             <p className="mt-2 max-w-lg opacity-90">
-              Es gratis, sin comisión. Hasta {site.maxActivePerUser} anuncios activos por cuenta.
+              Es gratis, sin comisión y puedes pausarlo o borrarlo cuando quieras. Hasta{" "}
+              {site.maxActivePerUser} anuncios activos por persona.
             </p>
           </div>
           <Link
@@ -296,7 +302,7 @@ export default async function Home() {
       <section className="container-page pb-14" aria-labelledby="explora">
         <div className="rule pt-3">
           <h2 id="explora" className="mb-6 text-3xl">
-            Por marca y por estado
+            Marcas y estados
           </h2>
         </div>
         <div className="grid gap-8 md:grid-cols-2">
@@ -305,8 +311,8 @@ export default async function Home() {
             items={BRANDS.map(([t, slug, label]) => ({ label, href: `/${t}/${slug}` }))}
           />
           <LinkList
-            title="Autos por estado"
-            items={MX_STATES.slice(0, 12).map((s) => ({ label: s.name, href: `/autos/${s.slug}` }))}
+            title="Autos por estado (los 32)"
+            items={MX_STATES.map((s) => ({ label: s.name, href: `/autos/${s.slug}` }))}
           />
         </div>
       </section>
@@ -357,7 +363,9 @@ function LinkList({ title, items }: { title: string; items: { label: string; hre
       <h3 className="text-muted-foreground mb-2 text-sm font-semibold tracking-widest uppercase">
         {title}
       </h3>
-      <ul className="divide-border border-border divide-y border-y">
+      <ul
+        className={`divide-border border-border divide-y border-y ${items.length > 12 ? "sm:columns-2" : ""}`}
+      >
         {items.map((i) => (
           <li key={i.label}>
             <Link

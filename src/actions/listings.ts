@@ -93,7 +93,7 @@ export async function createListing(
   photoPaths: string[],
 ): Promise<Result<{ path: string; warnings: string[] }>> {
   const { supabase, user } = await requireUser();
-  if (!user) return fail("Inicia sesión para publicar.");
+  if (!user) return fail("Inicia sesión para publicar tu auto o moto. Tu borrador sigue guardado.");
 
   const parsed = listingSchema.safeParse(input);
   if (!parsed.success)
@@ -101,7 +101,9 @@ export async function createListing(
   const photos = photoPathsSchema.safeParse(photoPaths);
   if (!photos.success) return fail(photos.error.issues[0]?.message ?? "Revisa las fotos.");
   if (!photosOk(photos.data, user.id, id))
-    return fail("Las fotos no son válidas. Súbelas de nuevo.");
+    return fail(
+      "Alguna foto no se subió bien. Vuelve a subirla; el resto de tu anuncio está intacto.",
+    );
 
   const reasons = await reviewReasons(supabase, parsed.data);
   const row = toRow(parsed.data);
@@ -137,7 +139,9 @@ export async function updateListing(
   const photos = photoPathsSchema.safeParse(photoPaths);
   if (!photos.success) return fail(photos.error.issues[0]?.message ?? "Revisa las fotos.");
   if (!photosOk(photos.data, user.id, id))
-    return fail("Las fotos no son válidas. Súbelas de nuevo.");
+    return fail(
+      "Alguna foto no se subió bien. Vuelve a subirla; el resto de tu anuncio está intacto.",
+    );
 
   const { data: current } = await supabase
     .from("listings")
@@ -145,7 +149,7 @@ export async function updateListing(
     .eq("id", id)
     .eq("user_id", user.id)
     .maybeSingle();
-  if (!current) return fail("No encontramos ese anuncio.");
+  if (!current) return fail("No encontramos ese anuncio. Puede que ya lo hayas borrado.");
 
   const reasons = await reviewReasons(supabase, parsed.data, id);
   const row = toRow(parsed.data);
@@ -180,12 +184,14 @@ export async function setListingStatus(
     .eq("id", id)
     .eq("user_id", user.id)
     .maybeSingle();
-  if (!cur) return fail("No encontramos ese anuncio.");
+  if (!cur) return fail("No encontramos ese anuncio. Puede que ya lo hayas borrado.");
   if (
     status === "active" &&
     (cur.status === "removed" || (cur.needs_review && cur.status === "paused"))
   )
-    return fail("Este anuncio está en revisión. Te avisaremos cuando se reactive.");
+    return fail(
+      "Este anuncio está en revisión por seguridad. En cuanto lo revisemos volverá a estar visible.",
+    );
   const { error } = await supabase.from("listings").update({ status }).eq("id", id);
   if (error) return fail(dbError(error.message));
   revalidatePath("/mis-anuncios");
@@ -220,7 +226,7 @@ export async function deleteListing(id: string): Promise<Result> {
     .eq("id", id)
     .eq("user_id", user.id)
     .maybeSingle();
-  if (!cur) return fail("No encontramos ese anuncio.");
+  if (!cur) return fail("No encontramos ese anuncio. Puede que ya lo hayas borrado.");
   const { error } = await supabase.from("listings").delete().eq("id", id);
   if (error) return fail(dbError(error.message));
   const paths = (cur.listing_photos as { storage_path: string }[])

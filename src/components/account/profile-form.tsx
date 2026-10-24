@@ -26,7 +26,7 @@ export function PhoneForm({ initial }: { initial?: string | null }) {
     >
       <Field
         label="Tu WhatsApp"
-        hint="Los compradores te contactarán aquí. Solo lo ven usuarios con sesión."
+        hint="Los compradores te contactarán aquí. Solo lo ve quien inicia sesión y quiere ver tu auto o moto; nunca se publica."
       >
         <div className="flex gap-2">
           <span className="border-border bg-muted grid min-h-11 place-items-center rounded-sm border px-3 text-sm font-semibold">

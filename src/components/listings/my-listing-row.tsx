@@ -32,7 +32,10 @@ export function MyListingRow({ listing: l }: { listing: Listing }) {
     start(async () => {
       setError(null);
       const res = await fn();
-      if (!res.ok) setError(res.error ?? "Algo salió mal.");
+      if (!res.ok)
+        setError(
+          res.error ?? "No pudimos hacerlo ahora. Tu anuncio sigue igual; intenta de nuevo.",
+        );
       else router.refresh();
     });
 

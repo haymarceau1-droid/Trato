@@ -3,10 +3,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MX_STATES, VEHICLE_TYPES, type VehicleType, vehiclePath } from "@/lib/constants";
 import { buildUrl, parseFilters } from "@/lib/listings/filters-url";
-import { getCatalog, getFavoriteIds, getUser, searchListings } from "@/lib/listings/queries";
+import { getCatalog } from "@/lib/catalog";
+import { getFavoriteIds, getUser, searchListings } from "@/lib/listings/queries";
 import { searchDescription, searchHeading } from "@/lib/seo/metadata";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LinkButton } from "@/components/ui/button";
+import { ActiveFilters } from "./active-filters";
 import { DesktopFilters, MobileFilters, SortSelect } from "./filters";
 import { ListingGrid } from "./listing-card";
 import { Pagination } from "./pagination";
@@ -21,7 +23,7 @@ export async function searchMetadata(
   { params, searchParams }: Props,
 ): Promise<Metadata> {
   const filters = parseFilters(type, (await params).filtros, await searchParams);
-  const brands = await getCatalog(type);
+  const brands = getCatalog(type);
   const heading = searchHeading(filters, brands);
   const { total } = await searchListings(filters);
   const canonical = buildUrl({ ...filters, page: filters.page });
@@ -41,11 +43,8 @@ export async function SearchPage(type: VehicleType, { params, searchParams }: Pr
   const segments = (await params).filtros ?? [];
   if (segments.length > 2) notFound();
   const filters = parseFilters(type, segments, await searchParams);
-  const [{ items, total }, brands, user] = await Promise.all([
-    searchListings(filters),
-    getCatalog(type),
-    getUser(),
-  ]);
+  const brands = getCatalog(type);
+  const [{ items, total }, user] = await Promise.all([searchListings(filters), getUser()]);
   const favorites = await getFavoriteIds(user?.id);
   const heading = searchHeading(filters, brands);
   const other = VEHICLE_TYPES.find((v) => v.value !== type)!;
@@ -74,6 +73,10 @@ export async function SearchPage(type: VehicleType, { params, searchParams }: Pr
         </div>
       </div>
 
+      <div className="mt-4">
+        <ActiveFilters filters={filters} brands={brands} />
+      </div>
+
       <div className="mt-6 flex gap-8">
         <DesktopFilters filters={filters} brands={brands} />
         <div className="min-w-0 flex-1">
@@ -84,8 +87,8 @@ export async function SearchPage(type: VehicleType, { params, searchParams }: Pr
             </>
           ) : (
             <EmptyState
-              title="No encontramos anuncios con esos filtros"
-              hint="Prueba quitando algún filtro o ampliando el rango de precio."
+              title="No hay autos ni motos con esos filtros… todavía"
+              hint="Prueba con un rango de precio o de año más amplio, o quita la marca. Cada día se publican vehículos nuevos."
             >
               <div className="flex flex-wrap justify-center gap-2">
                 <LinkButton href={`/${vehiclePath(type)}`} variant="outline">
@@ -105,7 +108,7 @@ export async function SearchPage(type: VehicleType, { params, searchParams }: Pr
           {VEHICLE_TYPES.find((v) => v.value === type)!.plural} usados por estado
         </h2>
         <ul className="flex flex-wrap gap-2">
-          {MX_STATES.slice(0, 16).map((s) => (
+          {MX_STATES.map((s) => (
             <li key={s.slug}>
               <Link
                 href={`/${vehiclePath(type)}/${s.slug}`}
