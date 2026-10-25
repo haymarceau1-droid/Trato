@@ -1,20 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  ArrowUpRight,
-  CaretRight as ChevronRight,
-  Handshake,
-  ImageSquare,
-  Phone,
-} from "@/components/ui/icons";
+import { CaretRight as ChevronRight, Handshake, ImageSquare, Phone } from "@/components/ui/icons";
 import { brand } from "@/config/brand";
-import { cn } from "@/lib/utils";
 import { site } from "@/config/site";
-import { BODY_TYPES, MOTO_TYPES, PRICE_RANGES } from "@/lib/constants";
+import { PRICE_RANGES } from "@/lib/constants";
 import { buildUrl, parseFilters } from "@/lib/listings/filters-url";
 import { MexicoFlag } from "@/components/ui/mexico-flag";
-import { BodyIcon } from "@/components/ui/body-icon";
 import { BrandLogo } from "@/components/ui/brand-logo";
+import { VehicleDoors } from "@/components/home/vehicle-doors";
 import { MexicoMap } from "@/components/home/mexico-map";
 import { logoBrands } from "@/lib/brand-picks";
 import { marketLine } from "@/lib/market-line";
@@ -24,6 +17,7 @@ import {
   getLatest,
   getMarketStats,
   getStateCounts,
+  getTypeCounts,
   getUser,
 } from "@/lib/listings/queries";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -84,11 +78,12 @@ const STEPS = [
 ] as const;
 
 export default async function Home() {
-  const [latest, user, stateCounts, market] = await Promise.all([
+  const [latest, user, stateCounts, market, typeCounts] = await Promise.all([
     getLatest(8),
     getUser(),
     getStateCounts(),
     getMarketStats(),
+    getTypeCounts(),
   ]);
   const favorites = await getFavoriteIds(user?.id);
   const typeFilters = { auto: parseFilters("auto"), moto: parseFilters("moto") };
@@ -155,64 +150,8 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Dos puertas */}
-      <section className="container-page grid gap-4 pb-4 md:grid-cols-2" aria-label="Categorías">
-        {(
-          [
-            {
-              type: "auto",
-              href: "/autos",
-              title: "Autos",
-              hint: "Sedanes, SUV, pickups y vans",
-              dark: false,
-            },
-            {
-              type: "moto",
-              href: "/motos",
-              title: "Motos",
-              hint: "Scooters, de trabajo, deportivas y choppers",
-              dark: true,
-            },
-          ] as const
-        ).map(({ type, href, title, hint, dark }) => (
-          <Link
-            key={type}
-            href={href}
-            className={cn(
-              "group flex min-h-72 flex-col justify-between rounded-md border-2 p-6 transition-colors md:p-8",
-              dark
-                ? "theme-dark bg-background text-foreground hover:border-primary border-[#0a0a0a]"
-                : "border-border bg-card text-foreground hover:border-primary",
-            )}
-          >
-            <div className="flex items-start justify-between gap-4">
-              <p className="text-muted-foreground text-sm font-semibold">{hint}</p>
-              <ArrowUpRight
-                className="group-hover:text-primary size-8 shrink-0 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
-                aria-hidden
-              />
-            </div>
-            <div>
-              <h2 className="text-7xl leading-[0.85] uppercase md:text-8xl">{title}</h2>
-              <ul
-                aria-label={`Marcas de ${title.toLowerCase()}`}
-                className="text-muted-foreground mt-6 flex flex-wrap items-center gap-x-6 gap-y-3"
-              >
-                {logoBrands(type, 6).map((name) => (
-                  <li key={name} title={name} className="flex items-center gap-2">
-                    <BrandLogo name={name} className="size-7" />
-                    <span className="sr-only">{name}</span>
-                  </li>
-                ))}
-                <li className="text-sm font-semibold underline underline-offset-4">y muchas más</li>
-              </ul>
-            </div>
-          </Link>
-        ))}
-      </section>
-
       {/* Recién publicados */}
-      <section className="container-page py-14" aria-labelledby="recientes">
+      <section className="container-page pb-14" aria-labelledby="recientes">
         <div className="rule mb-6 flex items-baseline justify-between pt-3">
           <h2 id="recientes" className="text-3xl">
             Recién publicados
@@ -233,45 +172,29 @@ export default async function Home() {
         )}
       </section>
 
-      {/* Explora por tipo */}
-      <section className="container-page pb-14" aria-labelledby="atajos">
-        <h2 id="atajos" className="mb-5 text-3xl">
-          Explora por tipo
+      <VehicleDoors counts={typeCounts} />
+
+      {/* Presupuesto */}
+      <section className="container-page pb-14" aria-labelledby="presupuesto">
+        <h2 id="presupuesto" className="mb-4 text-2xl">
+          Autos por presupuesto
         </h2>
-        <TypeRail
-          label="Autos"
-          items={BODY_TYPES.map((b) => ({
-            value: b.value,
-            label: b.label,
-            href: buildUrl({ ...typeFilters.auto, body: b.value }),
-          }))}
-        />
-        <TypeRail
-          label="Motos"
-          items={MOTO_TYPES.map((b) => ({
-            value: b.value,
-            label: b.label,
-            href: buildUrl({ ...typeFilters.moto, body: b.value }),
-          }))}
-        />
-        <div className="mt-6 flex flex-wrap items-center gap-2">
-          <span className="text-muted-foreground mr-1 w-full text-sm font-semibold md:w-auto">
-            Autos por presupuesto
-          </span>
+        <ul className="flex flex-wrap gap-2">
           {PRICE_RANGES.map((r) => (
-            <Link
-              key={r.label}
-              href={buildUrl({
-                ...typeFilters.auto,
-                priceMin: "min" in r ? r.min : undefined,
-                priceMax: "max" in r ? r.max : undefined,
-              })}
-              className="border-border bg-card hover:border-foreground inline-flex min-h-11 items-center rounded-sm border px-4 text-sm font-semibold"
-            >
-              {r.label}
-            </Link>
+            <li key={r.label}>
+              <Link
+                href={buildUrl({
+                  ...typeFilters.auto,
+                  priceMin: "min" in r ? r.min : undefined,
+                  priceMax: "max" in r ? r.max : undefined,
+                })}
+                className="border-border bg-card hover:border-foreground inline-flex min-h-11 items-center rounded-sm border px-4 text-sm font-semibold"
+              >
+                {r.label}
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
       {/* Cómo funciona */}
@@ -407,32 +330,5 @@ export default async function Home() {
         </div>
       </section>
     </>
-  );
-}
-
-function TypeRail({
-  label,
-  items,
-}: {
-  label: string;
-  items: { value: string; label: string; href: string }[];
-}) {
-  return (
-    <div className="mt-4 first-of-type:mt-0">
-      <h3 className="text-muted-foreground mb-2 text-sm font-semibold">{label}</h3>
-      <ul className="no-scrollbar -mx-4 flex gap-3 overflow-x-auto px-4 pb-1 md:mx-0 md:grid md:grid-cols-7 md:overflow-visible md:px-0">
-        {items.map((t) => (
-          <li key={t.value} className="shrink-0 md:shrink">
-            <Link
-              href={t.href}
-              className="border-border bg-card hover:border-foreground flex w-28 flex-col items-center gap-2 rounded-md border px-2 py-4 text-sm font-semibold transition-colors md:w-full"
-            >
-              <BodyIcon value={t.value} className="h-9 w-14" />
-              {t.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }

@@ -249,6 +249,24 @@ export async function getStateCounts(): Promise<Record<string, number>> {
   });
 }
 
+/** Anuncios activos de autos y de motos (para la portada). */
+export async function getTypeCounts(): Promise<{ auto: number; moto: number }> {
+  return safe({ auto: 0, moto: 0 }, async () => {
+    const supabase = await createClient();
+    const count = async (type: "auto" | "moto") => {
+      const { count: n } = await supabase
+        .from("listings")
+        .select("id", { count: "exact", head: true })
+        .eq("vehicle_type", type)
+        .eq("status", "active")
+        .gt("expires_at", new Date().toISOString());
+      return n ?? 0;
+    };
+    const [auto, moto] = await Promise.all([count("auto"), count("moto")]);
+    return { auto, moto };
+  });
+}
+
 /** Vista previa de filtros: cuántos resultados hay y cómo se reparten los precios (sin filtrar por precio). */
 export async function previewFilters(f: Filters, cap: number, buckets = 28) {
   return safe({ count: 0, histogram: Array<number>(buckets).fill(0) }, async () => {

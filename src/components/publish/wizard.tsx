@@ -19,7 +19,7 @@ import {
   labelOf,
   stateName,
 } from "@/lib/constants";
-import { formatKm, formatMXN } from "@/lib/format";
+import { formatMXN } from "@/lib/format";
 import { photoUrl } from "@/lib/listings/photos";
 import { buildTitle } from "@/lib/listings/title";
 import { detectSuspicious, REVIEW_MESSAGES } from "@/lib/trust/suspicious";
