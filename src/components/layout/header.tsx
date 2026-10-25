@@ -5,6 +5,7 @@ import { t } from "@/i18n";
 import { LinkButton } from "@/components/ui/button";
 import { HeaderBar } from "./header-bar";
 import { ThemeToggle } from "./theme-toggle";
+import { ProfileMenu } from "./profile-menu";
 import { HeaderNav } from "./header-nav";
 import { Logo } from "./logo";
 
@@ -16,6 +17,14 @@ export async function Header() {
   const initial = user?.profile?.display_name?.charAt(0).toUpperCase();
   return (
     <header className="pointer-events-none sticky top-0 z-40 h-20 px-3 py-3 md:h-22 md:px-4">
+      {user?.profile && (
+        <ProfileMenu
+          name={user.profile.display_name}
+          email={user.email}
+          avatarUrl={user.profile.avatar_url}
+          className="pointer-events-auto absolute top-1/2 right-4 hidden -translate-y-1/2 xl:block"
+        />
+      )}
       <HeaderBar>
         <Logo className="origin-left transition-transform group-data-[compact=true]/bar:scale-[0.92]" />
         <HeaderNav />
@@ -36,7 +45,7 @@ export async function Header() {
               <Link
                 href="/mis-anuncios"
                 aria-label={t("nav.account")}
-                className="bg-primary-soft text-primary font-display hidden size-10 place-items-center rounded-sm text-lg transition-[width,height] group-data-[compact=true]/bar:size-9 group-data-[compact=true]/bar:text-base md:grid"
+                className="bg-primary-soft text-primary font-display hidden size-10 place-items-center rounded-sm text-lg transition-[width,height] group-data-[compact=true]/bar:size-9 group-data-[compact=true]/bar:text-base md:grid xl:hidden"
               >
                 {initial}
               </Link>
