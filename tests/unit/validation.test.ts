@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { listingSchema, photoPathsSchema } from "@/lib/validation/listing";
-import { toMxE164 } from "@/lib/validation/profile";
+import { messengerUrl, parseFacebook, toMxE164 } from "@/lib/validation/profile";
 
 const auto = {
   vehicle_type: "auto",
@@ -87,5 +87,28 @@ describe("toMxE164", () => {
   it("rechaza números inválidos o de otros países", () => {
     expect(toMxE164("123")).toBeNull();
     expect(toMxE164("+1 202 555 0123")).toBeNull();
+  });
+});
+
+describe("parseFacebook / messengerUrl", () => {
+  it.each([
+    ["juan.perez", "juan.perez"],
+    ["@juan.perez", "juan.perez"],
+    ["facebook.com/juan.perez", "juan.perez"],
+    ["https://www.facebook.com/juan.perez/?ref=x", "juan.perez"],
+    ["https://m.facebook.com/profile.php?id=100012345", "profile.php?id=100012345"],
+    ["fb.com/juan.perez", "juan.perez"],
+  ])("reconoce %s", (raw, out) => {
+    expect(parseFacebook(raw)).toBe(out);
+  });
+  it.each(["", "ab", "juan perez", "https://evil.com/juan.perez", "javascript:alert(1)"])(
+    "rechaza %j",
+    (raw) => {
+      expect(parseFacebook(raw)).toBeNull();
+    },
+  );
+  it("arma el enlace de Messenger", () => {
+    expect(messengerUrl("juan.perez")).toBe("https://m.me/juan.perez");
+    expect(messengerUrl("profile.php?id=123")).toBe("https://m.me/123");
   });
 });

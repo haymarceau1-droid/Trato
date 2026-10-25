@@ -18,6 +18,7 @@ import { formatKm, formatMXN, formatMonthYearShort, timeAgo } from "@/lib/format
 import { photoUrl } from "@/lib/listings/photos";
 import { listingJsonLd } from "@/lib/seo/jsonld";
 import type { Listing, PublicProfile } from "@/types";
+import { FacebookIcon } from "@/components/ui/facebook-icon";
 import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 import { Badge } from "@/components/ui/badge";
 import { BrandLogo } from "@/components/ui/brand-logo";
@@ -76,7 +77,11 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
       )}
       {live && !demo && <ViewBeacon listingId={l.id} />}
       {live && !demo && !isOwner && (
-        <MobileContactBar listingId={l.id} price={formatMXN(l.price_mxn)} />
+        <MobileContactBar
+          listingId={l.id}
+          price={formatMXN(l.price_mxn)}
+          hasFacebook={seller?.has_facebook}
+        />
       )}
 
       <nav aria-label="Migas de pan" className="text-muted-foreground mb-4 text-sm">
@@ -168,9 +173,12 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
                 <Button size="lg" variant="outline">
                   Llamar
                 </Button>
+                <Button size="lg" variant="outline" className="col-span-2">
+                  <FacebookIcon className="size-5" /> Contactar en Facebook
+                </Button>
               </div>
             ) : live ? (
-              <ContactButtons listingId={l.id} />
+              <ContactButtons listingId={l.id} hasFacebook={seller?.has_facebook} />
             ) : null}
 
             {!demo && (

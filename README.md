@@ -76,6 +76,8 @@ Dashboard → Authentication:
 4. En Supabase → Authentication → URL Configuration, verifica que `https://tu-dominio.mx/auth/callback` esté en _Redirect URLs_.
 5. Aplica la migración `20260101000011_oauth_profile.sql` (usa nombre y foto de Google en el perfil).
 
+**Contacto por Facebook (opcional):** aplica también `20260101000012_facebook_contact.sql`. Cada vendedor puede guardar su usuario de Facebook en _Mi cuenta_; los compradores con sesión ven el botón “Contactar en Facebook”, que abre Messenger (`m.me/usuario`). El usuario nunca va en el HTML público, igual que el teléfono.
+
 Quien entra con Google no tiene celular: para publicar, la app le pide su WhatsApp, y el distintivo “Teléfono verificado” solo se obtiene entrando con el OTP por SMS.
 
 El distintivo **“Teléfono verificado”** lo otorga únicamente el OTP por SMS (trigger sobre `auth.users`). Quienes entran por correo guardan su WhatsApp en _Mi perfil_ y aparecen sin verificar.

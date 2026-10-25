@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { DataControls } from "@/components/account/data-controls";
-import { PhoneForm, ProfileForm } from "@/components/account/profile-form";
+import { FacebookForm, PhoneForm, ProfileForm } from "@/components/account/profile-form";
 import { VerifiedBadge } from "@/components/trust/verified-badge";
 import { getUser } from "@/lib/listings/queries";
 
@@ -41,6 +41,7 @@ export default async function AccountPage() {
           </p>
         )}
         <PhoneForm initial={p.phone} />
+        <FacebookForm initial={p.facebook} />
         {user.email && (
           <p className="text-muted-foreground text-xs">Correo de acceso: {user.email}</p>
         )}

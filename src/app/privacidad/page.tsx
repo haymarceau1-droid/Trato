@@ -55,7 +55,8 @@ export default function PrivacyPage() {
         <li>
           <strong>Identificación y contacto:</strong> nombre para mostrar, número de celular y/o
           correo electrónico. Si entras con Google, recibimos de Google tu nombre, correo y foto de
-          perfil (nunca tu contraseña).
+          perfil (nunca tu contraseña). Si lo agregas, también tu usuario de Facebook, que solo se
+          usa para el botón “Contactar en Facebook” (abre Messenger) y no se muestra en tu anuncio.
         </li>
         <li>
           <strong>Ubicación general:</strong> estado y ciudad de tu perfil y de tus anuncios (no

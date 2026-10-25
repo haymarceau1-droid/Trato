@@ -26,6 +26,7 @@ export default function ExamplePage() {
         phone_verified: true,
         created_at: "2026-04-01T12:00:00Z",
         active_listings: 3,
+        has_facebook: true,
       }}
     />
   );

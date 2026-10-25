@@ -60,6 +60,7 @@ export interface PublicProfile {
   phone_verified: boolean;
   created_at: string;
   active_listings: number;
+  has_facebook?: boolean;
 }
 
 export interface CatalogBrand {

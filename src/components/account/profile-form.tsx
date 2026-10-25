@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { updatePhone, updateProfile } from "@/actions/account";
+import { updateFacebook, updatePhone, updateProfile } from "@/actions/account";
 import { MX_STATES } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Select } from "@/components/ui/field";
@@ -44,6 +44,53 @@ export function PhoneForm({ initial }: { initial?: string | null }) {
       </Field>
       <Button type="submit" disabled={pending}>
         Guardar número
+      </Button>
+      {msg && (
+        <p
+          role={msg.ok ? "status" : "alert"}
+          className={msg.ok ? "text-primary text-sm" : "text-danger text-sm"}
+        >
+          {msg.text}
+        </p>
+      )}
+    </form>
+  );
+}
+
+export function FacebookForm({ initial }: { initial?: string | null }) {
+  const router = useRouter();
+  const [value, setValue] = useState(initial ?? "");
+  const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const [pending, start] = useTransition();
+  return (
+    <form
+      className="space-y-3"
+      onSubmit={(e) => {
+        e.preventDefault();
+        start(async () => {
+          const res = await updateFacebook(value);
+          setMsg(
+            res.ok
+              ? { ok: true, text: value.trim() ? "Facebook guardado." : "Facebook quitado." }
+              : { ok: false, text: res.error },
+          );
+          if (res.ok) router.refresh();
+        });
+      }}
+    >
+      <Field
+        label="Tu Facebook (opcional)"
+        hint="Pega el enlace de tu perfil o tu usuario. Los compradores verán un botón “Contactar en Facebook” que abre Messenger; tu perfil no se muestra."
+      >
+        <Input
+          placeholder="facebook.com/tu.usuario"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          maxLength={120}
+        />
+      </Field>
+      <Button type="submit" variant="outline" disabled={pending}>
+        Guardar Facebook
       </Button>
       {msg && (
         <p

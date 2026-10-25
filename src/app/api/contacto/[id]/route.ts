@@ -3,6 +3,7 @@ import { brand } from "@/config/brand";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { formatMXN } from "@/lib/format";
+import { messengerUrl } from "@/lib/validation/profile";
 
 const noStore = { "Cache-Control": "no-store" };
 const json = (body: object, status = 200) => NextResponse.json(body, { status, headers: noStore });
@@ -31,11 +32,14 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
 
   const { data: seller } = await createAdminClient()
     .from("profiles")
-    .select("phone, is_blocked")
+    .select("phone, facebook, is_blocked")
     .eq("id", listing.user_id)
     .single();
-  if (!seller?.phone || seller.is_blocked)
-    return json({ error: "El vendedor no tiene un teléfono disponible." }, 404);
+  if (!seller || seller.is_blocked || (!seller.phone && !seller.facebook))
+    return json({ error: "El vendedor no tiene un contacto disponible." }, 404);
+
+  const facebook = seller.facebook ? messengerUrl(seller.facebook) : null;
+  if (!seller.phone) return json({ whatsapp: null, tel: null, facebook });
 
   const digits = seller.phone.replace(/\D/g, "");
   const wa = digits.startsWith("52") && digits.length === 12 ? `521${digits.slice(2)}` : digits; // formato wa.me para móviles de México
@@ -43,5 +47,6 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
   return json({
     whatsapp: `https://wa.me/${wa}?text=${encodeURIComponent(text)}`,
     tel: `tel:${seller.phone}`,
+    facebook,
   });
 }

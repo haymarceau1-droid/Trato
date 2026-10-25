@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { profileSchema, toMxE164 } from "@/lib/validation/profile";
+import { parseFacebook, profileSchema, toMxE164 } from "@/lib/validation/profile";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { PHOTO_BUCKET } from "@/lib/listings/photos";
 import { createClient } from "@/lib/supabase/server";
@@ -40,6 +40,19 @@ export async function updatePhone(raw: string): Promise<Result> {
   if (!phone) return fail("Escribe un celular mexicano válido de 10 dígitos.");
   const { error } = await supabase.from("profiles").update({ phone }).eq("id", user.id);
   if (error) return fail("No pudimos guardar tu número. Nada cambió; intenta de nuevo.");
+  revalidatePath("/", "layout");
+  return { ok: true };
+}
+
+/** Guarda el Facebook del vendedor (opcional; vacío lo quita). Se muestra solo como botón de contacto. */
+export async function updateFacebook(raw: string): Promise<Result> {
+  const { supabase, user } = await requireUser();
+  if (!user) return fail("Inicia sesión.");
+  const facebook = raw.trim() ? parseFacebook(raw) : null;
+  if (raw.trim() && !facebook)
+    return fail("No reconocimos ese usuario. Pega el enlace de tu perfil de Facebook.");
+  const { error } = await supabase.from("profiles").update({ facebook }).eq("id", user.id);
+  if (error) return fail("No pudimos guardar tu Facebook. Nada cambió; intenta de nuevo.");
   revalidatePath("/", "layout");
   return { ok: true };
 }
