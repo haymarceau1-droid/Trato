@@ -54,7 +54,8 @@ export default function PrivacyPage() {
       <ul>
         <li>
           <strong>Identificación y contacto:</strong> nombre para mostrar, número de celular y/o
-          correo electrónico.
+          correo electrónico. Si entras con Google, recibimos de Google tu nombre, correo y foto de
+          perfil (nunca tu contraseña).
         </li>
         <li>
           <strong>Ubicación general:</strong> estado y ciudad de tu perfil y de tus anuncios (no
@@ -106,9 +107,9 @@ export default function PrivacyPage() {
         <li>
           <strong>Proveedores que tratan datos por nuestra cuenta</strong> (encargados):
           alojamiento, base de datos y almacenamiento de archivos (Supabase y Vercel), envío de SMS
-          de verificación ([proveedor de SMS, p. ej. Twilio]) y envío de correos ([proveedor de
-          correo]). Solo pueden usar los datos para prestarnos ese servicio. Algunos pueden estar
-          ubicados fuera de México.
+          de verificación ([proveedor de SMS, p. ej. Twilio]), inicio de sesión con Google y envío
+          de correos ([proveedor de correo]). Solo pueden usar los datos para prestarnos ese
+          servicio. Algunos pueden estar ubicados fuera de México.
         </li>
         <li>
           <strong>Autoridades</strong> cuando una ley o una orden fundada y motivada lo exija.

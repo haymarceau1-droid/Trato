@@ -68,6 +68,16 @@ Dashboard → Authentication:
 2. **Email**: habilitado por defecto (magic link). Para producción configura un SMTP propio (p. ej. Resend, plan gratuito) porque el envío por defecto de Supabase tiene límites muy bajos.
 3. **Phone**: habilita _Phone_ y conecta un proveedor SMS (**Twilio**, MessageBird, Vonage o Textlocal). Es **el único costo obligatorio**: del orden de 0.05–0.10 USD por SMS a México (confirma tarifas vigentes con tu proveedor). Mientras no tengas proveedor, en local usa `[auth.sms.test_otp]` de `supabase/config.toml`, o prueba solo con correo.
 
+**Google (opcional pero recomendado):**
+
+1. En [Google Cloud Console](https://console.cloud.google.com/apis/credentials) → _Create credentials_ → _OAuth client ID_ → tipo _Web application_.
+2. En _Authorized redirect URIs_ pega `https://<tu-ref>.supabase.co/auth/v1/callback` (la ves en Supabase → Authentication → Providers → Google).
+3. En Supabase → Authentication → Sign In / Providers → **Google**: actívalo y pega _Client ID_ y _Client secret_.
+4. En Supabase → Authentication → URL Configuration, verifica que `https://tu-dominio.mx/auth/callback` esté en _Redirect URLs_.
+5. Aplica la migración `20260101000011_oauth_profile.sql` (usa nombre y foto de Google en el perfil).
+
+Quien entra con Google no tiene celular: para publicar, la app le pide su WhatsApp, y el distintivo “Teléfono verificado” solo se obtiene entrando con el OTP por SMS.
+
 El distintivo **“Teléfono verificado”** lo otorga únicamente el OTP por SMS (trigger sobre `auth.users`). Quienes entran por correo guardan su WhatsApp en _Mi perfil_ y aparecen sin verificar.
 
 ### Crear un administrador

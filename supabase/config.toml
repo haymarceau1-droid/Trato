@@ -23,3 +23,12 @@ enable_confirmations = true
 # En local los OTP de prueba se definen con [auth.sms.test_otp].
 [auth.sms.test_otp]
 5215512345678 = "123456"
+
+# Google OAuth (opcional en local). Crea el cliente en Google Cloud Console y exporta las variables:
+#   SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID / SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET
+# En producción se configura en el panel de Supabase (Authentication → Sign In / Providers → Google).
+[auth.external.google]
+enabled = false # cámbialo a true cuando tengas las variables
+client_id = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET)"
+skip_nonce_check = true

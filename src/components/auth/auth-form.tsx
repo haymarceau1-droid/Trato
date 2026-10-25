@@ -7,6 +7,7 @@ import { safeNext } from "@/lib/safe-next";
 import { toMxE164 } from "@/lib/validation/profile";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { GoogleIcon } from "@/components/ui/google-icon";
 import { Field, Input } from "@/components/ui/field";
 
 type Mode = "phone" | "email";
@@ -64,6 +65,19 @@ export function AuthForm({ next }: { next: string }) {
       router.refresh();
     });
 
+  const withGoogle = () =>
+    run(async () => {
+      const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(safeNext(next))}`;
+      const { error } = await createClient().auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo },
+      });
+      if (error)
+        throw new Error(
+          "No pudimos abrir Google. Intenta de nuevo o entra con tu celular o correo.",
+        );
+    });
+
   const sendEmail = () =>
     run(async () => {
       if (!/^\S+@\S+\.\S+$/.test(email)) throw new Error("Escribe un correo válido.");
@@ -81,6 +95,13 @@ export function AuthForm({ next }: { next: string }) {
 
   return (
     <div className="space-y-5">
+      <Button variant="outline" size="lg" className="w-full" disabled={busy} onClick={withGoogle}>
+        <GoogleIcon className="size-5" /> Continuar con Google
+      </Button>
+      <p aria-hidden className="text-muted-foreground flex items-center gap-3 text-xs">
+        <span className="bg-border h-px flex-1" />o con tu celular o correo
+        <span className="bg-border h-px flex-1" />
+      </p>
       <div
         role="tablist"
         aria-label="Método de acceso"
