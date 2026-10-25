@@ -4,6 +4,7 @@ import { site } from "@/config/site";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { BottomNav } from "@/components/layout/bottom-nav";
+import { BackToTop } from "@/components/layout/back-to-top";
 import { BetaNotice } from "@/components/legal/beta-notice";
 import { CookieNotice } from "@/components/legal/cookie-notice";
 import { SwRegister } from "@/components/layout/sw-register";
@@ -53,6 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <BottomNav />
         <SwRegister />
+        <BackToTop />
         <CookieNotice />
         <BetaNotice />
       </body>

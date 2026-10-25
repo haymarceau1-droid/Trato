@@ -88,7 +88,7 @@ export function MobileContactBar({
 }) {
   const { busy, error, contact } = useContact(listingId);
   return (
-    <div className="border-foreground bg-card fixed inset-x-0 bottom-14 z-30 border-t-2 px-4 py-2 md:hidden">
+    <div className="sticky-actions border-foreground bg-card fixed inset-x-0 bottom-14 z-30 border-t-2 px-4 py-2 md:hidden">
       <div className="flex items-center gap-3">
         <p className="font-display text-xl">{price}</p>
         <Button

@@ -837,7 +837,7 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
             </div>
           )}
 
-          <div className="bg-background/95 border-border sticky bottom-14 z-20 -mx-4 flex gap-3 border-t px-4 py-3 backdrop-blur md:static md:mx-0 md:border-0 md:bg-transparent md:px-0 md:pt-2 md:backdrop-blur-none">
+          <div className="sticky-actions bg-background/95 border-border sticky bottom-14 z-20 -mx-4 flex gap-3 border-t px-4 py-3 backdrop-blur md:static md:mx-0 md:border-0 md:bg-transparent md:px-0 md:pt-2 md:backdrop-blur-none">
             {step > 0 && (
               <Button variant="outline" onClick={back} disabled={pending}>
                 Atrás
