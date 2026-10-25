@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CaretRight as ChevronRight, Handshake, ImageSquare, Phone } from "@/components/ui/icons";
+import {
+  CaretRight as ChevronRight,
+  HandCoins,
+  Handshake,
+  ImageSquare,
+  MapPin,
+  Phone,
+  Receipt,
+  ShieldCheck,
+} from "@/components/ui/icons";
 import { brand } from "@/config/brand";
 import { site } from "@/config/site";
 import { PRICE_RANGES } from "@/lib/constants";
@@ -24,7 +33,6 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { LinkButton } from "@/components/ui/button";
 import { ListingGrid } from "@/components/listings/listing-card";
 import { SearchBox } from "@/components/listings/search-box";
-import { ScamTips } from "@/components/trust/scam-tips";
 
 export const metadata: Metadata = {
   title: { absolute: `${brand.name} — Compra y vende autos y motos usados en México` },
@@ -56,6 +64,29 @@ const FAQ = [
   [
     "¿Puedo pagar o cobrar dentro de la app?",
     `No, y es a propósito: ${brand.name} nunca toca tu dinero. El pago se hace en persona, al recibir el vehículo y firmar la compraventa.`,
+  ],
+] as const;
+
+const HABITS = [
+  [
+    "Nunca des anticipos",
+    "Apartar con dinero antes de ver el vehículo es la estafa más común. El pago se hace al recibirlo.",
+    HandCoins,
+  ],
+  [
+    "Verifica en el REPUVE",
+    "Consulta gratis si tiene reporte de robo, con la placa o el número de serie (NIV).",
+    ShieldCheck,
+  ],
+  [
+    "Revisa la factura original",
+    "El nombre y el NIV deben coincidir con el vehículo y con la tarjeta de circulación.",
+    Receipt,
+  ],
+  [
+    "Reúnete en un lugar público",
+    "De día y con compañía. Si puedes, lleva a tu mecánico a revisarlo.",
+    MapPin,
   ],
 ] as const;
 
@@ -198,20 +229,31 @@ export default async function Home() {
       </section>
 
       {/* Cómo funciona */}
-      <section className="border-border bg-card border-y py-14" aria-labelledby="como">
-        <div className="container-page">
-          <h2 id="como" className="mb-8 text-3xl">
-            Cómo funciona
-          </h2>
-          <ol className="grid gap-8 md:grid-cols-3">
+      <section className="container-page py-14" aria-labelledby="como">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,22rem)_1fr] lg:gap-16">
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <h2 id="como" className="text-4xl md:text-5xl">
+              Cómo funciona
+            </h2>
+            <p className="text-muted-foreground mt-3 max-w-sm text-lg">
+              De la foto al trato en tres pasos, sin intermediarios ni comisiones.
+            </p>
+            <LinkButton href="/publicar" size="lg" className="mt-6">
+              Publicar mi vehículo
+            </LinkButton>
+          </div>
+          <ol className="relative space-y-8">
+            <span aria-hidden className="bg-border absolute top-6 bottom-6 left-6 w-px" />
             {STEPS.map(([title, text, Icon], i) => (
-              <li key={title}>
-                <span className="bg-foreground text-background grid size-12 place-items-center rounded-md">
-                  <Icon className="size-6" aria-hidden />
+              <li key={title} className="relative flex gap-5">
+                <span className="bg-foreground text-background relative z-10 grid size-12 shrink-0 place-items-center rounded-full">
+                  <Icon className="size-5" aria-hidden />
                 </span>
-                <p className="text-muted-foreground mt-4 text-sm font-semibold">Paso {i + 1}</p>
-                <h3 className="mt-1 mb-1 text-xl">{title}</h3>
-                <p className="text-muted-foreground">{text}</p>
+                <div className="border-border bg-card flex-1 rounded-md border p-5">
+                  <p className="text-muted-foreground text-sm font-semibold">Paso {i + 1}</p>
+                  <h3 className="mt-1 text-2xl">{title}</h3>
+                  <p className="text-muted-foreground mt-2">{text}</p>
+                </div>
               </li>
             ))}
           </ol>
@@ -219,24 +261,47 @@ export default async function Home() {
       </section>
 
       {/* Seguridad */}
-      <section
-        className="container-page grid gap-8 py-14 lg:grid-cols-2 lg:items-start"
-        aria-labelledby="seguro"
-      >
-        <div className="space-y-4">
-          <h2 id="seguro" className="text-3xl md:text-4xl">
-            Comprar un usado con tranquilidad: cuatro hábitos
-          </h2>
-          <p className="text-muted-foreground max-w-md">
-            Son los que más dinero ahorran a quien compra un auto o una moto. Los recordamos en cada
-            anuncio y en la guía te explicamos, paso a paso, cómo revisar la factura y consultar el
-            REPUVE.
-          </p>
-          <LinkButton href="/consejos" variant="outline">
-            Leer la guía
+      <section className="container-page pb-14" aria-labelledby="seguro">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h2 id="seguro" className="max-w-2xl text-3xl md:text-4xl">
+              Comprar un usado con tranquilidad: cuatro hábitos
+            </h2>
+            <p className="text-muted-foreground mt-3 max-w-xl">
+              Son los que más dinero ahorran a quien compra un auto o una moto. Los recordamos en
+              cada anuncio.
+            </p>
+          </div>
+          <LinkButton href="/consejos" variant="outline" className="self-start md:self-auto">
+            Leer la guía completa
           </LinkButton>
         </div>
-        <ScamTips showRepuve />
+        <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+          {HABITS.map(([title, text, Icon]) => (
+            <li
+              key={title}
+              className="border-border bg-card flex gap-4 rounded-md border p-5 md:p-6"
+            >
+              <span className="bg-primary-soft text-primary grid size-12 shrink-0 place-items-center rounded-full">
+                <Icon className="size-6" aria-hidden />
+              </span>
+              <div>
+                <h3 className="text-xl">{title}</h3>
+                <p className="text-muted-foreground mt-1">{text}</p>
+                {title.includes("REPUVE") && (
+                  <a
+                    href={site.repuveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary mt-2 inline-block text-sm font-semibold underline"
+                  >
+                    Consultar el REPUVE
+                  </a>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* Vender */}
