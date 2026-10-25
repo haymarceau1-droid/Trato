@@ -28,6 +28,7 @@ import { cn } from "@/lib/utils";
 import type { CatalogBrand } from "@/types";
 import { Button, LinkButton } from "@/components/ui/button";
 import { ConditionInput } from "./condition-input";
+import { Combobox } from "@/components/ui/combobox";
 import { ListingPreview } from "./listing-preview";
 import { TypeTiles } from "@/components/ui/type-tiles";
 import { BodyIcon } from "@/components/ui/body-icon";
@@ -167,6 +168,19 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
       [],
     [brands, v.brand],
   );
+
+  const brandItems = useMemo(
+    () =>
+      brands.map((b) => ({ label: b.name, icon: <BrandLogo name={b.name} className="size-5" /> })),
+    [brands],
+  );
+  const cityItems = useMemo(() => {
+    if (v.state) return (MX_CITIES[v.state] ?? []).map((c) => ({ label: c }));
+    // Sin estado elegido se sugiere de todo el país, indicando el estado.
+    return Object.entries(MX_CITIES).flatMap(([slug, list]) =>
+      list.map((c) => ({ label: c, hint: stateName(slug), data: slug })),
+    );
+  }, [v.state]);
 
   const num = (name: Name, optional = false) =>
     register(name, {
@@ -396,18 +410,14 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
                 ¿Cuál es tu {type === "auto" ? "auto" : "moto"}?
               </h1>
               <Field label="Marca" error={err("brand")}>
-                <Input
-                  list="brands"
-                  autoComplete="off"
+                <Combobox
+                  label="Marca"
                   placeholder="Ej. Nissan"
-                  aria-invalid={invalid("brand")}
-                  {...register("brand")}
+                  value={v.brand ?? ""}
+                  invalid={invalid("brand")}
+                  items={brandItems}
+                  onChange={(x) => setValue("brand", x, { shouldValidate: true })}
                 />
-                <datalist id="brands">
-                  {brands.map((b) => (
-                    <option key={b.slug} value={b.name} />
-                  ))}
-                </datalist>
               </Field>
               {!v.brand && (
                 <QuickPick
@@ -422,18 +432,15 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
                 error={err("model")}
                 hint="¿No aparece? Escríbelo tal cual: también lo aceptamos."
               >
-                <Input
-                  list="models"
-                  autoComplete="off"
+                <Combobox
+                  label="Modelo"
                   placeholder="Ej. Versa"
-                  aria-invalid={invalid("model")}
-                  {...register("model")}
+                  value={v.model ?? ""}
+                  invalid={invalid("model")}
+                  items={models.map((m) => ({ label: m.name }))}
+                  max={10}
+                  onChange={(x) => setValue("model", x, { shouldValidate: true })}
                 />
-                <datalist id="models">
-                  {models.map((m) => (
-                    <option key={m.slug} value={m.name} />
-                  ))}
-                </datalist>
               </Field>
               {!v.model && models.length > 0 && (
                 <QuickPick
@@ -674,18 +681,20 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
                 </Select>
               </Field>
               <Field label="Ciudad o municipio" error={err("city")}>
-                <Input
-                  list="cities"
+                <Combobox
+                  label="Ciudad o municipio"
                   placeholder="Monterrey"
                   autoComplete="address-level2"
-                  aria-invalid={invalid("city")}
-                  {...register("city")}
+                  value={v.city ?? ""}
+                  invalid={invalid("city")}
+                  items={cityItems}
+                  onChange={(x) => setValue("city", x, { shouldValidate: true })}
+                  onSelect={(it) => {
+                    // Si aún no eligieron estado, la ciudad lo completa.
+                    const st = it.data as string | undefined;
+                    if (st && !v.state) setValue("state", st, { shouldValidate: true });
+                  }}
                 />
-                <datalist id="cities">
-                  {(MX_CITIES[v.state ?? ""] ?? []).map((c) => (
-                    <option key={c} value={c} />
-                  ))}
-                </datalist>
               </Field>
             </div>
           )}

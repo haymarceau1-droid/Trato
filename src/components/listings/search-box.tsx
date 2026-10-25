@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { MagnifyingGlass as Search } from "@/components/ui/icons";
+import { Combobox, type ComboItem } from "@/components/ui/combobox";
 import { cn } from "@/lib/utils";
 
 /** Pestañas pegadas a la barra, como carpeta de archivo. */
@@ -10,6 +11,27 @@ export function SearchBox({ className }: { className?: string }) {
   const router = useRouter();
   const [type, setType] = useState<"autos" | "motos">("autos");
   const [q, setQ] = useState("");
+  const [items, setItems] = useState<ComboItem[]>([]);
+
+  // Sugerencias del catálogo mientras escribe (con pausa breve para no pedir en cada tecla).
+  useEffect(() => {
+    const text = q.trim();
+    if (text.length < 2) return;
+    const ctl = new AbortController();
+    const t = setTimeout(() => {
+      fetch(`/api/sugerencias?t=${type}&q=${encodeURIComponent(text)}`, { signal: ctl.signal })
+        .then((r) => r.json())
+        .then((d: { items: { label: string }[] }) => setItems(d.items))
+        .catch(() => {});
+    }, 150);
+    return () => {
+      clearTimeout(t);
+      ctl.abort();
+    };
+  }, [q, type]);
+
+  const go = (text: string) =>
+    router.push(text.trim() ? `/${type}?q=${encodeURIComponent(text.trim())}` : `/${type}`);
 
   return (
     <form
@@ -17,7 +39,7 @@ export function SearchBox({ className }: { className?: string }) {
       className={className}
       onSubmit={(e) => {
         e.preventDefault();
-        router.push(q.trim() ? `/${type}?q=${encodeURIComponent(q.trim())}` : `/${type}`);
+        go(q);
       }}
     >
       <div role="radiogroup" aria-label="Tipo de vehículo" className="flex">
@@ -40,18 +62,24 @@ export function SearchBox({ className }: { className?: string }) {
         ))}
       </div>
       <div className="border-foreground bg-card flex border-2">
-        <input
-          type="search"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder={
-            type === "autos"
-              ? "Marca, modelo o año. Ej. Versa 2019"
-              : "Marca o modelo. Ej. Italika FT150"
-          }
-          aria-label="Buscar"
-          className="text-foreground placeholder:text-muted-foreground min-h-14 min-w-0 flex-1 bg-transparent px-4 text-base"
-        />
+        <div className="min-w-0 flex-1">
+          <Combobox
+            label="Buscar"
+            filter={false}
+            minChars={2}
+            inputMode="search"
+            value={q}
+            items={items}
+            onChange={setQ}
+            onSelect={(it) => go(it.label)}
+            placeholder={
+              type === "autos"
+                ? "Marca, modelo o año. Ej. Versa 2019"
+                : "Marca o modelo. Ej. Italika FT150"
+            }
+            className="min-h-14 border-0 bg-transparent px-4"
+          />
+        </div>
         <button
           type="submit"
           aria-label="Buscar"
