@@ -53,6 +53,14 @@ export const listingSchema = z
     traction: z.enum(values(TRACTIONS)).optional(),
     moto_type: z.enum(values(MOTO_TYPES)).optional(),
     engine_cc: optNum(20, 2999, "Cilindrada no válida"),
+    body_condition: num("Indica el estado de la carrocería")
+      .int()
+      .min(0, "Entre 0 y 100")
+      .max(100, "Entre 0 y 100"),
+    mechanical_condition: num("Indica el estado de la mecánica")
+      .int()
+      .min(0, "Entre 0 y 100")
+      .max(100, "Entre 0 y 100"),
     price_mxn: num("Escribe el precio")
       .int()
       .min(1000, "El precio mínimo es $1,000")

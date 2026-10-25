@@ -143,6 +143,8 @@ export function buildDemoRows(userId: string) {
       owners_count: 1 + (i % 2),
       invoice_type: pick(["original", "original", "refacturado"], i),
       tenencia_al_corriente: i % 5 !== 0,
+      body_condition: 55 + ((i * 7) % 45),
+      mechanical_condition: 50 + ((i * 11) % 50),
       negotiable: i % 2 === 0,
       state,
       city,

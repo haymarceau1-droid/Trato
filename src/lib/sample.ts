@@ -37,6 +37,8 @@ export const sampleListing = (over: Partial<Listing> = {}): Listing => ({
   moto_type: null,
   engine_cc: null,
   price_mxn: 215000,
+  body_condition: 85,
+  mechanical_condition: 90,
   negotiable: true,
   state: "nuevo-leon",
   city: "Monterrey",

@@ -30,6 +30,7 @@ import { FavoriteButton } from "./favorite-button";
 import { Gallery } from "./gallery";
 import { ListingGrid } from "./listing-card";
 import { ShareButton } from "./share-button";
+import { ConditionBars } from "./condition-bars";
 import { SpecGrid } from "./spec-grid";
 import { ViewBeacon } from "./view-beacon";
 
@@ -274,6 +275,15 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
                 "El vendedor no agregó descripción. Pregúntale lo que quieras saber."}
             </p>
           </section>
+
+          {(l.body_condition !== null || l.mechanical_condition !== null) && (
+            <section aria-labelledby="estado">
+              <h2 id="estado" className="rule mb-4 pt-3 text-2xl">
+                Estado del vehículo
+              </h2>
+              <ConditionBars body={l.body_condition} mechanical={l.mechanical_condition} />
+            </section>
+          )}
 
           <section aria-labelledby="caracteristicas">
             <h2 id="caracteristicas" className="rule mb-4 pt-3 text-2xl">

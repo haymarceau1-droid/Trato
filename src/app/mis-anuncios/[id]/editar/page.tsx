@@ -47,6 +47,8 @@ export default async function EditPage({ params }: { params: Promise<{ id: strin
             traction: (l.traction ?? undefined) as never,
             moto_type: (l.moto_type ?? undefined) as never,
             engine_cc: l.engine_cc ?? undefined,
+            body_condition: l.body_condition ?? undefined,
+            mechanical_condition: l.mechanical_condition ?? undefined,
             price_mxn: l.price_mxn,
             negotiable: l.negotiable,
             state: l.state,

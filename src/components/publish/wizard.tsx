@@ -27,6 +27,7 @@ import { listingSchema, type ListingInput } from "@/lib/validation/listing";
 import { cn } from "@/lib/utils";
 import type { CatalogBrand } from "@/types";
 import { Button, LinkButton } from "@/components/ui/button";
+import { ConditionInput } from "./condition-input";
 import { Field, Input, Select, Textarea } from "@/components/ui/field";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { QuickPick } from "@/components/ui/chips";
@@ -64,6 +65,8 @@ const STEP_FIELDS: Record<number, Name[]> = {
     "body_type",
     "moto_type",
     "engine_cc",
+    "body_condition",
+    "mechanical_condition",
   ],
   3: ["price_mxn", "state", "city"],
   5: ["description"],
@@ -583,6 +586,34 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
               />{" "}
               Tenencia al corriente
             </label>
+
+            <div className="border-border space-y-5 border-t pt-5">
+              <div>
+                <h2 className="text-xl">Estado del vehículo</h2>
+                <p className="text-muted-foreground mt-1 text-sm">
+                  Dale al comprador una idea clara, de 0 a 100. Es tu calificación como vendedor;
+                  ser honesto evita regateos y visitas en vano.
+                </p>
+              </div>
+              <ConditionInput
+                label={type === "moto" ? "Estado de la estética" : "Estado de la carrocería"}
+                hint="Pintura, golpes, rayones, cristales y vestiduras."
+                value={v.body_condition}
+                error={err("body_condition")}
+                onChange={(n) =>
+                  setValue("body_condition", n, { shouldValidate: true, shouldDirty: true })
+                }
+              />
+              <ConditionInput
+                label="Estado de la mecánica"
+                hint="Motor, transmisión, frenos, suspensión y sistema eléctrico."
+                value={v.mechanical_condition}
+                error={err("mechanical_condition")}
+                onChange={(n) =>
+                  setValue("mechanical_condition", n, { shouldValidate: true, shouldDirty: true })
+                }
+              />
+            </div>
           </div>
         )}
 
@@ -746,6 +777,12 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
                   {labelOf(TRANSMISSIONS, v.transmission)} · {labelOf(FUELS, v.fuel)} ·{" "}
                   {labelOf(INVOICE_TYPES, v.invoice_type)} · {photos.length} fotos
                 </p>
+                {v.body_condition !== undefined && v.mechanical_condition !== undefined && (
+                  <p className="text-muted-foreground text-sm">
+                    Estado según tú: carrocería {v.body_condition}/100 · mecánica{" "}
+                    {v.mechanical_condition}/100
+                  </p>
+                )}
                 {v.description && (
                   <p className="pt-2 text-sm whitespace-pre-line">{v.description}</p>
                 )}

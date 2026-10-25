@@ -22,8 +22,10 @@ test("publicar un anuncio de auto", async ({ page, context }) => {
   await page.getByLabel("Transmisión").selectOption("manual");
   await page.getByLabel("Combustible").selectOption("gasolina");
   await page.getByLabel("Kilometraje").fill("80000");
-  await page.getByLabel("Carrocería").selectOption("sedan");
+  await page.getByLabel("Carrocería", { exact: true }).selectOption("sedan");
   await page.getByLabel("Factura").selectOption("original");
+  await page.getByLabel("Estado de la carrocería").fill("80");
+  await page.getByLabel("Estado de la mecánica").fill("70");
   await page.getByRole("button", { name: "Continuar" }).click();
   await page.getByLabel("Precio (MXN)").fill("215000");
   await page.getByLabel("Estado").selectOption("nuevo-leon");

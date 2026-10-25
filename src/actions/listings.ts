@@ -39,6 +39,8 @@ function toRow(v: ListingInput) {
     traction: isAuto ? (v.traction ?? null) : null,
     moto_type: isAuto ? null : (v.moto_type ?? null),
     engine_cc: isAuto ? null : (v.engine_cc ?? null),
+    body_condition: v.body_condition,
+    mechanical_condition: v.mechanical_condition,
     price_mxn: v.price_mxn,
     negotiable: v.negotiable,
     state: v.state,

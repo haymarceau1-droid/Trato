@@ -13,6 +13,8 @@ const auto = {
   invoice_type: "original",
   tenencia_al_corriente: true,
   body_type: "sedan",
+  body_condition: 80,
+  mechanical_condition: 70,
   price_mxn: 215000,
   negotiable: true,
   state: "nuevo-leon",
@@ -30,6 +32,16 @@ const moto = {
 };
 
 describe("listingSchema", () => {
+  it("exige el estado de carrocería y mecánica entre 0 y 100", () => {
+    const { body_condition: _b, ...sinCarroceria } = auto;
+    expect(listingSchema.safeParse(sinCarroceria).success).toBe(false);
+    expect(listingSchema.safeParse({ ...auto, mechanical_condition: 101 }).success).toBe(false);
+    expect(listingSchema.safeParse({ ...auto, body_condition: -1 }).success).toBe(false);
+    expect(
+      listingSchema.safeParse({ ...auto, body_condition: 0, mechanical_condition: 100 }).success,
+    ).toBe(true);
+  });
+
   it("acepta un auto válido", () => {
     expect(listingSchema.safeParse(auto).success).toBe(true);
   });
