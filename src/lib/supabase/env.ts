@@ -1,5 +1,10 @@
 export const SUPABASE_URL = (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").trim();
-export const SUPABASE_ANON_KEY = (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "").trim();
+// Acepta el nombre clásico (anon) o el nuevo de Supabase (publishable). Acceso literal para que Next lo incruste.
+export const SUPABASE_ANON_KEY = (
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+  ""
+).trim();
 
 const validUrl = (u: string) => {
   try {

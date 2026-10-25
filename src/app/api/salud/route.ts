@@ -9,7 +9,7 @@ export async function GET() {
   const report: Record<string, unknown> = {
     variables_supabase: supabaseConfigured
       ? "ok"
-      : "faltan o están mal (NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY)",
+      : "faltan o están mal (NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY o NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY)",
     service_role: process.env.SUPABASE_SERVICE_ROLE_KEY ? "ok" : "falta SUPABASE_SERVICE_ROLE_KEY",
   };
   if (supabaseConfigured) {
