@@ -1,8 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Listing } from "@/types";
 import { formatKm, formatMXN } from "@/lib/format";
-import { coverOf, photoUrl } from "@/lib/listings/photos";
+import { photoUrl } from "@/lib/listings/photos";
+import { BODY_TYPES, FUELS, MOTO_TYPES, TRANSMISSIONS, labelOf } from "@/lib/constants";
+import { CardGallery } from "./card-gallery";
 import { listingPath } from "@/lib/listings/slug";
 import { FavoriteButton } from "./favorite-button";
 
@@ -15,26 +16,39 @@ export function ListingCard({
   favorite: boolean;
   priority?: boolean;
 }) {
-  const cover = coverOf(listing);
+  const photos = [...(listing.listing_photos ?? [])]
+    .sort((a, b) => a.position - b.position)
+    .slice(0, 6)
+    .map((p) => photoUrl(p.storage_path));
+  const facts = [
+    labelOf(TRANSMISSIONS, listing.transmission),
+    labelOf(FUELS, listing.fuel),
+    listing.vehicle_type === "auto"
+      ? labelOf(BODY_TYPES, listing.body_type)
+      : labelOf(MOTO_TYPES, listing.moto_type),
+    listing.body_condition !== null && listing.mechanical_condition !== null
+      ? `Estado ${listing.body_condition}/${listing.mechanical_condition}`
+      : null,
+  ].filter((f): f is string => Boolean(f) && f !== "—");
   return (
     <article className="group relative">
-      <div className="bg-muted relative aspect-[4/3] overflow-hidden rounded-md">
-        {cover && (
-          <Image
-            src={photoUrl(cover)}
-            alt={listing.title}
-            fill
-            priority={priority}
-            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-          />
-        )}
-        <FavoriteButton
-          listingId={listing.id}
-          initial={favorite}
-          className="absolute top-2 right-2 z-10"
-        />
-      </div>
+      <CardGallery photos={photos} alt={listing.title} priority={priority}>
+        <p className="flex flex-wrap gap-x-2 gap-y-0.5 text-xs font-semibold text-white">
+          {facts.map((f) => (
+            <span
+              key={f}
+              className="after:ml-2 after:opacity-50 after:content-['·'] last:after:hidden"
+            >
+              {f}
+            </span>
+          ))}
+        </p>
+      </CardGallery>
+      <FavoriteButton
+        listingId={listing.id}
+        initial={favorite}
+        className="absolute top-2 right-2 z-30"
+      />
       <div className="mt-3 space-y-0.5">
         <h3 className="line-clamp-1 font-semibold">
           <Link href={listingPath(listing)} className="after:absolute after:inset-0">
