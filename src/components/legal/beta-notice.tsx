@@ -53,7 +53,7 @@ export function BetaNotice() {
         aria-labelledby="beta-title"
         className="border-foreground bg-card w-full max-w-md rounded-md border-2 p-6 shadow-2xl"
       >
-        <p className="bg-primary text-primary-foreground inline-block rounded-sm px-2 py-1 text-xs font-semibold tracking-widest uppercase">
+        <p className="bg-primary text-primary-foreground inline-block rounded-sm px-2 py-1 text-xs font-semibold">
           Beta
         </p>
         <h2 id="beta-title" className="mt-3 text-2xl">

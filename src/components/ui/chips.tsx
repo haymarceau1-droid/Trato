@@ -15,9 +15,7 @@ export function QuickPick({
   if (!items.length) return null;
   return (
     <div className="space-y-1.5">
-      <p className="text-muted-foreground text-xs font-semibold tracking-widest uppercase">
-        {label}
-      </p>
+      <p className="text-muted-foreground text-sm font-semibold">{label}</p>
       <ul className="flex flex-wrap gap-2">
         {items.map((i) => (
           <li key={i}>

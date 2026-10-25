@@ -96,9 +96,7 @@ export default function PricingPage() {
       <section className="container-page pb-14" aria-labelledby="particulares">
         <div className="border-foreground bg-card grid gap-8 rounded-md border-2 p-6 md:grid-cols-[1fr_1.1fr] md:p-10">
           <div>
-            <p className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
-              Particulares
-            </p>
+            <p className="text-muted-foreground text-sm font-semibold">Particulares</p>
             <h2 id="particulares" className="mt-2 text-6xl leading-none md:text-7xl">
               $0
             </h2>
@@ -149,9 +147,7 @@ export default function PricingPage() {
                 "featured" in b && b.featured ? "border-primary bg-card" : "border-border bg-card",
               )}
             >
-              <p className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
-                {b.hint}
-              </p>
+              <p className="text-muted-foreground text-sm font-semibold">{b.hint}</p>
               <p className="font-display mt-3 text-5xl leading-none">{money(b.price)}</p>
               <p className="text-muted-foreground mt-1 text-sm">MXN por anuncio</p>
               <p className="mt-4 text-lg font-bold">{b.days} días destacado</p>

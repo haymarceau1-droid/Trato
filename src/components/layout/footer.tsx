@@ -113,9 +113,7 @@ export function Footer() {
         </div>
         {cols.map((c) => (
           <nav key={c.title} aria-label={c.title}>
-            <h3 className="text-muted-foreground mb-3 text-xs font-semibold tracking-widest uppercase">
-              {c.title}
-            </h3>
+            <h3 className="text-muted-foreground mb-3 text-sm font-semibold">{c.title}</h3>
             <ul className="space-y-1 text-sm">
               {c.links.map(([href, label]) => (
                 <li key={href}>
@@ -131,7 +129,7 @@ export function Footer() {
 
       {/* Estados */}
       <nav aria-label="Autos por estado" className="container-page border-border border-t py-8">
-        <h3 className="text-muted-foreground mb-3 text-xs font-semibold tracking-widest uppercase">
+        <h3 className="text-muted-foreground mb-3 text-sm font-semibold">
           Autos usados por estado
         </h3>
         <ul className="flex flex-wrap gap-x-4 gap-y-1 text-sm">

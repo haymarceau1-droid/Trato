@@ -186,9 +186,7 @@ export default async function Home() {
             )}
           >
             <div className="flex items-start justify-between gap-4">
-              <p className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
-                {hint}
-              </p>
+              <p className="text-muted-foreground text-sm font-semibold">{hint}</p>
               <ArrowUpRight
                 className="group-hover:text-primary size-8 shrink-0 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
                 aria-hidden
@@ -288,9 +286,7 @@ export default async function Home() {
                 <span className="bg-foreground text-background grid size-12 place-items-center rounded-md">
                   <Icon className="size-6" aria-hidden />
                 </span>
-                <p className="text-muted-foreground mt-4 text-xs font-semibold tracking-widest uppercase">
-                  Paso {i + 1}
-                </p>
+                <p className="text-muted-foreground mt-4 text-sm font-semibold">Paso {i + 1}</p>
                 <h3 className="mt-1 mb-1 text-xl">{title}</h3>
                 <p className="text-muted-foreground">{text}</p>
               </li>
@@ -349,7 +345,7 @@ export default async function Home() {
         <div className="space-y-10">
           {(["auto", "moto"] as const).map((type) => (
             <div key={type}>
-              <h3 className="text-muted-foreground mb-3 text-sm font-semibold tracking-widest uppercase">
+              <h3 className="text-muted-foreground mb-3 text-sm font-semibold">
                 {type === "auto" ? "Marcas de autos" : "Marcas de motos"}
               </h3>
               <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
@@ -368,9 +364,7 @@ export default async function Home() {
             </div>
           ))}
           <div>
-            <h3 className="text-muted-foreground mb-4 text-sm font-semibold tracking-widest uppercase">
-              Por estado
-            </h3>
+            <h3 className="text-muted-foreground mb-4 text-sm font-semibold">Por estado</h3>
             <MexicoMap counts={stateCounts} />
           </div>
         </div>
@@ -425,9 +419,7 @@ function TypeRail({
 }) {
   return (
     <div className="mt-4 first-of-type:mt-0">
-      <h3 className="text-muted-foreground mb-2 text-xs font-semibold tracking-widest uppercase">
-        {label}
-      </h3>
+      <h3 className="text-muted-foreground mb-2 text-sm font-semibold">{label}</h3>
       <ul className="no-scrollbar -mx-4 flex gap-3 overflow-x-auto px-4 pb-1 md:mx-0 md:grid md:grid-cols-7 md:overflow-visible md:px-0">
         {items.map((t) => (
           <li key={t.value} className="shrink-0 md:shrink">

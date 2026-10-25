@@ -235,9 +235,7 @@ export function SearchPill({ filters: f, brands }: { filters: Filters; brands: C
                   />
                   {!q && (
                     <div>
-                      <p className="text-muted-foreground mb-2 text-xs font-semibold tracking-widest uppercase">
-                        Populares
-                      </p>
+                      <p className="text-muted-foreground mb-2 text-sm font-semibold">Populares</p>
                       <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6">
                         {logoBrands(f.type, 12).map((name) => (
                           <Tile
@@ -252,7 +250,7 @@ export function SearchPill({ filters: f, brands }: { filters: Filters; brands: C
                     </div>
                   )}
                   <div>
-                    <p className="text-muted-foreground mb-2 text-xs font-semibold tracking-widest uppercase">
+                    <p className="text-muted-foreground mb-2 text-sm font-semibold">
                       {q ? "Resultados" : "Todas las marcas"}
                     </p>
                     <ul className="grid grid-cols-2 gap-x-4 sm:grid-cols-3 md:grid-cols-4">

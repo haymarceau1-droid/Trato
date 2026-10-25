@@ -147,9 +147,7 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
         <aside className="space-y-4 lg:sticky lg:top-28 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-start">
           <div className="border-border bg-card space-y-4 rounded-md border p-5">
             <div>
-              <p className="text-muted-foreground text-xs font-semibold tracking-widest uppercase">
-                Precio
-              </p>
+              <p className="text-muted-foreground text-sm font-semibold">Precio</p>
               <p className="font-display text-4xl">{formatMXN(l.price_mxn)}</p>
               {l.negotiable && <Badge tone="green">Precio negociable</Badge>}
             </div>
@@ -211,9 +209,7 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
                   {seller.display_name.charAt(0).toUpperCase()}
                 </span>
                 <div className="min-w-0">
-                  <p className="text-muted-foreground text-xs font-semibold tracking-widest uppercase">
-                    Vendedor
-                  </p>
+                  <p className="text-muted-foreground text-sm font-semibold">Vendedor</p>
                   <h2 id="vendedor" className="truncate text-2xl leading-tight">
                     {seller.display_name}
                   </h2>
