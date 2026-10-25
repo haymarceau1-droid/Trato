@@ -23,7 +23,6 @@
 @layer base {
   html {
     color-scheme: light dark;
-    scroll-behavior: smooth;
   }
   html[data-theme="light"] {
     color-scheme: light;
