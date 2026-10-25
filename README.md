@@ -46,7 +46,7 @@ psql "$DATABASE_URL" -f supabase/seed.sql   # o pega seed.sql en el SQL editor
 
 Local con Docker: `supabase start && supabase db reset` (aplica migraciones y seed).
 
-**Opción B — Dashboard:** abre el SQL Editor y ejecuta, en orden, cada archivo de `supabase/migrations` y luego `supabase/seed.sql`.
+**Opción B — Dashboard (la más simple):** abre el SQL Editor y ejecuta `supabase/setup.sql` completo, una sola vez (reúne todas las migraciones y el seed). O bien cada archivo de `supabase/migrations` en orden y luego `supabase/seed.sql`.
 
 El catálogo (≈80 marcas y ≈1,000 modelos de autos y motos del mercado mexicano) y los 32 estados viven en `src/lib/catalog.ts` y `src/lib/constants.ts`; `npm run catalog:seed` regenera `supabase/seed.sql` desde ahí. La app lee el catálogo directo del código (no depende de la base) y el formulario siempre permite escribir una marca o modelo que no esté en la lista. Las migraciones, el seed y `demo.sql` se probaron sobre PostgreSQL 16 (con `auth` y `storage` simulados).
 
