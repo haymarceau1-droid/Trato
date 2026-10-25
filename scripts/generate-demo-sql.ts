@@ -16,6 +16,7 @@ const q = (v: unknown): string =>
 
 const rows = buildDemoRows(USER_ID);
 // Autos y motos tienen campos distintos: se usa la unión de columnas (lo que falta va como null).
+const DEMO_PASSWORD = "demo-trato-2026";
 const cols = [...new Set(rows.flatMap((r) => Object.keys(r)))];
 
 const sql = [
@@ -27,6 +28,14 @@ const sql = [
   `values ('00000000-0000-0000-0000-000000000000', '${USER_ID}', 'authenticated', 'authenticated', 'demo@trato.mx', '', now(), now(), now(),`,
   `  '{"provider":"email","providers":["email"]}', '{}', '', '', '', '')`,
   "on conflict (id) do nothing;",
+  "",
+  '-- Contraseña de la cuenta demo (para el botón "Entrar con la cuenta demo"; ver README).',
+  `update auth.users set encrypted_password = crypt('${DEMO_PASSWORD}', gen_salt('bf')), email_confirmed_at = coalesce(email_confirmed_at, now()) where id = '${USER_ID}';`,
+  "do $$ begin",
+  `  insert into auth.identities (id, user_id, identity_data, provider, provider_id, last_sign_in_at, created_at, updated_at)`,
+  `  values (gen_random_uuid(), '${USER_ID}', '{"sub":"${USER_ID}","email":"demo@trato.mx"}', 'email', '${USER_ID}', now(), now(), now())`,
+  "  on conflict do nothing;",
+  "exception when others then null; end $$;",
   "",
   `update public.profiles set display_name = 'Vendedor Demo', phone = '+525512345678', phone_verified = true,`,
   `  state = 'ciudad-de-mexico', city = 'Ciudad de México' where id = '${USER_ID}';`,

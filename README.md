@@ -104,6 +104,8 @@ El panel está en `/admin` (resumen, reportes, anuncios en revisión, usuarios).
 npm run seed:demo   # 30 autos + 15 motos para el usuario demo@trato.mx
 ```
 
+**Cuenta demo con un clic:** `demo.sql` también deja la contraseña `demo-trato-2026` en `demo@trato.mx`. Si defines `NEXT_PUBLIC_DEMO_PASSWORD=demo-trato-2026` (Vercel → Settings → Environment Variables, y redeploy), `/acceder` muestra el botón **Entrar con la cuenta demo**: entras como “Vendedor Demo” con sus 45 anuncios, sin SMS ni correo. Úsalo solo en demos; quítalo (borra la variable) antes de abrir al público, y no cargues `demo.sql` en producción.
+
 Las fotos son imágenes de relleno de `picsum.photos`; no corresponden a los vehículos. Vuelve a ejecutarlo para reiniciar los anuncios demo.
 
 ## Scripts

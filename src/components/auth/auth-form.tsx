@@ -12,6 +12,10 @@ import { Field, Input } from "@/components/ui/field";
 
 type Mode = "phone" | "email";
 
+// Solo para demos: si NEXT_PUBLIC_DEMO_PASSWORD existe, aparece el botón de la cuenta demo (supabase/demo.sql).
+const DEMO_EMAIL = "demo@trato.mx";
+const DEMO_PASSWORD = process.env.NEXT_PUBLIC_DEMO_PASSWORD;
+
 export function AuthForm({ next }: { next: string }) {
   const router = useRouter();
   const [mode, setMode] = useState<Mode>("phone");
@@ -65,6 +69,17 @@ export function AuthForm({ next }: { next: string }) {
       router.refresh();
     });
 
+  const withDemo = () =>
+    run(async () => {
+      const { error } = await createClient().auth.signInWithPassword({
+        email: DEMO_EMAIL,
+        password: DEMO_PASSWORD!,
+      });
+      if (error) throw new Error("La cuenta demo no está disponible en este entorno.");
+      router.replace(safeNext(next));
+      router.refresh();
+    });
+
   const withGoogle = () =>
     run(async () => {
       const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(safeNext(next))}`;
@@ -98,6 +113,11 @@ export function AuthForm({ next }: { next: string }) {
       <Button variant="outline" size="lg" className="w-full" disabled={busy} onClick={withGoogle}>
         <GoogleIcon className="size-5" /> Continuar con Google
       </Button>
+      {DEMO_PASSWORD && (
+        <Button variant="outline" size="lg" className="w-full" disabled={busy} onClick={withDemo}>
+          Entrar con la cuenta demo
+        </Button>
+      )}
       <p aria-hidden className="text-muted-foreground flex items-center gap-3 text-xs">
         <span className="bg-border h-px flex-1" />o con tu celular o correo
         <span className="bg-border h-px flex-1" />
