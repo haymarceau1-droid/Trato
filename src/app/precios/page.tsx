@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { brand } from "@/config/brand";
 import { site } from "@/config/site";
-import { CaretRight, Check } from "@/components/ui/icons";
+import { CaretRight, Check, HandCoins, Handshake, ShieldCheck } from "@/components/ui/icons";
+import { PlanPicker } from "@/components/pricing/plan-picker";
 import { LinkButton } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -60,6 +61,46 @@ const PLANS = [
   },
 ] as const;
 
+/** Comparativo: [característica, Particular, Profesional, Agencia, A la medida]. true = incluido, false = no. */
+const COMPARE: [string, ...(string | boolean)[]][] = [
+  ["Anuncios activos", `${site.maxActivePerUser}`, "30", "100", "Más de 100"],
+  [
+    "Fotos por anuncio",
+    `${site.maxPhotos}`,
+    `${site.maxPhotos}`,
+    `${site.maxPhotos}`,
+    `${site.maxPhotos}`,
+  ],
+  [
+    "Duración de cada anuncio",
+    `${site.listingTtlDays} días`,
+    `${site.listingTtlDays} días`,
+    `${site.listingTtlDays} días`,
+    "A convenir",
+  ],
+  ["Contacto por WhatsApp y llamada", true, true, true, true],
+  ["Comisión por venta", "Nunca", "Nunca", "Nunca", "Nunca"],
+  ["Perfil de negocio verificado con logo", false, true, true, true],
+  ["Impulsos incluidos al mes", false, "2 de 7 días", "10 de 7 días", "A convenir"],
+  ["Estadísticas de vistas y contactos", false, true, true, true],
+  ["Varias personas en la cuenta", false, false, true, true],
+  ["Carga masiva de inventario", false, false, true, true],
+  ["Integración con tu sistema", false, false, false, true],
+  ["Soporte prioritario", false, false, true, true],
+];
+
+function Cell({ v }: { v: string | boolean }) {
+  if (v === true)
+    return <Check weight="bold" className="text-primary mx-auto size-5" aria-label="Incluido" />;
+  if (v === false)
+    return (
+      <span className="text-muted-foreground" aria-label="No incluido">
+        —
+      </span>
+    );
+  return <>{v}</>;
+}
+
 function Bullets({ items }: { items: readonly string[] }) {
   return (
     <ul className="space-y-2.5 text-[15px]">
@@ -90,6 +131,50 @@ export default function PricingPage() {
         >
           Los pagos se activan muy pronto. Hoy todo es gratis mientras abrimos.
         </p>
+        <ul className="mx-auto mt-8 flex max-w-3xl flex-wrap justify-center gap-x-8 gap-y-3 text-sm font-semibold">
+          {[
+            [HandCoins, "Sin comisión por venta"],
+            [ShieldCheck, "Nunca tocamos tu dinero"],
+            [Handshake, "Cancelas cuando quieras"],
+          ].map(([Icon, text]) => {
+            const I = Icon as typeof ShieldCheck;
+            return (
+              <li key={text as string} className="flex items-center gap-2">
+                <I className="text-primary size-5" aria-hidden /> {text as string}
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
+      {/* Calculadora */}
+      <section className="container-page pb-14" aria-labelledby="calculadora">
+        <h2 id="calculadora" className="sr-only">
+          Qué opción te conviene
+        </h2>
+        <PlanPicker
+          free={site.maxActivePerUser}
+          tiers={[
+            {
+              name: "Profesional",
+              limit: 30,
+              price: 1490,
+              href: mail(`Plan Profesional (${brand.name})`),
+            },
+            {
+              name: "Agencia",
+              limit: 100,
+              price: 3990,
+              href: mail(`Plan Agencia (${brand.name})`),
+            },
+            {
+              name: "A la medida",
+              limit: 100000,
+              price: null,
+              href: mail(`Plan a la medida (${brand.name})`),
+            },
+          ]}
+        />
       </section>
 
       {/* Particulares */}
@@ -213,6 +298,48 @@ export default function PricingPage() {
         <p className="text-muted-foreground mt-4 text-sm">
           Precios en pesos mexicanos más IVA. Cancelas cuando quieras: tus anuncios pasan al plan
           gratuito (los {site.maxActivePerUser} más recientes siguen activos).
+        </p>
+      </section>
+
+      {/* Comparativo */}
+      <section className="container-page pb-14" aria-labelledby="comparar">
+        <h2 id="comparar" className="mb-4 text-3xl md:text-4xl">
+          Compara todo lado a lado
+        </h2>
+        <div className="border-border bg-card overflow-x-auto rounded-md border">
+          <table className="w-full min-w-[40rem] text-left text-sm">
+            <caption className="sr-only">
+              Comparativo de opciones para particulares y negocios
+            </caption>
+            <thead>
+              <tr className="border-border border-b">
+                <th scope="col" className="p-4" />
+                {["Particular", "Profesional", "Agencia", "A la medida"].map((h) => (
+                  <th key={h} scope="col" className="p-4 text-center text-base font-bold">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {COMPARE.map(([label, ...cells]) => (
+                <tr key={label} className="border-border border-b last:border-0">
+                  <th scope="row" className="p-4 font-medium">
+                    {label}
+                  </th>
+                  {cells.map((c, i) => (
+                    <td key={i} className="p-4 text-center">
+                      <Cell v={c} />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="text-muted-foreground mt-3 text-sm">
+          Los impulsos por anuncio ({money(200)}, {money(350)} y {money(600)}) los puede pedir
+          cualquier cuenta.
         </p>
       </section>
 
