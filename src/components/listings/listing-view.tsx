@@ -31,6 +31,7 @@ import { Gallery } from "./gallery";
 import { ListingGrid } from "./listing-card";
 import { ShareButton } from "./share-button";
 import { ConditionBars } from "./condition-bars";
+import { LocationMap } from "./location-map";
 import { SpecGrid } from "./spec-grid";
 import { ViewBeacon } from "./view-beacon";
 
@@ -290,6 +291,13 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
               Ficha técnica
             </h2>
             <SpecGrid l={l} />
+          </section>
+
+          <section aria-labelledby="ubicacion">
+            <h2 id="ubicacion" className="rule mb-4 pt-3 text-2xl">
+              Dónde está
+            </h2>
+            <LocationMap l={l} />
           </section>
 
           <ScamTips showRepuve />
