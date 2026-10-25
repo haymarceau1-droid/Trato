@@ -98,6 +98,8 @@ function Thumb({
   );
 }
 
+const SHOTS = ["Frente", "Costado", "Trasera", "Interior", "Tablero con km", "Motor"];
+
 export function PhotoUploader({
   userId,
   listingId,
@@ -207,6 +209,22 @@ export function PhotoUploader({
           fotos automáticamente.
         </p>
       </div>
+
+      <ul aria-label="Fotos sugeridas" className="flex flex-wrap gap-2">
+        {SHOTS.map((shot, i) => (
+          <li
+            key={shot}
+            className={cn(
+              "inline-flex min-h-8 items-center gap-1.5 rounded-sm border px-2.5 text-xs font-semibold",
+              i < photos.length
+                ? "border-foreground bg-foreground text-background"
+                : "border-border bg-card text-muted-foreground",
+            )}
+          >
+            {i < photos.length ? "✓" : i + 1} {shot}
+          </li>
+        ))}
+      </ul>
 
       {busy > 0 && (
         <p role="status" className="text-muted-foreground text-sm">
