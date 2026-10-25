@@ -3,6 +3,7 @@ import { BODY_TYPES, MOTO_TYPES } from "@/lib/constants";
 import { logoBrands } from "@/lib/brand-picks";
 import { buildUrl, type Filters } from "@/lib/listings/filters-url";
 import { slugify } from "@/lib/listings/slug";
+import { BodyIcon } from "@/components/ui/body-icon";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { cn } from "@/lib/utils";
 
@@ -52,6 +53,7 @@ export function QuickFilters({ filters: f }: { filters: Filters }) {
                 aria-pressed={active}
                 className={cn(chip, "font-medium", active ? on : off)}
               >
+                <BodyIcon value={t.value} className="h-5 w-7" />
                 {t.label}
               </Link>
             </li>

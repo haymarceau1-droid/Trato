@@ -1,5 +1,6 @@
 "use client";
 
+import { BodyIcon } from "@/components/ui/body-icon";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { previewFilters } from "@/actions/search";
@@ -40,14 +41,21 @@ function Chips<T extends string | number>({
   value,
   options,
   onChange,
+  visual,
 }: {
   label: string;
   value: T | undefined;
   options: readonly { value: T; label: string }[];
   onChange: (v: T | undefined) => void;
+  /** Muestra una silueta del vehículo sobre cada opción. */
+  visual?: boolean;
 }) {
   return (
-    <div role="group" aria-label={label} className="flex flex-wrap gap-2">
+    <div
+      role="group"
+      aria-label={label}
+      className={visual ? "grid grid-cols-3 gap-2 sm:grid-cols-4" : "flex flex-wrap gap-2"}
+    >
       {options.map((o) => {
         const on = value === o.value;
         return (
@@ -57,12 +65,14 @@ function Chips<T extends string | number>({
             aria-pressed={on}
             onClick={() => onChange(on ? undefined : o.value)}
             className={cn(
-              "min-h-11 rounded-sm border px-4 text-sm font-semibold",
+              "min-h-11 rounded-sm border text-sm font-semibold",
+              visual ? "flex flex-col items-center gap-1 px-2 py-3" : "px-4",
               on
                 ? "border-foreground bg-foreground text-background"
                 : "border-border bg-card hover:border-foreground",
             )}
           >
+            {visual && <BodyIcon value={String(o.value)} className="h-9 w-12" />}
             {o.label}
           </button>
         );
@@ -180,6 +190,7 @@ export function FilterDialog({
               value={f.body}
               options={f.type === "auto" ? BODY_TYPES : MOTO_TYPES}
               onChange={(v) => set("body", v)}
+              visual
             />
             {f.type === "moto" && (
               <div className="grid grid-cols-2 gap-3">
