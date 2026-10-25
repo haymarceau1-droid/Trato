@@ -19,10 +19,9 @@ export async function GET() {
       .from("listings")
       .select("id", { count: "exact", head: true })
       .eq("status", "active");
-    report.estados = states.error
-      ? `error: ${states.error.message} (¿migraciones aplicadas?)`
-      : states.count;
-    report.anuncios_activos = listings.error ? `error: ${listings.error.message}` : listings.count;
+    // Sin mensajes internos de la base: esta ruta es pública.
+    report.estados = states.error ? "error (¿migraciones aplicadas?)" : states.count;
+    report.anuncios_activos = listings.error ? "error" : listings.count;
     if (!listings.error && listings.count === 0)
       report.pista = "Base lista pero vacía: ejecuta supabase/demo.sql en el SQL Editor.";
   }

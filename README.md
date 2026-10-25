@@ -94,6 +94,8 @@ update public.profiles set role = 'admin' where id = '<tu-user-id>';
 
 El panel está en `/admin` (resumen, reportes, anuncios en revisión, usuarios).
 
+Antes de lanzar, revisa [`SECURITY.md`](SECURITY.md) (medidas aplicadas y lista de ajustes en Supabase/Vercel).
+
 ### Datos de demo
 
 **Sin claves (recomendado):** pega `supabase/demo.sql` en Supabase → SQL Editor → Run. Crea el usuario `demo@trato.mx` y 30 autos + 15 motos con fotos de relleno, para ver todas las páginas. Se regenera con `npm run demo:sql`.

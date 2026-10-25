@@ -11,6 +11,8 @@ const json = (body: object, status = 200) => NextResponse.json(body, { status, h
 /** Revela el contacto del vendedor solo a usuarios con sesión. El teléfono nunca va en el HTML público. */
 export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> }) {
   const { id } = await ctx.params;
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id))
+    return json({ error: "Anuncio no válido." }, 400);
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) return json({ error: "Inicia sesión para ver el contacto." }, 401);
