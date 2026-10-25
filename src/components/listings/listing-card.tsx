@@ -44,8 +44,10 @@ export function ListingCard({
         <p className="text-muted-foreground line-clamp-1 text-sm">
           {listing.year} · {formatKm(listing.mileage_km)} · {listing.city}
         </p>
-        <p className="flex items-baseline gap-2 pt-1">
-          <span className="font-display text-xl">{formatMXN(listing.price_mxn)}</span>
+        <p className="flex flex-wrap items-baseline gap-x-2 pt-1">
+          <span className="font-display text-lg whitespace-nowrap sm:text-xl">
+            {formatMXN(listing.price_mxn)}
+          </span>
           {listing.negotiable && (
             <span className="text-muted-foreground text-xs font-semibold">Negociable</span>
           )}

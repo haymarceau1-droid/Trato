@@ -110,7 +110,9 @@ export function SearchView({
         <FilterBar filters={filters} brands={brands}>
           <QuickFilters filters={filters} />
         </FilterBar>
-        <ActiveFilters filters={filters} brands={brands} />
+        <div className="hidden md:block">
+          <ActiveFilters filters={filters} brands={brands} />
+        </div>
       </div>
 
       <div className="mt-6">
