@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight, CaretRight as ChevronRight, ShieldCheck } from "@/components/ui/icons";
+import {
+  ArrowUpRight,
+  CaretRight as ChevronRight,
+  Handshake,
+  ImageSquare,
+  Phone,
+  ShieldCheck,
+} from "@/components/ui/icons";
 import { brand } from "@/config/brand";
 import { cn } from "@/lib/utils";
 import { site } from "@/config/site";
 import { BODY_TYPES, MOTO_TYPES, PRICE_RANGES } from "@/lib/constants";
 import { buildUrl, parseFilters } from "@/lib/listings/filters-url";
+import { BodyIcon } from "@/components/ui/body-icon";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { MexicoMap } from "@/components/home/mexico-map";
 import { logoBrands } from "@/lib/brand-picks";
@@ -61,14 +69,17 @@ const STEPS = [
   [
     "Publica tu auto o moto",
     "Sube las fotos, elige marca y modelo, pon el precio. Son siete pasos cortos y tu borrador se guarda solo.",
+    ImageSquare,
   ],
   [
     "Te escriben por WhatsApp",
     "Solo quien inicia sesión ve tu contacto. Tu número nunca aparece en Google ni en el anuncio.",
+    Phone,
   ],
   [
     "Revisan el vehículo contigo",
     "Prueba de manejo en un lugar público, papeles a la vista y pago al entregar. Sin anticipos.",
+    Handshake,
   ],
 ] as const;
 
@@ -224,39 +235,44 @@ export default async function Home() {
         )}
       </section>
 
-      {/* Atajos de búsqueda */}
+      {/* Explora por tipo */}
       <section className="container-page pb-14" aria-labelledby="atajos">
-        <div className="rule pt-3">
-          <h2 id="atajos" className="mb-6 text-3xl">
-            Busca por
-          </h2>
-        </div>
-        <div className="grid gap-8 md:grid-cols-3">
-          <LinkList
-            title="Carrocería"
-            items={BODY_TYPES.map((b) => ({
-              label: b.label,
-              href: buildUrl({ ...typeFilters.auto, body: b.value }),
-            }))}
-          />
-          <LinkList
-            title="Tipo de moto"
-            items={MOTO_TYPES.map((b) => ({
-              label: b.label,
-              href: buildUrl({ ...typeFilters.moto, body: b.value }),
-            }))}
-          />
-          <LinkList
-            title="Presupuesto (autos)"
-            items={PRICE_RANGES.map((r) => ({
-              label: r.label,
-              href: buildUrl({
+        <h2 id="atajos" className="mb-5 text-3xl">
+          Explora por tipo
+        </h2>
+        <TypeRail
+          label="Autos"
+          items={BODY_TYPES.map((b) => ({
+            value: b.value,
+            label: b.label,
+            href: buildUrl({ ...typeFilters.auto, body: b.value }),
+          }))}
+        />
+        <TypeRail
+          label="Motos"
+          items={MOTO_TYPES.map((b) => ({
+            value: b.value,
+            label: b.label,
+            href: buildUrl({ ...typeFilters.moto, body: b.value }),
+          }))}
+        />
+        <div className="mt-6 flex flex-wrap items-center gap-2">
+          <span className="text-muted-foreground mr-1 w-full text-sm font-semibold md:w-auto">
+            Autos por presupuesto
+          </span>
+          {PRICE_RANGES.map((r) => (
+            <Link
+              key={r.label}
+              href={buildUrl({
                 ...typeFilters.auto,
                 priceMin: "min" in r ? r.min : undefined,
                 priceMax: "max" in r ? r.max : undefined,
-              }),
-            }))}
-          />
+              })}
+              className="border-border bg-card hover:border-foreground inline-flex min-h-11 items-center rounded-sm border px-4 text-sm font-semibold"
+            >
+              {r.label}
+            </Link>
+          ))}
         </div>
       </section>
 
@@ -267,15 +283,16 @@ export default async function Home() {
             Cómo funciona
           </h2>
           <ol className="grid gap-8 md:grid-cols-3">
-            {STEPS.map(([title, text], i) => (
-              <li key={title} className="flex gap-4">
-                <span aria-hidden className="font-display text-primary text-6xl leading-none">
-                  {i + 1}
+            {STEPS.map(([title, text, Icon], i) => (
+              <li key={title}>
+                <span className="bg-foreground text-background grid size-12 place-items-center rounded-md">
+                  <Icon className="size-6" aria-hidden />
                 </span>
-                <div>
-                  <h3 className="mb-1 text-xl">{title}</h3>
-                  <p className="text-muted-foreground">{text}</p>
-                </div>
+                <p className="text-muted-foreground mt-4 text-xs font-semibold tracking-widest uppercase">
+                  Paso {i + 1}
+                </p>
+                <h3 className="mt-1 mb-1 text-xl">{title}</h3>
+                <p className="text-muted-foreground">{text}</p>
               </li>
             ))}
           </ol>
@@ -305,17 +322,17 @@ export default async function Home() {
 
       {/* Vender */}
       <section className="container-page pb-14">
-        <div className="bg-primary text-primary-foreground flex flex-col gap-6 p-8 md:flex-row md:items-center md:justify-between md:p-12">
+        <div className="bg-foreground text-background flex flex-col gap-6 rounded-md p-8 md:flex-row md:items-center md:justify-between md:p-12">
           <div>
             <h2 className="text-4xl md:text-5xl">¿Vas a vender tu auto o moto?</h2>
-            <p className="mt-2 max-w-lg opacity-90">
+            <p className="mt-2 max-w-lg opacity-80">
               Es gratis, sin comisión y puedes pausarlo o borrarlo cuando quieras. Hasta{" "}
               {site.maxActivePerUser} anuncios activos por persona.
             </p>
           </div>
           <Link
             href="/publicar"
-            className="font-display inline-flex min-h-14 shrink-0 items-center bg-[#0a0a0a] px-8 text-xl text-white uppercase hover:opacity-90"
+            className="font-display bg-primary text-primary-foreground inline-flex min-h-14 shrink-0 items-center rounded-sm px-8 text-xl uppercase hover:opacity-90"
           >
             Publicar
           </Link>
@@ -399,23 +416,27 @@ export default async function Home() {
   );
 }
 
-function LinkList({ title, items }: { title: string; items: { label: string; href: string }[] }) {
+function TypeRail({
+  label,
+  items,
+}: {
+  label: string;
+  items: { value: string; label: string; href: string }[];
+}) {
   return (
-    <div>
-      <h3 className="text-muted-foreground mb-2 text-sm font-semibold tracking-widest uppercase">
-        {title}
+    <div className="mt-4 first-of-type:mt-0">
+      <h3 className="text-muted-foreground mb-2 text-xs font-semibold tracking-widest uppercase">
+        {label}
       </h3>
-      <ul
-        className={`divide-border border-border divide-y border-y ${items.length > 12 ? "sm:columns-2" : ""}`}
-      >
-        {items.map((i) => (
-          <li key={i.label}>
+      <ul className="no-scrollbar -mx-4 flex gap-3 overflow-x-auto px-4 pb-1 md:mx-0 md:grid md:grid-cols-7 md:overflow-visible md:px-0">
+        {items.map((t) => (
+          <li key={t.value} className="shrink-0 md:shrink">
             <Link
-              href={i.href}
-              className="hover:text-primary flex min-h-11 items-center justify-between py-2 font-medium"
+              href={t.href}
+              className="border-border bg-card hover:border-foreground flex w-28 flex-col items-center gap-2 rounded-md border px-2 py-4 text-sm font-semibold transition-colors md:w-full"
             >
-              {i.label}
-              <ChevronRight className="size-4 opacity-40" aria-hidden />
+              <BodyIcon value={t.value} className="h-9 w-14" />
+              {t.label}
             </Link>
           </li>
         ))}

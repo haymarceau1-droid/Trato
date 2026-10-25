@@ -5,7 +5,7 @@ const photos = (seed: string, shift = 0) =>
   Array.from({ length: 5 }, (_, i) => ({
     id: `${seed}-${i}`,
     position: i,
-    storage_path: `/ejemplo/foto-${((i + shift) % 5) + 1}.png`,
+    storage_path: `/ejemplo/muestra-${((i + shift) % 5) + 1}.png`,
   }));
 
 /** Anuncio ficticio para la página testigo /ejemplo (no toca la base de datos). */

@@ -3,6 +3,7 @@ import {
   CalendarBlank,
   CaretRight,
   Clock,
+  MapPin,
   Eye,
   Gauge,
   GasPump,
@@ -114,8 +115,8 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
           {l.title}
         </h1>
         <div className="text-muted-foreground flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
-          <span className="plate">
-            {l.city}, {stateName(l.state)}
+          <span className="text-foreground inline-flex items-center gap-1.5 font-semibold">
+            <MapPin className="size-4" aria-hidden /> {l.city}, {stateName(l.state)}
           </span>
           <span className="inline-flex items-center gap-1.5">
             <Clock className="size-4" aria-hidden /> {timeAgo(l.created_at)}

@@ -4,7 +4,6 @@ import type { Listing } from "@/types";
 import { formatKm, formatMXN } from "@/lib/format";
 import { coverOf, photoUrl } from "@/lib/listings/photos";
 import { listingPath } from "@/lib/listings/slug";
-import { CalendarBlank, Gauge } from "@/components/ui/icons";
 import { FavoriteButton } from "./favorite-button";
 
 export function ListingCard({
@@ -18,8 +17,8 @@ export function ListingCard({
 }) {
   const cover = coverOf(listing);
   return (
-    <article className="group border-border bg-card hover:border-foreground relative overflow-hidden rounded-sm border transition-colors">
-      <div className="bg-muted relative aspect-[4/3]">
+    <article className="group relative">
+      <div className="bg-muted relative aspect-[4/3] overflow-hidden rounded-md">
         {cover && (
           <Image
             src={photoUrl(cover)}
@@ -27,35 +26,29 @@ export function ListingCard({
             fill
             priority={priority}
             sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-            className="object-cover"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
         )}
-        <p className="font-display bg-primary text-primary-foreground absolute bottom-0 left-0 px-2.5 py-1 text-lg">
-          {formatMXN(listing.price_mxn)}
-        </p>
         <FavoriteButton
           listingId={listing.id}
           initial={favorite}
           className="absolute top-2 right-2 z-10"
         />
       </div>
-      <div className="space-y-1.5 p-3">
+      <div className="mt-3 space-y-0.5">
         <h3 className="line-clamp-1 font-semibold">
           <Link href={listingPath(listing)} className="after:absolute after:inset-0">
             {listing.title}
           </Link>
         </h3>
-        <p className="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-0.5 text-sm whitespace-nowrap">
-          <span className="inline-flex items-center gap-1">
-            <CalendarBlank weight="bold" className="size-4" aria-hidden /> {listing.year}
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <Gauge weight="bold" className="size-4" aria-hidden /> {formatKm(listing.mileage_km)}
-          </span>
+        <p className="text-muted-foreground line-clamp-1 text-sm">
+          {listing.year} · {formatKm(listing.mileage_km)} · {listing.city}
         </p>
-        <p className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1">
-          <span className="plate max-w-full truncate">{listing.city}</span>
-          {listing.negotiable && <span className="text-primary text-xs font-bold">Negociable</span>}
+        <p className="flex items-baseline gap-2 pt-1">
+          <span className="font-display text-xl">{formatMXN(listing.price_mxn)}</span>
+          {listing.negotiable && (
+            <span className="text-muted-foreground text-xs font-semibold">Negociable</span>
+          )}
         </p>
       </div>
     </article>
@@ -64,7 +57,7 @@ export function ListingCard({
 
 export function ListingGrid({ items, favorites }: { items: Listing[]; favorites: Set<string> }) {
   return (
-    <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+    <ul className="grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-3 lg:grid-cols-4">
       {items.map((l, i) => (
         <li key={l.id}>
           <ListingCard listing={l} favorite={favorites.has(l.id)} priority={i < 3} />
@@ -76,14 +69,14 @@ export function ListingGrid({ items, favorites }: { items: Listing[]; favorites:
 
 export function ListingGridSkeleton({ count = 8 }: { count?: number }) {
   return (
-    <ul aria-hidden className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+    <ul aria-hidden className="grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-3 lg:grid-cols-4">
       {Array.from({ length: count }, (_, i) => (
-        <li key={i} className="border-border bg-card overflow-hidden rounded-md border">
-          <div className="bg-muted aspect-[4/3] animate-pulse" />
-          <div className="space-y-2 p-3">
-            <div className="bg-muted h-5 w-2/3 animate-pulse rounded-sm" />
-            <div className="bg-muted h-4 w-full animate-pulse rounded-sm" />
-            <div className="bg-muted h-3 w-1/2 animate-pulse rounded-sm" />
+        <li key={i}>
+          <div className="bg-muted aspect-[4/3] animate-pulse rounded-md" />
+          <div className="mt-3 space-y-2">
+            <div className="bg-muted h-4 w-2/3 animate-pulse rounded-sm" />
+            <div className="bg-muted h-3.5 w-full animate-pulse rounded-sm" />
+            <div className="bg-muted h-5 w-1/3 animate-pulse rounded-sm" />
           </div>
         </li>
       ))}
