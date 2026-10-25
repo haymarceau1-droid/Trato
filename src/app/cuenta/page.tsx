@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { signOut } from "@/actions/account";
+import { ThemePicker } from "@/components/account/theme-picker";
 import { DataControls } from "@/components/account/data-controls";
 import { FacebookForm, PhoneForm, ProfileForm } from "@/components/account/profile-form";
 import { VerifiedBadge } from "@/components/trust/verified-badge";
@@ -207,6 +208,14 @@ export default async function AccountPage() {
             <PhoneForm initial={p.phone} />
             <hr className="border-border" />
             <FacebookForm initial={p.facebook} />
+          </Card>
+
+          <Card
+            id="apariencia"
+            title="Apariencia"
+            hint="Elige cómo se ve el sitio. “Sistema” sigue el modo claro u oscuro de tu dispositivo."
+          >
+            <ThemePicker />
           </Card>
 
           <Card id="acceso" title="Acceso a tu cuenta">

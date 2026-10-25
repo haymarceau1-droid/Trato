@@ -4,7 +4,6 @@ import { getUser } from "@/lib/listings/queries";
 import { t } from "@/i18n";
 import { LinkButton } from "@/components/ui/button";
 import { HeaderBar } from "./header-bar";
-import { ThemeToggle } from "./theme-toggle";
 import { ProfileMenu } from "./profile-menu";
 import { HeaderNav } from "./header-nav";
 import { Logo } from "./logo";
@@ -29,7 +28,6 @@ export async function Header() {
         <Logo className="origin-left transition-transform group-data-[compact=true]/bar:scale-[0.92]" />
         <HeaderNav />
         <div className="ml-auto flex items-center gap-1 lg:ml-0">
-          <ThemeToggle className={iconLink} />
           <Link href="/autos" aria-label="Buscar autos y motos" className={iconLink}>
             <MagnifyingGlass className="size-5" aria-hidden />
           </Link>
