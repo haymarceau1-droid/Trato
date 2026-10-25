@@ -4,6 +4,7 @@ import { site } from "@/config/site";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { BottomNav } from "@/components/layout/bottom-nav";
+import { BetaNotice } from "@/components/legal/beta-notice";
 import { CookieNotice } from "@/components/legal/cookie-notice";
 import { SwRegister } from "@/components/layout/sw-register";
 import "@fontsource/changa-one/latin-400.css";
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <BottomNav />
         <SwRegister />
         <CookieNotice />
+        <BetaNotice />
       </body>
     </html>
   );
