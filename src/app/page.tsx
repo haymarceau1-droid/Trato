@@ -6,13 +6,13 @@ import {
   Handshake,
   ImageSquare,
   Phone,
-  ShieldCheck,
 } from "@/components/ui/icons";
 import { brand } from "@/config/brand";
 import { cn } from "@/lib/utils";
 import { site } from "@/config/site";
 import { BODY_TYPES, MOTO_TYPES, PRICE_RANGES } from "@/lib/constants";
 import { buildUrl, parseFilters } from "@/lib/listings/filters-url";
+import { MexicoFlag } from "@/components/ui/mexico-flag";
 import { BodyIcon } from "@/components/ui/body-icon";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { MexicoMap } from "@/components/home/mexico-map";
@@ -117,7 +117,7 @@ export default async function Home() {
       <section>
         <div className="container-page flex flex-col items-center pt-4 pb-14 text-center md:pt-6 md:pb-24">
           <p className="border-border bg-card mb-6 inline-flex max-w-full items-center gap-2 rounded-sm border px-3 py-1.5 text-sm font-semibold">
-            <ShieldCheck className="text-primary size-4 shrink-0" aria-hidden />
+            <MexicoFlag className="size-5 shrink-0" />
             <span className="truncate">{marketLine(market)}</span>
           </p>
           <h1 className="text-[3.3rem] leading-[0.9] uppercase sm:text-7xl md:text-8xl lg:text-9xl">
