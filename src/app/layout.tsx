@@ -32,9 +32,14 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es-MX">
+    <html lang="es-MX" suppressHydrationWarning>
       <head>
         <style dangerouslySetInnerHTML={{ __html: brandCss }} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem("trato:tema");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t}catch(e){}`,
+          }}
+        />
       </head>
       <body className="min-h-dvh antialiased">
         <a

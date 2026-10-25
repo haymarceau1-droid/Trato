@@ -59,4 +59,4 @@ const toVars = (c: Record<string, string>) =>
     .join(";");
 
 /** `.theme-dark` fuerza la paleta oscura en una sección (p. ej. el héroe negro de la landing). */
-export const brandCss = `:root{${toVars(brand.colors.light)}}@media (prefers-color-scheme: dark){:root{${toVars(brand.colors.dark)}}}.theme-dark{${toVars(brand.colors.dark)};color-scheme:dark}`;
+export const brandCss = `:root{${toVars(brand.colors.light)}}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){${toVars(brand.colors.dark)}}}:root[data-theme="dark"]{${toVars(brand.colors.dark)}}.theme-dark{${toVars(brand.colors.dark)};color-scheme:dark}`;
