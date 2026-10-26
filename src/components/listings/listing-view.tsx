@@ -23,6 +23,7 @@ import { WhatsAppIcon } from "@/components/ui/whatsapp-icon";
 import { Badge } from "@/components/ui/badge";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { Button, LinkButton } from "@/components/ui/button";
+import { PlatformNotice } from "@/components/trust/platform-notice";
 import { ScamTips } from "@/components/trust/scam-tips";
 import { ReportDialog } from "@/components/trust/report-dialog";
 import { ContactButtons, MobileContactBar } from "./contact-buttons";
@@ -301,6 +302,7 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
           </section>
 
           <ScamTips showRepuve />
+          <PlatformNotice />
         </div>
       </div>
 
