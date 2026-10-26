@@ -26,10 +26,24 @@ const ROWS = [
     "Necesaria",
   ],
   [
-    "trato:aviso-cookies",
+    "trato:aviso-cookies, trato:aviso-beta",
     "Almacenamiento local",
-    "Recuerda que ya viste este aviso.",
+    "Recuerdan que ya viste los avisos de cookies y de beta.",
     "Sin vencimiento",
+    "Necesaria",
+  ],
+  [
+    "trato:tema",
+    "Almacenamiento local",
+    "Recuerda si elegiste modo claro u oscuro.",
+    "Sin vencimiento",
+    "Preferencia que tú eliges",
+  ],
+  [
+    "vw",
+    "Cookie",
+    "Evita contar dos veces tu visita a un mismo anuncio (guarda los últimos que viste).",
+    "24 horas",
     "Necesaria",
   ],
   [
