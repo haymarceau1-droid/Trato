@@ -31,7 +31,7 @@ export function ListingCard({
       : null,
   ].filter((f): f is string => Boolean(f) && f !== "—");
   return (
-    <article className="group relative">
+    <article className="group relative isolate">
       <CardGallery photos={photos} alt={listing.title} priority={priority}>
         <p className="flex flex-wrap gap-x-2 gap-y-0.5 text-xs font-semibold text-white">
           {facts.map((f) => (
