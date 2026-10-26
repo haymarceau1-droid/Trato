@@ -25,7 +25,7 @@ import {
   Trash as Trash2,
 } from "@/components/ui/icons";
 import { site } from "@/config/site";
-import { compressImage } from "@/lib/images/compress";
+import { ImageTooBigError, compressImage } from "@/lib/images/compress";
 import { PHOTO_BUCKET } from "@/lib/listings/photos";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
@@ -142,9 +142,11 @@ export function PhotoUploader({
           .upload(path, blob, { contentType: "image/webp", cacheControl: "31536000" });
         if (upErr) throw upErr;
         onChange([...latest.current, { path, url: URL.createObjectURL(blob) }]);
-      } catch {
+      } catch (e) {
         setError(
-          "Una foto no se pudo subir, pero las demás están bien. Revisa tu conexión y vuelve a elegirla.",
+          e instanceof ImageTooBigError
+            ? `“${file.name}” es demasiado pesada (máximo ${site.maxUploadMB} MB por foto). Prueba con otra o redúcela antes de subirla.`
+            : "Una foto no se pudo subir, pero las demás están bien. Revisa tu conexión y vuelve a elegirla.",
         );
       } finally {
         setBusy((n) => n - 1);
@@ -205,8 +207,8 @@ export function PhotoUploader({
           aria-label="Elegir fotos"
         />
         <p className="text-muted-foreground mt-2 text-xs">
-          De 1 a {site.maxPhotos} fotos. La primera es la portada. Quitamos la ubicación de tus
-          fotos automáticamente.
+          De 1 a {site.maxPhotos} fotos de hasta {site.maxUploadMB} MB cada una. La primera es la
+          portada. Quitamos la ubicación de tus fotos automáticamente.
         </p>
       </div>
 

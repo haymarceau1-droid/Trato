@@ -11,6 +11,10 @@ export const site = {
   reportsToAutoPause: 3,
   minPhotos: 1,
   maxPhotos: 12,
+  /** Peso máximo de una foto que la persona elige (antes de comprimirla). */
+  maxUploadMB: 12,
+  /** Tope duro de cada foto ya comprimida; el bucket de Supabase lo exige también (migración 14). */
+  maxStoredKB: 400,
   maxDescription: 2000,
   /** Precio más de 40 % por debajo de la mediana → revisión. */
   suspiciousPriceRatio: 0.6,

@@ -1,4 +1,4 @@
--- GENERADO: todas las migraciones (01–13) + catálogo (seed.sql). Pégalo completo en Supabase → SQL Editor → Run, UNA sola vez en un proyecto nuevo.
+-- GENERADO: todas las migraciones (01–14) + catálogo (seed.sql). Pégalo completo en Supabase → SQL Editor → Run, UNA sola vez en un proyecto nuevo.
 
 -- ===== 20260101000001_extensions_enums.sql =====
 create extension if not exists unaccent with schema extensions;
@@ -518,6 +518,11 @@ grant select on public.public_profiles to anon, authenticated;
 alter table public.listings
   add column if not exists body_condition smallint check (body_condition between 0 and 100),
   add column if not exists mechanical_condition smallint check (mechanical_condition between 0 and 100);
+
+-- ===== 20260101000014_photo_size_limit.sql =====
+-- Cada foto ya viene comprimida del navegador (~300 KB, tope 400 KB). El bucket rechaza todo lo que pase de 512 KB
+-- para que ninguna llamada directa a la API infle el almacenamiento.
+update storage.buckets set file_size_limit = 524288 where id = 'listing-photos';
 
 -- ===== seed.sql =====
 -- GENERADO por scripts/generate-seed.ts — no editar a mano (npm run catalog:seed).

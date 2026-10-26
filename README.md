@@ -80,6 +80,8 @@ Dashboard → Authentication:
 
 **Estado del vehículo (0–100):** aplica `20260101000013_condition_scores.sql`. Al publicar, el vendedor califica carrocería y mecánica con un barómetro; se muestra en la página del anuncio como calificación del vendedor (orientativa). Los anuncios anteriores quedan sin calificación y se piden al editarlos. Si ya cargaste `supabase/demo.sql`, vuelve a generarlo (`npm run demo:sql`) y cárgalo de nuevo.
 
+**Peso de las fotos:** cada foto se comprime en el navegador (~300 KB, tope 400 KB) y no se aceptan originales de más de 12 MB. Aplica `20260101000014_photo_size_limit.sql` para que el bucket rechace también todo archivo de más de 512 KB. Si ya subiste fotos pesadas, bórralas desde Storage → `listing-photos`.
+
 Quien entra con Google no tiene celular: para publicar, la app le pide su WhatsApp, y el distintivo “Teléfono verificado” solo se obtiene entrando con el OTP por SMS.
 
 El distintivo **“Teléfono verificado”** lo otorga únicamente el OTP por SMS (trigger sobre `auth.users`). Quienes entran por correo guardan su WhatsApp en _Mi perfil_ y aparecen sin verificar.
