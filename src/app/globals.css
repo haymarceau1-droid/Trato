@@ -154,3 +154,19 @@ h4,
   outline: 3px solid var(--primary);
   outline-offset: 2px;
 }
+
+@keyframes menu-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [role="menu"] {
+    animation: none !important;
+  }
+}

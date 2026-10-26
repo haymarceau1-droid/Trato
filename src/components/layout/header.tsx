@@ -21,6 +21,8 @@ export async function Header() {
           name={user.profile.display_name}
           email={user.email}
           avatarUrl={user.profile.avatar_url}
+          verified={user.profile.phone_verified}
+          isAdmin={user.profile.role === "admin"}
           className="pointer-events-auto absolute top-1/2 right-4 hidden -translate-y-1/2 xl:block"
         />
       )}
