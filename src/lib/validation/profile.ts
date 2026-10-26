@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { MX_STATES } from "@/lib/constants";
 
 export const profileSchema = z.object({
@@ -11,11 +10,7 @@ export const profileSchema = z.object({
   city: z.string().trim().max(60).optional(),
 });
 
-/** Teléfono mexicano → E.164 (+52XXXXXXXXXX) o null si no es válido. */
-export function toMxE164(raw: string): string | null {
-  const p = parsePhoneNumberFromString(raw.trim(), "MX");
-  return p && p.isValid() && p.country === "MX" ? p.number : null;
-}
+export { toMxE164 } from "./phone";
 
 /**
  * Usuario o enlace de Facebook → "usuario" o "profile.php?id=123"; null si no se reconoce.

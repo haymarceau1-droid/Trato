@@ -17,7 +17,7 @@ import { buildUrl, parseFilters } from "@/lib/listings/filters-url";
 import { MexicoFlag } from "@/components/ui/mexico-flag";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { VehicleDoors } from "@/components/home/vehicle-doors";
-import { MexicoMap } from "@/components/home/mexico-map";
+import dynamic from "next/dynamic";
 import { logoBrands } from "@/lib/brand-picks";
 import { marketLine } from "@/lib/market-line";
 import { slugify } from "@/lib/listings/slug";
@@ -66,6 +66,13 @@ const FAQ = [
     `No, y es a propósito: ${brand.name} nunca toca tu dinero. El pago se hace en persona, al recibir el vehículo y firmar la compraventa.`,
   ],
 ] as const;
+
+// El mapa está bajo la zona visible y trae ~35 KB de trazados: se carga aparte para no frenar la portada.
+const MexicoMap = dynamic(() => import("@/components/home/mexico-map").then((m) => m.MexicoMap), {
+  loading: () => (
+    <div className="bg-muted aspect-[8/5] w-full animate-pulse rounded-md" aria-hidden />
+  ),
+});
 
 const HABITS = [
   [

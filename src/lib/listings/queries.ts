@@ -1,7 +1,9 @@
 import "server-only";
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import { site } from "@/config/site";
 import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
 import { supabaseConfigured } from "@/lib/supabase/env";
 import type { Listing, PublicProfile } from "@/types";
 import type { VehicleType } from "@/lib/constants";
@@ -94,9 +96,9 @@ export async function searchListings(f: Filters): Promise<{ items: Listing[]; to
   });
 }
 
-export async function getLatest(limit = 8, type?: VehicleType): Promise<Listing[]> {
+async function fetchLatest(limit = 8, type?: VehicleType): Promise<Listing[]> {
   return safe([], async () => {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     let q = supabase
       .from("listings")
       .select(SELECT)
@@ -111,6 +113,9 @@ export async function getLatest(limit = 8, type?: VehicleType): Promise<Listing[
     return (data ?? []) as Listing[];
   });
 }
+
+/** Últimos anuncios: datos públicos, en caché 60 s (la portada no necesita consultar la base en cada visita). */
+export const getLatest = unstable_cache(fetchLatest, ["latest-listings"], { revalidate: 60 });
 
 /** Devuelve el anuncio aunque ya no esté activo si el RLS lo permite (dueño/admin). */
 export const getListing = cache(async (id: string): Promise<Listing | null> =>
@@ -234,9 +239,9 @@ export async function getMedianPrice(
 }
 
 /** Anuncios activos por estado (slug → cantidad), para colorear el mapa de la portada. */
-export async function getStateCounts(): Promise<Record<string, number>> {
+async function fetchStateCounts(): Promise<Record<string, number>> {
   return safe({} as Record<string, number>, async () => {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data } = await supabase
       .from("listings")
       .select("state")
@@ -249,10 +254,14 @@ export async function getStateCounts(): Promise<Record<string, number>> {
   });
 }
 
+export const getStateCounts = unstable_cache(fetchStateCounts, ["getStateCounts"], {
+  revalidate: 120,
+});
+
 /** Anuncios activos de autos y de motos (para la portada). */
-export async function getTypeCounts(): Promise<{ auto: number; moto: number }> {
+async function fetchTypeCounts(): Promise<{ auto: number; moto: number }> {
   return safe({ auto: 0, moto: 0 }, async () => {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const count = async (type: "auto" | "moto") => {
       const { count: n } = await supabase
         .from("listings")
@@ -266,6 +275,10 @@ export async function getTypeCounts(): Promise<{ auto: number; moto: number }> {
     return { auto, moto };
   });
 }
+
+export const getTypeCounts = unstable_cache(fetchTypeCounts, ["getTypeCounts"], {
+  revalidate: 120,
+});
 
 /** Vista previa de filtros: cuántos resultados hay y cómo se reparten los precios (sin filtrar por precio). */
 export async function previewFilters(f: Filters, cap: number, buckets = 28) {
@@ -287,12 +300,16 @@ export async function previewFilters(f: Filters, cap: number, buckets = 28) {
 }
 
 /** Cifras públicas del mercado: anuncios activos y vendidos (el dueño marca la venta). */
-export async function getMarketStats() {
+async function fetchMarketStats() {
   return safe({ active: 0, sold: 0, sold30d: 0 }, async () => {
-    const supabase = await createClient();
+    const supabase = createPublicClient();
     const { data, error } = await supabase.rpc("market_stats");
     if (error) throw error;
     const d = data as { active: number; sold: number; sold_30d: number };
     return { active: d.active, sold: d.sold, sold30d: d.sold_30d };
   });
 }
+
+export const getMarketStats = unstable_cache(fetchMarketStats, ["getMarketStats"], {
+  revalidate: 120,
+});

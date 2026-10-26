@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
 import { safeNext } from "@/lib/safe-next";
-import { toMxE164 } from "@/lib/validation/profile";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { GoogleIcon } from "@/components/ui/google-icon";
 import { Field, Input } from "@/components/ui/field";
+
+// El cliente de Supabase pesa ~100 KB: se descarga al usarlo, no al abrir la página.
+const supabase = async () => (await import("@/lib/supabase/client")).createClient();
 
 type Mode = "phone" | "email";
 
@@ -45,9 +46,11 @@ export function AuthForm({ next }: { next: string }) {
 
   const sendPhone = () =>
     run(async () => {
+      // libphonenumber pesa mucho: se carga al enviar el código, no al abrir la página.
+      const { toMxE164 } = await import("@/lib/validation/phone");
       const number = toMxE164(phone);
       if (!number) throw new Error("Revisa tu número: debe ser un celular mexicano de 10 dígitos.");
-      const { error } = await createClient().auth.signInWithOtp({ phone: number });
+      const { error } = await (await supabase()).auth.signInWithOtp({ phone: number });
       if (error)
         throw new Error(
           "No pudimos enviar el código todavía. Espera un momento e intenta de nuevo, o entra con tu correo.",
@@ -58,7 +61,9 @@ export function AuthForm({ next }: { next: string }) {
   const verify = () =>
     run(async () => {
       if (!e164) return;
-      const { error } = await createClient().auth.verifyOtp({
+      const { error } = await (
+        await supabase()
+      ).auth.verifyOtp({
         phone: e164,
         token: code.trim(),
         type: "sms",
@@ -71,7 +76,9 @@ export function AuthForm({ next }: { next: string }) {
 
   const withDemo = () =>
     run(async () => {
-      const { error } = await createClient().auth.signInWithPassword({
+      const { error } = await (
+        await supabase()
+      ).auth.signInWithPassword({
         email: DEMO_EMAIL,
         password: DEMO_PASSWORD!,
       });
@@ -83,7 +90,9 @@ export function AuthForm({ next }: { next: string }) {
   const withGoogle = () =>
     run(async () => {
       const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(safeNext(next))}`;
-      const { error } = await createClient().auth.signInWithOAuth({
+      const { error } = await (
+        await supabase()
+      ).auth.signInWithOAuth({
         provider: "google",
         options: { redirectTo },
       });
@@ -97,7 +106,9 @@ export function AuthForm({ next }: { next: string }) {
     run(async () => {
       if (!/^\S+@\S+\.\S+$/.test(email)) throw new Error("Escribe un correo válido.");
       const redirect = `${window.location.origin}/auth/callback?next=${encodeURIComponent(safeNext(next))}`;
-      const { error } = await createClient().auth.signInWithOtp({
+      const { error } = await (
+        await supabase()
+      ).auth.signInWithOtp({
         email,
         options: { emailRedirectTo: redirect },
       });

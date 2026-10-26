@@ -46,10 +46,22 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    // Logos, siluetas de estados y fotos de ejemplo casi nunca cambian: una semana en caché del navegador.
+    const longCache = [
+      { key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" },
+    ];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      ...["/logos/:path*", "/estados/:path*", "/ejemplo/:path*"].map((source) => ({
+        source,
+        headers: longCache,
+      })),
+    ];
   },
   images: {
     formats: ["image/avif", "image/webp"],
+    // Las fotos de los anuncios no cambian: se guardan optimizadas 30 días en lugar de 4 horas.
+    minimumCacheTTL: 60 * 60 * 24 * 30,
     remotePatterns: [
       ...(supabaseHost
         ? [

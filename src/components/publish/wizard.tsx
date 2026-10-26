@@ -38,7 +38,13 @@ import { QuickPick } from "@/components/ui/chips";
 import { Segmented } from "@/components/ui/segmented";
 import { logoBrands } from "@/lib/brand-picks";
 import { MX_CITIES } from "@/lib/cities";
-import { PhotoUploader, type PhotoItem } from "./photo-uploader";
+import dynamic from "next/dynamic";
+import type { PhotoItem } from "./photo-uploader";
+
+// Arrastrar y soltar + cliente de Supabase solo hacen falta en el paso de fotos.
+const PhotoUploader = dynamic(() => import("./photo-uploader").then((m) => m.PhotoUploader), {
+  loading: () => <div className="bg-muted h-48 animate-pulse rounded-md" aria-hidden />,
+});
 
 type FormValues = z.input<typeof listingSchema>;
 type Name = FieldPath<FormValues>;
