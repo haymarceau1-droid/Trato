@@ -195,7 +195,7 @@ export default async function Home() {
             Recién publicados
           </h2>
           <Link href="/autos" className="text-sm font-semibold underline underline-offset-4">
-            Ver todos
+            Ver todos los vehículos publicados
           </Link>
         </div>
         {latest.length ? (

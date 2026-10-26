@@ -53,6 +53,7 @@ export async function Header() {
           ) : (
             <Link
               href="/acceder"
+              aria-label="Entrar a tu cuenta"
               className="hover:bg-muted hidden min-h-11 items-center rounded-sm px-4 text-sm font-semibold transition-[min-height,padding] group-data-[compact=true]/bar:min-h-10 group-data-[compact=true]/bar:px-3.5 md:inline-flex"
             >
               {t("nav.login")}

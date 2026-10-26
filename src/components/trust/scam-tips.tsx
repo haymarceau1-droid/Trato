@@ -35,7 +35,7 @@ export function ScamTips({ showRepuve = false }: { showRepuve?: boolean }) {
           </a>
         )}
         <Link href="/consejos" className="underline">
-          Guía completa
+          Guía completa anti-estafa
         </Link>
       </p>
     </aside>

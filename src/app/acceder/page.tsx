@@ -46,7 +46,7 @@ export default async function LoginPage({
             </Link>
             . Usamos solo cookies necesarias (
             <Link href="/cookies" className="underline">
-              más información
+              política de cookies
             </Link>
             ).
           </p>

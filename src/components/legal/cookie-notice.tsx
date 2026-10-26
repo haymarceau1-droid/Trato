@@ -39,7 +39,7 @@ export function CookieNotice() {
       <p className="text-sm">
         Usamos solo cookies necesarias para tu sesión y tu borrador. Sin publicidad ni rastreo.{" "}
         <Link href="/cookies" className="font-semibold underline">
-          Más información
+          Política de cookies
         </Link>
       </p>
       <Button
