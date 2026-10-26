@@ -1,4 +1,4 @@
-# Trato
+# rodara.mx
 
 Compra y vende autos y motos usados en México, sin estafas. Web app mobile-first (PWA) hecha con **Next.js 16 (App Router) + TypeScript + Tailwind CSS 4 + Supabase**.
 

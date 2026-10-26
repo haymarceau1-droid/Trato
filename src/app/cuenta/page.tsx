@@ -7,6 +7,7 @@ import { DataControls } from "@/components/account/data-controls";
 import { FacebookForm, PhoneForm, ProfileForm } from "@/components/account/profile-form";
 import { VerifiedBadge } from "@/components/trust/verified-badge";
 import { Button, buttonClass } from "@/components/ui/button";
+import { brand } from "@/config/brand";
 import { stateName } from "@/lib/constants";
 import { getUser } from "@/lib/listings/queries";
 import { createClient } from "@/lib/supabase/server";
@@ -89,7 +90,7 @@ export default async function AccountPage() {
               <div className="min-w-0">
                 <h1 className="truncate text-2xl leading-tight">{p.display_name}</h1>
                 <p className="text-muted-foreground text-sm">
-                  En Trato desde {since(p.created_at)}
+                  En {brand.name} desde {since(p.created_at)}
                 </p>
               </div>
             </div>

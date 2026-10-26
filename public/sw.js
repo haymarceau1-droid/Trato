@@ -1,5 +1,5 @@
 // Service worker mínimo: solo muestra una página sin conexión cuando falla la navegación.
-const CACHE = "trato-offline-v1";
+const CACHE = "rodara-offline-v1";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((c) => c.add("/offline.html")));

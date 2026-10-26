@@ -1,12 +1,12 @@
 /** Punto único de marca: nombre, eslogan y colores. Cambia aquí y se refleja en todo el sitio. */
 /** Un solo rojo en todo el sitio (claro y oscuro): cumple contraste AA con texto blanco. */
 export const brand = {
-  name: "Trato",
+  name: "rodara.mx",
   tagline: "Compra y vende autos y motos usados, sin estafas.",
   shortDescription:
     "Compra y vende autos y motos usados en México. Vendedores con celular verificado, sin comisiones y con una guía para revisar factura, REPUVE y tenencia.",
-  contactEmail: "hola@trato.mx",
-  logoMark: "T",
+  contactEmail: "hola@rodara.mx",
+  logoMark: "R",
   /**
    * Datos del responsable para Términos y Aviso de privacidad (LFPDPPP exige identificarlo y dar domicilio).
    * Reemplaza los textos entre [corchetes] antes de lanzar: mientras tanto se muestran como pendientes.
