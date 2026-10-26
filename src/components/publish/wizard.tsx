@@ -100,6 +100,9 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
   const [pending, start] = useTransition();
   const idRef = useRef(listingId);
   const topRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  // Al editar se ven todas las secciones a la vez (sin el tipo, que no cambia, ni la revisión final).
+  const on = (n: number) => (edit ? n !== 0 && n !== 6 : step === n);
 
   const form = useForm<FormValues, unknown, ListingInput>({
     resolver: zodResolver(listingSchema),
@@ -193,7 +196,7 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
 
   // Aviso de precio al entrar al paso 4.
   useEffect(() => {
-    if (step !== 3 || !type || !v.brand || !v.model || !v.year) return;
+    if ((!edit && step !== 3) || !type || !v.brand || !v.model || !v.year) return;
     let cancelled = false;
     getPriceHint({ vehicle_type: type, brand: v.brand, model: v.model, year: Number(v.year) }).then(
       (m) => !cancelled && setPriceHint(m),
@@ -201,7 +204,7 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
     return () => {
       cancelled = true;
     };
-  }, [step, type, v.brand, v.model, v.year]);
+  }, [step, edit, type, v.brand, v.model, v.year]);
 
   const next = useCallback(async () => {
     setServerError(null);
@@ -297,45 +300,72 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
     type && v.brand && v.model && v.year
       ? buildTitle({ brand: v.brand, model: v.model, year: Number(v.year), version: v.version })
       : "";
+  const H = edit ? "h2" : "h1";
   const err = (n: Name) => (errors as Record<string, { message?: string } | undefined>)[n]?.message;
   const invalid = (n: Name) => (err(n) ? true : undefined);
 
   return (
     <div ref={topRef} className="mx-auto max-w-5xl scroll-mt-20">
-      <div className="mb-6 space-y-3 lg:max-w-2xl">
-        <div className="flex items-baseline justify-between gap-3">
-          <p className="text-sm font-semibold">
-            Paso {step + 1} de {STEPS.length} ·{" "}
-            <span className="text-muted-foreground">{STEPS[step]}</span>
-          </p>
-          {!edit && (
-            <p className="text-muted-foreground flex items-center gap-1.5 text-xs">
-              <CheckCircle2 className="size-3.5" aria-hidden /> Se guarda solo
-            </p>
-          )}
-        </div>
-        <ol className="flex gap-1.5" aria-label="Progreso">
-          {STEPS.map((name, i) => (
-            <li key={name} className="flex-1">
+      {edit && (
+        <nav
+          aria-label="Secciones del anuncio"
+          className="no-scrollbar bg-background/90 sticky top-20 z-20 -mx-4 mb-5 flex gap-2 overflow-x-auto px-4 py-2 backdrop-blur md:top-22 lg:max-w-2xl"
+        >
+          {["Marca y modelo", "Datos", "Precio y ciudad", "Fotos", "Descripción"].map(
+            (label, i) => (
               <button
+                key={label}
                 type="button"
-                disabled={i >= step}
-                onClick={() => {
-                  setStep(i);
-                  scrollTop();
-                }}
-                aria-label={`Volver al paso ${i + 1}`}
-                aria-current={i === step ? "step" : undefined}
-                className={cn(
-                  "block h-2 w-full rounded-full transition-colors",
-                  i <= step ? "bg-primary" : "bg-muted",
-                  i < step && "hover:opacity-70",
-                )}
-              />
-            </li>
-          ))}
-        </ol>
-      </div>
+                onClick={() =>
+                  formRef.current?.children[i]?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  })
+                }
+                className="border-border bg-card hover:border-foreground min-h-9 shrink-0 rounded-sm border px-3 text-sm font-semibold"
+              >
+                {label}
+              </button>
+            ),
+          )}
+        </nav>
+      )}
+      {!edit && (
+        <div className="mb-6 space-y-3 lg:max-w-2xl">
+          <div className="flex items-baseline justify-between gap-3">
+            <p className="text-sm font-semibold">
+              Paso {step + 1} de {STEPS.length} ·{" "}
+              <span className="text-muted-foreground">{STEPS[step]}</span>
+            </p>
+            {!edit && (
+              <p className="text-muted-foreground flex items-center gap-1.5 text-xs">
+                <CheckCircle2 className="size-3.5" aria-hidden /> Se guarda solo
+              </p>
+            )}
+          </div>
+          <ol className="flex gap-1.5" aria-label="Progreso">
+            {STEPS.map((name, i) => (
+              <li key={name} className="flex-1">
+                <button
+                  type="button"
+                  disabled={i >= step}
+                  onClick={() => {
+                    setStep(i);
+                    scrollTop();
+                  }}
+                  aria-label={`Volver al paso ${i + 1}`}
+                  aria-current={i === step ? "step" : undefined}
+                  className={cn(
+                    "block h-2 w-full rounded-full transition-colors",
+                    i <= step ? "bg-primary" : "bg-muted",
+                    i < step && "hover:opacity-70",
+                  )}
+                />
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
 
       {draftRestored && step === 0 && (
         <p
@@ -357,8 +387,17 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
       )}
 
       <div className="lg:grid lg:grid-cols-[minmax(0,40rem)_1fr] lg:gap-12">
-        <form onSubmit={(e) => e.preventDefault()} className="space-y-5" noValidate>
-          {step === 0 && (
+        <form
+          ref={formRef}
+          onSubmit={(e) => e.preventDefault()}
+          className={cn(
+            "space-y-5",
+            edit &&
+              "[&>div:not(.sticky-actions)]:border-border [&>div:not(.sticky-actions)]:bg-card [&>fieldset]:border-border [&>fieldset]:bg-card space-y-6 [&>div:not(.sticky-actions)]:scroll-mt-40 [&>div:not(.sticky-actions)]:rounded-md [&>div:not(.sticky-actions)]:border [&>div:not(.sticky-actions)]:p-5 [&>fieldset]:scroll-mt-40 [&>fieldset]:rounded-md [&>fieldset]:border [&>fieldset]:p-5",
+          )}
+          noValidate
+        >
+          {on(0) && (
             <fieldset className="space-y-3">
               <legend className="mb-2 text-2xl font-extrabold">
                 ¿Vas a vender un auto o una moto?
@@ -404,11 +443,11 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
             </fieldset>
           )}
 
-          {step === 1 && (
+          {on(1) && (
             <div className="space-y-4">
-              <h1 className="text-2xl font-extrabold">
+              <H className="text-2xl font-extrabold">
                 ¿Cuál es tu {type === "auto" ? "auto" : "moto"}?
-              </h1>
+              </H>
               <Field label="Marca" error={err("brand")}>
                 <Combobox
                   label="Marca"
@@ -466,9 +505,9 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
             </div>
           )}
 
-          {step === 2 && (
+          {on(2) && (
             <div className="space-y-4">
-              <h1 className="text-2xl font-extrabold">Características</h1>
+              <H className="text-2xl font-extrabold">Características</H>
               <Segmented
                 label="Transmisión"
                 value={v.transmission}
@@ -633,9 +672,9 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
             </div>
           )}
 
-          {step === 3 && (
+          {on(3) && (
             <div className="space-y-4">
-              <h1 className="text-2xl font-extrabold">Precio y ubicación</h1>
+              <H className="text-2xl font-extrabold">Precio y ubicación</H>
               <Field
                 label="Precio (MXN)"
                 error={err("price_mxn")}
@@ -699,9 +738,9 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
             </div>
           )}
 
-          {step === 4 && (
+          {on(4) && (
             <div className="space-y-4">
-              <h1 className="text-2xl font-extrabold">Agrega fotos</h1>
+              <H className="text-2xl font-extrabold">Agrega fotos</H>
               <p className="text-muted-foreground text-sm">
                 Un auto o moto con buenas fotos se vende más rápido. Toma el frente, los costados,
                 el interior, el tablero con el kilometraje y el motor, con luz de día. Quitamos la
@@ -724,9 +763,9 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
             </div>
           )}
 
-          {step === 5 && (
+          {on(5) && (
             <div className="space-y-4">
-              <h1 className="text-2xl font-extrabold">Cuéntale al comprador cómo está</h1>
+              <H className="text-2xl font-extrabold">Cuéntale al comprador cómo está</H>
               <Field
                 label="Descripción"
                 error={err("description")}
@@ -768,9 +807,9 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
             </div>
           )}
 
-          {step === 6 && (
+          {on(6) && (
             <div className="space-y-4">
-              <h1 className="text-2xl font-extrabold">Revisa cómo se verá tu anuncio</h1>
+              <H className="text-2xl font-extrabold">Revisa cómo se verá tu anuncio</H>
               <div className="grid gap-5 sm:grid-cols-[14rem_1fr]">
                 <ListingPreview
                   cover={photos[0]?.url}
@@ -838,19 +877,32 @@ export function PublishWizard({ userId, catalog, edit }: Props) {
           )}
 
           <div className="sticky-actions bg-background/95 border-border sticky bottom-14 z-20 -mx-4 flex gap-3 border-t px-4 py-3 backdrop-blur md:static md:mx-0 md:border-0 md:bg-transparent md:px-0 md:pt-2 md:backdrop-blur-none">
-            {step > 0 && (
-              <Button variant="outline" onClick={back} disabled={pending}>
-                Atrás
-              </Button>
-            )}
-            {step < STEPS.length - 1 ? (
-              <Button size="lg" className="flex-1" onClick={next}>
-                Continuar
-              </Button>
+            {edit ? (
+              <>
+                <LinkButton href="/mis-anuncios" variant="outline">
+                  Cancelar
+                </LinkButton>
+                <Button size="lg" className="flex-1" onClick={submit} disabled={pending}>
+                  {pending ? "Guardando…" : "Guardar cambios"}
+                </Button>
+              </>
             ) : (
-              <Button size="lg" className="flex-1" onClick={submit} disabled={pending}>
-                {pending ? "Publicando…" : edit ? "Guardar cambios" : "Publicar anuncio"}
-              </Button>
+              <>
+                {step > 0 && (
+                  <Button variant="outline" onClick={back} disabled={pending}>
+                    Atrás
+                  </Button>
+                )}
+                {step < STEPS.length - 1 ? (
+                  <Button size="lg" className="flex-1" onClick={next}>
+                    Continuar
+                  </Button>
+                ) : (
+                  <Button size="lg" className="flex-1" onClick={submit} disabled={pending}>
+                    {pending ? "Publicando…" : edit ? "Guardar cambios" : "Publicar anuncio"}
+                  </Button>
+                )}
+              </>
             )}
           </div>
         </form>

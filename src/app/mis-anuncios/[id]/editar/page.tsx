@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { PublishWizard } from "@/components/publish/wizard";
 import { photoUrl } from "@/lib/listings/photos";
@@ -21,6 +22,16 @@ export default async function EditPage({ params }: { params: Promise<{ id: strin
     .map((p) => ({ path: p.storage_path, url: photoUrl(p.storage_path) }));
   return (
     <div className="container-page py-6">
+      <div className="mx-auto mb-5 max-w-5xl">
+        <Link
+          href="/mis-anuncios"
+          className="text-muted-foreground text-sm font-semibold underline"
+        >
+          ← Mis anuncios
+        </Link>
+        <h1 className="mt-2 text-3xl">Editar anuncio</h1>
+        <p className="text-muted-foreground">{l.title}</p>
+      </div>
       <PublishWizard
         userId={user.id}
         catalog={{ auto, moto }}
