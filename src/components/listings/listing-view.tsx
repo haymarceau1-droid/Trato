@@ -50,11 +50,21 @@ interface Props {
   similar: Listing[];
   favorites: Set<string>;
   isOwner: boolean;
+  /** Hay sesión iniciada: sin ella el contacto del vendedor no se muestra. */
+  loggedIn?: boolean;
   /** Página testigo: sin llamadas a la API ni a la base de datos. */
   demo?: boolean;
 }
 
-export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Props) {
+export function ListingView({
+  l,
+  seller,
+  similar,
+  favorites,
+  isOwner,
+  loggedIn = false,
+  demo,
+}: Props) {
   const photos = [...l.listing_photos]
     .sort((a, b) => a.position - b.position)
     .map((p) => photoUrl(p.storage_path));
@@ -85,6 +95,7 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
           listingId={l.id}
           price={formatMXN(l.price_mxn)}
           hasFacebook={seller?.has_facebook}
+          loggedIn={loggedIn}
         />
       )}
 
@@ -185,7 +196,11 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
                 </Button>
               </div>
             ) : live ? (
-              <ContactButtons listingId={l.id} hasFacebook={seller?.has_facebook} />
+              <ContactButtons
+                listingId={l.id}
+                hasFacebook={seller?.has_facebook}
+                loggedIn={loggedIn}
+              />
             ) : null}
 
             {!demo && (

@@ -66,6 +66,7 @@ export default async function ListingPage({ params }: Props) {
       similar={similar}
       favorites={favorites}
       isOwner={user?.id === l.user_id}
+      loggedIn={Boolean(user)}
     />
   );
 }

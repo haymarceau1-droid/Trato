@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { brand } from "@/config/brand";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
+import { supabaseConfigured } from "@/lib/supabase/env";
 import { formatMXN } from "@/lib/format";
 import { messengerUrl } from "@/lib/validation/profile";
 
@@ -13,6 +14,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
   const { id } = await ctx.params;
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id))
     return json({ error: "Anuncio no válido." }, 400);
+  if (!supabaseConfigured) return json({ error: "Servicio no disponible." }, 503);
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) return json({ error: "Inicia sesión para ver el contacto." }, 401);
