@@ -1,4 +1,4 @@
-import { Car, Check, Gauge, HandCoins, ShieldCheck } from "@/components/ui/icons";
+import { Car, Check, Flag, Gauge, ShieldCheck } from "@/components/ui/icons";
 import { FacebookIcon } from "@/components/ui/facebook-icon";
 import { LinkButton } from "@/components/ui/button";
 import { brand } from "@/config/brand";
@@ -14,6 +14,11 @@ const BENEFITS = [
     Gauge,
     "Sabes cómo está antes de ir",
     "Cada anuncio trae la calificación del vendedor de 0 a 100 para carrocería y mecánica.",
+  ],
+  [
+    Flag,
+    "Anuncios moderados",
+    "Detectamos precios sospechosos, anticipos y teléfonos en la descripción, y revisamos cada reporte.",
   ],
   [
     Car,
@@ -44,8 +49,11 @@ const ROWS: { label: string; us: Cell; them: Cell }[] = [
     them: { text: "Descripción del vendedor" },
   },
   {
-    label: "Anti-estafas",
-    us: { ok: true, text: "Consejos en cada anuncio; 3 reportes pausan el anuncio" },
+    label: "Moderación",
+    us: {
+      ok: true,
+      text: "Revisamos anuncios sospechosos y reportes; 3 reportes pausan el anuncio",
+    },
     them: { text: "Reportes de la comunidad" },
   },
   {
@@ -80,7 +88,10 @@ export function Comparison() {
       <p className="text-muted-foreground mt-2 max-w-xl">
         Facebook Marketplace sirve para casi todo. {brand.name} se dedica solo a autos y motos.
       </p>
-      <ul className="mt-6 grid gap-3 md:grid-cols-3" aria-label="Ventajas de usar rodara.mx">
+      <ul
+        className="mt-6 grid gap-3 md:grid-cols-2 lg:grid-cols-4"
+        aria-label="Ventajas de usar rodara.mx"
+      >
         {BENEFITS.map(([Icon, title, text]) => (
           <li key={title} className="border-primary bg-card flex gap-4 rounded-md border-2 p-5">
             <span className="bg-primary text-primary-foreground grid size-11 shrink-0 place-items-center rounded-sm">
