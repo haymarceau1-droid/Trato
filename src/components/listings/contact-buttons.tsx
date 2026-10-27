@@ -66,12 +66,10 @@ export function ContactButtons({
     <div className="space-y-2">
       <div className="grid grid-cols-2 gap-2">
         <Button size="lg" variant="whatsapp" disabled={busy !== null} onClick={() => contact("wa")}>
-          <WhatsAppIcon className="size-5" /> WhatsApp
-          {!loggedIn && <LockIcon className="size-4" />}
+          <WhatsAppIcon className="size-5 shrink-0" /> WhatsApp
         </Button>
         <Button size="lg" variant="outline" disabled={busy !== null} onClick={() => contact("tel")}>
-          <Phone className="size-5" aria-hidden /> Llamar
-          {!loggedIn && <LockIcon className="size-4" />}
+          <Phone className="size-5 shrink-0" aria-hidden /> Llamar
         </Button>
       </div>
       {hasFacebook && (
@@ -82,8 +80,7 @@ export function ContactButtons({
           disabled={busy !== null}
           onClick={() => contact("fb")}
         >
-          <FacebookIcon className="size-5" /> Contactar en Facebook
-          {!loggedIn && <LockIcon className="size-4" />}
+          <FacebookIcon className="size-5 shrink-0" /> Contactar en Facebook
         </Button>
       )}
       {error && (
@@ -124,34 +121,35 @@ export function MobileContactBar({
   return (
     <div className="sticky-actions border-foreground bg-card fixed inset-x-0 bottom-14 z-30 border-t-2 px-4 py-2 md:hidden">
       <div className="flex items-center gap-3">
-        <p className="font-display text-xl">{price}</p>
+        <p className="font-display text-lg leading-none whitespace-nowrap">{price}</p>
         <Button
           className="ml-auto flex-1"
           variant="whatsapp"
           disabled={busy !== null}
           onClick={() => contact("wa")}
         >
-          <WhatsAppIcon className="size-5" /> WhatsApp
-          {!loggedIn && <LockIcon className="size-4" />}
+          <WhatsAppIcon className="size-5 shrink-0" /> WhatsApp
         </Button>
         <Button
           variant="outline"
           size="icon"
+          className="shrink-0"
           aria-label="Llamar"
           disabled={busy !== null}
           onClick={() => contact("tel")}
         >
-          <Phone className="size-5" aria-hidden />
+          <Phone className="size-5 shrink-0" aria-hidden />
         </Button>
         {hasFacebook && (
           <Button
             variant="outline"
             size="icon"
+            className="shrink-0"
             aria-label="Contactar en Facebook"
             disabled={busy !== null}
             onClick={() => contact("fb")}
           >
-            <FacebookIcon className="size-5" />
+            <FacebookIcon className="size-5 shrink-0" />
           </Button>
         )}
       </div>
