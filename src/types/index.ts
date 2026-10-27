@@ -36,6 +36,7 @@ export interface Listing {
   moto_type: string | null;
   engine_cc: number | null;
   price_mxn: number;
+  boosted_until: string | null;
   body_condition: number | null;
   mechanical_condition: number | null;
   negotiable: boolean;

@@ -47,6 +47,10 @@ const sql = [
     .map((r) => `  (${cols.map((c) => q((r as Record<string, unknown>)[c])).join(", ")})`)
     .join(",\n") + ";",
   "",
+  "-- Anuncios destacados de ejemplo: 2 autos y 1 moto (los más caros), durante 15 días desde que cargas este archivo.",
+  `update public.listings set boosted_until = now() + interval '15 days' where id in (select id from public.listings where user_id = '${USER_ID}' and vehicle_type = 'auto' order by price_mxn desc limit 2);`,
+  `update public.listings set boosted_until = now() + interval '15 days' where id in (select id from public.listings where user_id = '${USER_ID}' and vehicle_type = 'moto' order by price_mxn desc limit 1);`,
+  "",
   "insert into public.listing_photos (listing_id, storage_path, position) values",
   rows
     .flatMap((r, n) =>

@@ -31,6 +31,7 @@ import { FavoriteButton } from "./favorite-button";
 import { Gallery } from "./gallery";
 import { ListingGrid } from "./listing-card";
 import { ShareButton } from "./share-button";
+import { isBoosted } from "@/lib/listings/boost";
 import { ConditionBars } from "./condition-bars";
 import { LocationMap } from "./location-map";
 import { SpecGrid } from "./spec-grid";
@@ -157,7 +158,10 @@ export function ListingView({ l, seller, similar, favorites, isOwner, demo }: Pr
             <div>
               <p className="text-muted-foreground text-sm font-semibold">Precio</p>
               <p className="font-display text-4xl">{formatMXN(l.price_mxn)}</p>
-              {l.negotiable && <Badge tone="green">Precio negociable</Badge>}
+              <div className="flex flex-wrap gap-2">
+                {isBoosted(l) && <Badge tone="red">Anuncio destacado</Badge>}
+                {l.negotiable && <Badge tone="green">Precio negociable</Badge>}
+              </div>
             </div>
 
             {isOwner ? (

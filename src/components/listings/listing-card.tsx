@@ -1,10 +1,12 @@
 import Link from "next/link";
 import type { Listing } from "@/types";
 import { formatKm, formatMXN } from "@/lib/format";
+import { isBoosted } from "@/lib/listings/boost";
 import { photoUrl } from "@/lib/listings/photos";
 import { BODY_TYPES, FUELS, MOTO_TYPES, TRANSMISSIONS, labelOf } from "@/lib/constants";
 import { CardGallery } from "./card-gallery";
 import { listingPath } from "@/lib/listings/slug";
+import { Star } from "@/components/ui/icons";
 import { FavoriteButton } from "./favorite-button";
 
 export function ListingCard({
@@ -20,6 +22,7 @@ export function ListingCard({
     .sort((a, b) => a.position - b.position)
     .slice(0, 6)
     .map((p) => photoUrl(p.storage_path));
+  const boosted = isBoosted(listing);
   const facts = [
     labelOf(TRANSMISSIONS, listing.transmission),
     labelOf(FUELS, listing.fuel),
@@ -44,6 +47,11 @@ export function ListingCard({
           ))}
         </p>
       </CardGallery>
+      {boosted && (
+        <span className="bg-primary text-primary-foreground pointer-events-none absolute top-2 left-2 z-30 inline-flex items-center gap-1 rounded-sm px-2 py-1 text-xs font-semibold shadow">
+          <Star className="size-3.5" weight="fill" aria-hidden /> Destacado
+        </span>
+      )}
       <FavoriteButton
         listingId={listing.id}
         initial={favorite}

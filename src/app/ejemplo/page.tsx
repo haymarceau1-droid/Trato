@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ListingView } from "@/components/listings/listing-view";
-import { sampleListing, sampleSimilar } from "@/lib/sample";
+import { sampleBoostEnd, sampleListing, sampleSimilar } from "@/lib/sample";
 
 export const metadata: Metadata = {
   title: "Ejemplo de anuncio",
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 /** Página testigo: un anuncio ficticio para revisar el diseño sin depender de la base de datos. */
 export default function ExamplePage() {
-  const l = sampleListing();
+  const l = sampleListing({ boosted_until: sampleBoostEnd() });
   return (
     <ListingView
       demo

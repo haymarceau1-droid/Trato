@@ -82,6 +82,8 @@ Dashboard → Authentication:
 
 **Peso de las fotos:** cada foto se comprime en el navegador (~300 KB, tope 400 KB) y no se aceptan originales de más de 12 MB. Aplica `20260101000014_photo_size_limit.sql` para que el bucket rechace también todo archivo de más de 512 KB. Si ya subiste fotos pesadas, bórralas desde Storage → `listing-photos`.
 
+**Anuncios destacados (impulsados):** aplica `20260101000015_boosted_listings.sql`. Un anuncio con `boosted_until` en el futuro sale primero (hasta 4 en resultados, 2 en la portada) con la etiqueta “Destacado”; el dueño no puede fijar ese campo, solo un administrador o el servidor. Los pagos aún no están conectados: para activar uno a mano, en el SQL Editor: `update listings set boosted_until = now() + interval '7 days' where id = '…';`. `supabase/demo.sql` deja 3 anuncios de la cuenta demo impulsados durante 15 días (vuelve a ejecutarlo para renovarlos).
+
 Quien entra con Google no tiene celular: para publicar, la app le pide su WhatsApp, y el distintivo “Teléfono verificado” solo se obtiene entrando con el OTP por SMS.
 
 El distintivo **“Teléfono verificado”** lo otorga únicamente el OTP por SMS (trigger sobre `auth.users`). Quienes entran por correo guardan su WhatsApp en _Mi perfil_ y aparecen sin verificar.

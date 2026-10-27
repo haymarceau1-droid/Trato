@@ -19,6 +19,7 @@ import { formatDate, formatMXN } from "@/lib/format";
 import { coverOf, photoUrl } from "@/lib/listings/photos";
 import { listingPath } from "@/lib/listings/slug";
 import { Badge } from "@/components/ui/badge";
+import { isBoosted } from "@/lib/listings/boost";
 import { Button, buttonClass } from "@/components/ui/button";
 
 const STATUS = {
@@ -59,6 +60,14 @@ export function MyListingRow({ listing: l }: { listing: Listing }) {
           <div className="flex flex-wrap items-center gap-2">
             <Badge tone={st.tone}>{st.label}</Badge>
             {l.needs_review && <Badge tone="amber">En revisión</Badge>}
+            {isBoosted(l) && (
+              <Badge tone="red">
+                Destacado hasta{" "}
+                {new Intl.DateTimeFormat("es-MX", { day: "numeric", month: "short" }).format(
+                  new Date(l.boosted_until!),
+                )}
+              </Badge>
+            )}
           </div>
           <Link href={listingPath(l)} className="line-clamp-1 font-semibold hover:underline">
             {l.title}

@@ -8,6 +8,9 @@ const photos = (seed: string, shift = 0) =>
     storage_path: `/ejemplo/muestra-${((i + shift) % 5) + 1}.png`,
   }));
 
+/** Fin de un impulso ficticio (10 días desde ahora) para las páginas de ejemplo. */
+export const sampleBoostEnd = () => new Date(Date.now() + 10 * 864e5).toISOString();
+
 /** Anuncio ficticio para la página testigo /ejemplo (no toca la base de datos). */
 export const sampleListing = (over: Partial<Listing> = {}): Listing => ({
   id: "00000000-0000-4000-8000-0000000000aa",
@@ -37,6 +40,7 @@ export const sampleListing = (over: Partial<Listing> = {}): Listing => ({
   moto_type: null,
   engine_cc: null,
   price_mxn: 215000,
+  boosted_until: null,
   body_condition: 85,
   mechanical_condition: 90,
   negotiable: true,
@@ -151,6 +155,8 @@ export const sampleResults = (): Listing[] => {
       state,
       city_slug: city.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
       negotiable: neg,
+      // Los dos primeros se muestran como anuncios destacados en la página de ejemplo.
+      boosted_until: i < 2 ? sampleBoostEnd() : null,
       listing_photos: photos(`r${i}`, i),
     }),
   );

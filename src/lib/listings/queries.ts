@@ -69,10 +69,23 @@ function applyFilters(q: any, f: Filters, { price = true }: { price?: boolean } 
   return q;
 }
 
+const MAX_BOOSTED = 4;
+
 export async function searchListings(f: Filters): Promise<{ items: Listing[]; total: number }> {
   return safe({ items: [], total: 0 }, async () => {
     const supabase = await createClient();
+    const nowIso = new Date().toISOString();
+
+    // Destacados vigentes que cumplen los filtros: salen primero en la página 1 y no se repiten en el resto.
+    const { data: boostedRows } = await applyFilters(supabase.from("listings").select(SELECT), f)
+      .gt("boosted_until", nowIso)
+      .order("boosted_until", { ascending: false })
+      .order("position", ordered)
+      .limit(MAX_BOOSTED);
+    const boosted = (boostedRows ?? []) as Listing[];
+
     let q = applyFilters(supabase.from("listings").select(SELECT, { count: "exact" }), f);
+    if (boosted.length) q = q.not("id", "in", `(${boosted.map((b) => b.id).join(",")})`);
 
     switch (f.sort) {
       case "precio_asc":
@@ -92,25 +105,42 @@ export async function searchListings(f: Filters): Promise<{ items: Listing[]; to
       .order("position", ordered)
       .range(from, from + site.pageSize - 1);
     if (error) throw error;
-    return { items: (data ?? []) as Listing[], total: count ?? 0 };
+    const regular = (data ?? []) as Listing[];
+    return {
+      items: f.page === 1 ? [...boosted, ...regular] : regular,
+      total: (count ?? 0) + boosted.length,
+    };
   });
 }
 
 async function fetchLatest(limit = 8, type?: VehicleType): Promise<Listing[]> {
   return safe([], async () => {
     const supabase = createPublicClient();
-    let q = supabase
-      .from("listings")
-      .select(SELECT)
-      .eq("status", "active")
-      .gt("expires_at", new Date().toISOString());
-    if (type) q = q.eq("vehicle_type", type);
-    const { data, error } = await q
+    const nowIso = new Date().toISOString();
+    const base = () => {
+      let q = supabase
+        .from("listings")
+        .select(SELECT)
+        .eq("status", "active")
+        .gt("expires_at", nowIso);
+      if (type) q = q.eq("vehicle_type", type);
+      return q;
+    };
+    // Hasta 2 destacados al principio y el resto por fecha.
+    const { data: hot } = await base()
+      .gt("boosted_until", nowIso)
+      .order("boosted_until", { ascending: false })
+      .order("position", ordered)
+      .limit(2);
+    const boosted = (hot ?? []) as Listing[];
+    let rest = base();
+    if (boosted.length) rest = rest.not("id", "in", `(${boosted.map((b) => b.id).join(",")})`);
+    const { data, error } = await rest
       .order("created_at", { ascending: false })
       .order("position", ordered)
-      .limit(limit);
+      .limit(limit - boosted.length);
     if (error) throw error;
-    return (data ?? []) as Listing[];
+    return [...boosted, ...((data ?? []) as Listing[])];
   });
 }
 
