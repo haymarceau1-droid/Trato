@@ -105,7 +105,24 @@ export function Comparison() {
         ))}
       </ul>
 
-      <div className="border-border bg-card mt-6 overflow-x-auto rounded-md border">
+      <ul className="mt-6 space-y-3 md:hidden" aria-label="Comparación en lista">
+        {ROWS.map((r) => (
+          <li key={r.label} className="border-border bg-card rounded-md border p-4">
+            <p className="font-semibold">{r.label}</p>
+            <p className="bg-primary-soft border-primary mt-2 flex items-start gap-2 rounded-sm border-l-4 p-2.5 text-sm font-semibold">
+              <span className="sr-only">{brand.name}: </span>
+              <Value cell={r.us} />
+            </p>
+            <p className="text-muted-foreground mt-2 flex items-start gap-2 p-1 text-sm">
+              <FacebookIcon className="mt-0.5 size-4 shrink-0" />
+              <span className="sr-only">Facebook Marketplace: </span>
+              <Value cell={r.them} />
+            </p>
+          </li>
+        ))}
+      </ul>
+
+      <div className="border-border bg-card mt-6 hidden overflow-x-auto rounded-md border md:block">
         <table className="w-full min-w-[34rem] text-left text-sm">
           <caption className="sr-only">
             Comparación entre {brand.name} y Facebook Marketplace

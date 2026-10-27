@@ -59,10 +59,10 @@ export function SpecGrid({ l }: { l: Listing }) {
         .map(([k, v, Icon]) => (
           <div
             key={k}
-            className="border-border bg-card flex items-center gap-3 rounded-md border p-3"
+            className="border-border bg-card flex items-center gap-2 rounded-md border p-2.5 sm:gap-3 sm:p-3"
           >
-            <span className="bg-primary-soft text-primary grid size-10 shrink-0 place-items-center rounded-sm">
-              <Icon weight="duotone" className="size-6" aria-hidden />
+            <span className="bg-primary-soft text-primary grid size-9 shrink-0 place-items-center rounded-sm sm:size-10">
+              <Icon weight="duotone" className="size-5 sm:size-6" aria-hidden />
             </span>
             <div className="min-w-0">
               <dt className="text-muted-foreground text-xs">{k}</dt>

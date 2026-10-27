@@ -306,6 +306,9 @@ export default function PricingPage() {
         <h2 id="comparar" className="mb-4 text-3xl md:text-4xl">
           Compara todo lado a lado
         </h2>
+        <p className="text-muted-foreground mb-2 text-sm md:hidden">
+          Desliza hacia los lados para ver todos los planes →
+        </p>
         <div className="border-border bg-card overflow-x-auto rounded-md border">
           <table className="w-full min-w-[40rem] text-left text-sm">
             <caption className="sr-only">
@@ -313,7 +316,7 @@ export default function PricingPage() {
             </caption>
             <thead>
               <tr className="border-border border-b">
-                <th scope="col" className="p-4" />
+                <th scope="col" className="bg-card sticky left-0 p-4" />
                 {["Particular", "Profesional", "Agencia", "A la medida"].map((h) => (
                   <th key={h} scope="col" className="p-4 text-center text-base font-bold">
                     {h}
@@ -324,7 +327,7 @@ export default function PricingPage() {
             <tbody>
               {COMPARE.map(([label, ...cells]) => (
                 <tr key={label} className="border-border border-b last:border-0">
-                  <th scope="row" className="p-4 font-medium">
+                  <th scope="row" className="bg-card sticky left-0 w-36 p-4 font-medium md:w-auto">
                     {label}
                   </th>
                   {cells.map((c, i) => (

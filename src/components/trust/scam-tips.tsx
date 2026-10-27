@@ -29,12 +29,12 @@ export function ScamTips({ showRepuve = false }: { showRepuve?: boolean }) {
             href={site.repuveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-primary underline"
+            className="text-primary inline-flex min-h-11 items-center underline"
           >
             Consultar el REPUVE
           </a>
         )}
-        <Link href="/consejos" className="underline">
+        <Link href="/consejos" className="inline-flex min-h-11 items-center underline">
           Guía completa anti-estafa
         </Link>
       </p>

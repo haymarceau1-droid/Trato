@@ -16,7 +16,11 @@ type Kind = "autos" | "motos";
  */
 export function MexicoMap({ counts }: { counts: Record<string, number> }) {
   const [kind, setKind] = useState<Kind>("autos");
-  const [active, setActive] = useState<string | null>(null);
+  const [hover, setHover] = useState<string | null>(null);
+  // En pantalla táctil el primer toque solo elige el estado (muestra su ficha); el segundo, o el enlace de la ficha, abre la lista.
+  const [picked, setPicked] = useState<string | null>(null);
+  const active = hover ?? picked;
+  const setActive = setHover;
   const max = Math.max(1, ...Object.values(counts));
   const shade = (slug: string) => {
     const n = counts[slug] ?? 0;
@@ -44,6 +48,12 @@ export function MexicoMap({ counts }: { counts: Record<string, number> }) {
               onMouseEnter={() => setActive(s.slug)}
               onFocus={() => setActive(s.slug)}
               onBlur={() => setActive(null)}
+              onClick={(e) => {
+                if (window.matchMedia("(hover: none)").matches && picked !== s.slug) {
+                  e.preventDefault();
+                  setPicked(s.slug);
+                }
+              }}
             >
               <path
                 d={MAP_PATHS[s.slug]}
@@ -94,6 +104,12 @@ export function MexicoMap({ counts }: { counts: Record<string, number> }) {
                     ? `${activeCount} ${activeCount === 1 ? "anuncio" : "anuncios"} activos`
                     : "Sé el primero en publicar aquí"}
                 </p>
+                <Link
+                  href={`/${kind}/${active}`}
+                  className="text-primary mt-1 inline-flex min-h-11 items-center text-sm font-semibold underline"
+                >
+                  Ver {kind} en {stateName(active)}
+                </Link>
               </div>
             </>
           ) : (
@@ -103,12 +119,12 @@ export function MexicoMap({ counts }: { counts: Record<string, number> }) {
           )}
         </div>
 
-        <ul className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+        <ul className="flex flex-wrap gap-x-4 text-sm">
           {MX_STATES.map((s) => (
             <li key={s.slug}>
               <Link
                 href={`/${kind}/${s.slug}`}
-                className="hover:text-primary inline-block py-1.5 font-medium"
+                className="hover:text-primary inline-flex min-h-11 items-center font-medium"
                 onMouseEnter={() => setActive(s.slug)}
                 onMouseLeave={() => setActive(null)}
               >

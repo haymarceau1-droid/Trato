@@ -114,10 +114,13 @@ export function Footer() {
         {cols.map((c) => (
           <nav key={c.title} aria-label={c.title}>
             <h3 className="text-muted-foreground mb-3 text-sm font-semibold">{c.title}</h3>
-            <ul className="space-y-1 text-sm">
+            <ul className="text-sm">
               {c.links.map(([href, label]) => (
                 <li key={href}>
-                  <Link href={href!} className="hover:text-primary inline-block py-1.5 font-medium">
+                  <Link
+                    href={href!}
+                    className="hover:text-primary inline-flex min-h-11 min-w-11 items-center font-medium"
+                  >
                     {label}
                   </Link>
                 </li>
@@ -132,12 +135,12 @@ export function Footer() {
         <h3 className="text-muted-foreground mb-3 text-sm font-semibold">
           Autos usados por estado
         </h3>
-        <ul className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+        <ul className="flex flex-wrap gap-x-4 text-sm">
           {MX_STATES.map((s) => (
             <li key={s.slug}>
               <Link
                 href={`/autos/${s.slug}`}
-                className="text-muted-foreground hover:text-foreground inline-block py-1"
+                className="text-muted-foreground hover:text-foreground inline-flex min-h-11 items-center"
               >
                 {s.name}
               </Link>
@@ -148,7 +151,7 @@ export function Footer() {
 
       {/* Marca grande + legal */}
       <div aria-hidden className="relative overflow-hidden">
-        <div className="font-display from-foreground/15 -mb-[0.1em] bg-gradient-to-b to-transparent bg-clip-text text-center text-[26vw] leading-[0.8] tracking-wide text-transparent uppercase select-none md:text-[18vw]">
+        <div className="font-display from-foreground/15 -mb-[0.1em] bg-gradient-to-b to-transparent bg-clip-text text-center text-[24vw] leading-[0.8] tracking-wide text-transparent uppercase select-none md:text-[18vw]">
           {brand.name}
         </div>
       </div>
@@ -167,7 +170,7 @@ export function Footer() {
             <Link
               key={href}
               href={href!}
-              className="hover:text-foreground inline-block py-2 underline"
+              className="hover:text-foreground inline-flex min-h-11 items-center underline"
             >
               {label}
             </Link>

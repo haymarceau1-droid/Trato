@@ -84,9 +84,9 @@ export function VehicleDoors({ counts }: { counts: { auto: number; moto: number 
                     <li key={t.value} className={i >= 4 ? "hidden md:block" : undefined}>
                       <Link
                         href={buildUrl({ ...base, body: t.value })}
-                        className="border-border bg-card/50 hover:border-foreground inline-flex min-h-9 items-center gap-1.5 rounded-sm border px-2.5 text-sm font-semibold"
+                        className="border-border bg-card/50 hover:border-foreground inline-flex min-h-11 items-center gap-1.5 rounded-sm border px-2.5 text-sm font-semibold"
                       >
-                        <BodyIcon value={t.value} className="h-3.5 w-5" />
+                        <BodyIcon value={t.value} className="h-4 w-6" />
                         {t.label}
                       </Link>
                     </li>
@@ -106,7 +106,7 @@ export function VehicleDoors({ counts }: { counts: { auto: number; moto: number 
                       >
                         <Link
                           href={buildUrl({ ...base, brand: slugify(name) })}
-                          className="block hover:opacity-100"
+                          className="flex size-11 items-center justify-center hover:opacity-100"
                         >
                           <BrandLogo name={name} className="size-6" />
                           <span className="sr-only">{name}</span>

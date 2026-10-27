@@ -63,7 +63,7 @@ export function ListingCard({
             {listing.title}
           </Link>
         </h3>
-        <p className="text-muted-foreground line-clamp-1 text-sm">
+        <p className="text-muted-foreground line-clamp-2 text-sm">
           {listing.year} · {formatKm(listing.mileage_km)} · {listing.city}
         </p>
         <p className="flex flex-wrap items-baseline gap-x-2 pt-1">

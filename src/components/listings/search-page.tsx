@@ -75,12 +75,15 @@ export function SearchView({
 
   return (
     <div className="container-page py-6">
-      <nav aria-label="Migas de pan" className="text-muted-foreground mb-3 text-sm">
-        <Link href="/" className="hover:underline">
+      <nav aria-label="Migas de pan" className="text-muted-foreground mb-1 text-sm">
+        <Link href="/" className="inline-flex min-h-11 items-center hover:underline">
           Inicio
         </Link>{" "}
         /{" "}
-        <Link href={`/${vehiclePath(type)}`} className="hover:underline">
+        <Link
+          href={`/${vehiclePath(type)}`}
+          className="inline-flex min-h-11 items-center hover:underline"
+        >
           {plural}
         </Link>
       </nav>

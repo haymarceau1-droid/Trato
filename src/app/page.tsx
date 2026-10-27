@@ -303,7 +303,7 @@ export default async function Home() {
                     href={site.repuveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary mt-2 inline-block text-sm font-semibold underline"
+                    className="text-primary mt-1 inline-flex min-h-11 items-center text-sm font-semibold underline"
                   >
                     Consultar el REPUVE
                   </a>

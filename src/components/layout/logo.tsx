@@ -12,7 +12,7 @@ export const Logo = ({ className }: { className?: string }) => {
   return (
     <Link
       href="/"
-      className={`font-display inline-flex items-center ${className ?? ""}`}
+      className={`font-display inline-flex min-h-11 items-center ${className ?? ""}`}
       aria-label={`${brand.name} — inicio`}
     >
       <span className="text-2xl tracking-wide">

@@ -99,12 +99,15 @@ export function ListingView({
         />
       )}
 
-      <nav aria-label="Migas de pan" className="text-muted-foreground mb-4 text-sm">
-        <Link href={`/${typePath}`} className="hover:underline">
+      <nav aria-label="Migas de pan" className="text-muted-foreground mb-2 text-sm">
+        <Link href={`/${typePath}`} className="inline-flex min-h-11 items-center hover:underline">
           {l.vehicle_type === "auto" ? "Autos" : "Motos"}
         </Link>
         {" / "}
-        <Link href={`/${typePath}/${l.brand_slug}`} className="hover:underline">
+        <Link
+          href={`/${typePath}/${l.brand_slug}`}
+          className="inline-flex min-h-11 items-center hover:underline"
+        >
           {l.brand}
         </Link>
         {" / "}
