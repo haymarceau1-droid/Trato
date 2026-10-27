@@ -1,7 +1,27 @@
-import { Check } from "@/components/ui/icons";
+import { Car, Check, Gauge, HandCoins, ShieldCheck } from "@/components/ui/icons";
+import { FacebookIcon } from "@/components/ui/facebook-icon";
+import { LinkButton } from "@/components/ui/button";
 import { brand } from "@/config/brand";
 
 type Cell = { ok?: boolean; text: string };
+const BENEFITS = [
+  [
+    ShieldCheck,
+    "Vendedores más confiables",
+    "Los vendedores confirman su celular por SMS y lo ves con un distintivo en su perfil.",
+  ],
+  [
+    Gauge,
+    "Sabes cómo está antes de ir",
+    "Cada anuncio trae la calificación del vendedor de 0 a 100 para carrocería y mecánica.",
+  ],
+  [
+    Car,
+    "Todo es de autos y motos",
+    "Filtras por marca, modelo, año, carrocería y estado sin ruido de otros productos.",
+  ],
+] as const;
+
 const ROWS: { label: string; us: Cell; them: Cell }[] = [
   {
     label: "Enfoque",
@@ -60,6 +80,20 @@ export function Comparison() {
       <p className="text-muted-foreground mt-2 max-w-xl">
         Facebook Marketplace sirve para casi todo. {brand.name} se dedica solo a autos y motos.
       </p>
+      <ul className="mt-6 grid gap-3 md:grid-cols-3" aria-label="Ventajas de usar rodara.mx">
+        {BENEFITS.map(([Icon, title, text]) => (
+          <li key={title} className="border-primary bg-card flex gap-4 rounded-md border-2 p-5">
+            <span className="bg-primary text-primary-foreground grid size-11 shrink-0 place-items-center rounded-sm">
+              <Icon className="size-6" aria-hidden />
+            </span>
+            <div>
+              <h3 className="text-xl leading-tight">{title}</h3>
+              <p className="text-muted-foreground mt-1 text-sm">{text}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+
       <div className="border-border bg-card mt-6 overflow-x-auto rounded-md border">
         <table className="w-full min-w-[34rem] text-left text-sm">
           <caption className="sr-only">
@@ -68,21 +102,39 @@ export function Comparison() {
           <thead>
             <tr className="border-border border-b">
               <th scope="col" className="p-4" />
-              <th scope="col" className="bg-primary-soft p-4 text-base font-bold">
-                {brand.name}
+              <th
+                scope="col"
+                className="bg-primary-soft border-primary border-x-2 border-t-2 p-4 text-lg font-bold"
+              >
+                <span className="flex items-center gap-2">
+                  <span
+                    aria-hidden
+                    className="bg-primary text-primary-foreground font-display grid size-7 place-items-center rounded-sm"
+                  >
+                    {brand.logoMark}
+                  </span>
+                  {brand.name}
+                </span>
               </th>
               <th scope="col" className="p-4 text-base font-bold">
-                Facebook Marketplace
+                <span className="flex items-center gap-2">
+                  <FacebookIcon className="size-6 shrink-0" />
+                  Facebook Marketplace
+                </span>
               </th>
             </tr>
           </thead>
           <tbody>
-            {ROWS.map((r) => (
+            {ROWS.map((r, i) => (
               <tr key={r.label} className="border-border border-b last:border-0">
                 <th scope="row" className="w-1/4 p-4 font-semibold">
                   {r.label}
                 </th>
-                <td className="bg-primary-soft/50 p-4">
+                <td
+                  className={`bg-primary-soft/50 border-primary border-x-2 p-4 font-semibold ${
+                    i === ROWS.length - 1 ? "border-b-2" : ""
+                  }`}
+                >
                   <Value cell={r.us} />
                 </td>
                 <td className="text-muted-foreground p-4">
@@ -93,7 +145,15 @@ export function Comparison() {
           </tbody>
         </table>
       </div>
-      <p className="text-muted-foreground mt-3 max-w-2xl text-xs">
+      <div className="mt-6 flex flex-wrap items-center gap-3">
+        <LinkButton href="/publicar" size="lg">
+          Publicar gratis en {brand.name}
+        </LinkButton>
+        <LinkButton href="/autos" variant="outline" size="lg">
+          Ver autos y motos
+        </LinkButton>
+      </div>
+      <p className="text-muted-foreground mt-4 max-w-2xl text-xs">
         Comparación basada en lo que cada servicio ofrece públicamente y puede cambiar. Facebook y
         Marketplace son marcas de Meta Platforms, Inc.; {brand.name} no está afiliado a Meta.
       </p>
