@@ -117,15 +117,7 @@ export function Comparison() {
                 scope="col"
                 className="bg-primary-soft border-primary border-x-2 border-t-2 p-4 text-lg font-bold"
               >
-                <span className="flex items-center gap-2">
-                  <span
-                    aria-hidden
-                    className="bg-primary text-primary-foreground font-display grid size-7 place-items-center rounded-sm"
-                  >
-                    {brand.logoMark}
-                  </span>
-                  {brand.name}
-                </span>
+                {brand.name}
               </th>
               <th scope="col" className="p-4 text-base font-bold">
                 <span className="flex items-center gap-2">

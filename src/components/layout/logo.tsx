@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { brand } from "@/config/brand";
 
-/** Marca: cuadro con la inicial y el nombre; si el nombre es un dominio ("rodara.mx") la extensión va en rojo. */
+/**
+ * Marca solo tipográfica sobre fondo oscuro: "rod" en verde, "ara" en blanco y ".mx" en rojo
+ * (los colores de la bandera de México). Si el nombre cambia, se reparte igual: 3 primeras letras, resto y extensión.
+ */
 export const Logo = ({ className }: { className?: string }) => {
   const dot = brand.name.indexOf(".");
   const main = dot > 0 ? brand.name.slice(0, dot) : brand.name;
@@ -9,17 +12,12 @@ export const Logo = ({ className }: { className?: string }) => {
   return (
     <Link
       href="/"
-      className={`font-display inline-flex items-center gap-2 ${className ?? ""}`}
+      className={`font-display inline-flex items-center ${className ?? ""}`}
       aria-label={`${brand.name} — inicio`}
     >
-      <span
-        aria-hidden
-        className="bg-primary text-primary-foreground -skew-x-6 px-2 text-xl leading-8 tracking-wide"
-      >
-        {brand.logoMark}
-      </span>
       <span className="text-2xl tracking-wide">
-        {main}
+        <span className="text-[#22a55b]">{main.slice(0, 3)}</span>
+        <span className="text-white">{main.slice(3)}</span>
         {ext && <span className="text-primary">{ext}</span>}
       </span>
     </Link>
