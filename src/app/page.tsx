@@ -16,6 +16,7 @@ import { PRICE_RANGES } from "@/lib/constants";
 import { buildUrl, parseFilters } from "@/lib/listings/filters-url";
 import { MexicoFlag } from "@/components/ui/mexico-flag";
 import { BrandLogo } from "@/components/ui/brand-logo";
+import { Comparison } from "@/components/home/comparison";
 import { VehicleDoors } from "@/components/home/vehicle-doors";
 import dynamic from "next/dynamic";
 import { logoBrands } from "@/lib/brand-picks";
@@ -234,6 +235,8 @@ export default async function Home() {
           ))}
         </ul>
       </section>
+
+      <Comparison />
 
       {/* Cómo funciona */}
       <section className="container-page py-14" aria-labelledby="como">
