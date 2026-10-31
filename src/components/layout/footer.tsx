@@ -173,10 +173,26 @@ export function Footer() {
       </nav>
 
       {/* Marca grande + legal */}
-      <div aria-hidden className="relative overflow-hidden">
-        <div className="font-display from-foreground/15 -mb-[0.1em] bg-gradient-to-b to-transparent bg-clip-text text-center text-[17vw] leading-[0.8] tracking-wide text-transparent uppercase select-none md:text-[24vw]">
-          {brand.name}
-        </div>
+      <div aria-hidden className="container-page select-none">
+        {/* SVG con textLength: el nombre ocupa siempre el ancho exacto del contenedor, sin salirse ni cortarse. */}
+        <svg viewBox="0 0 1000 150" className="block h-auto w-full" role="presentation">
+          <defs>
+            <linearGradient id="footer-mark" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" style={{ stopColor: "var(--foreground)", stopOpacity: 0.2 }} />
+              <stop offset="1" style={{ stopColor: "var(--foreground)", stopOpacity: 0 }} />
+            </linearGradient>
+          </defs>
+          <text
+            x="0"
+            y="150"
+            textLength="1000"
+            lengthAdjust="spacingAndGlyphs"
+            fill="url(#footer-mark)"
+            style={{ fontFamily: "var(--font-display)", fontSize: 210, textTransform: "uppercase" }}
+          >
+            {brand.name}
+          </text>
+        </svg>
       </div>
       <div className="border-border text-muted-foreground container-page flex flex-col items-center justify-between gap-2 border-t py-4 text-xs md:flex-row">
         <p>
