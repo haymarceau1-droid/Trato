@@ -189,3 +189,48 @@ h4,
     animation: none;
   }
 }
+
+/* Fondo de la portada: la línea de la carretera y los vehículos avanzan en bucle */
+@keyframes hero-dash {
+  to {
+    stroke-dashoffset: -64;
+  }
+}
+@keyframes hero-drive-right {
+  from {
+    transform: translateX(-240px);
+  }
+  to {
+    transform: translateX(1560px);
+  }
+}
+@keyframes hero-drive-left {
+  from {
+    transform: translateX(1560px);
+  }
+  to {
+    transform: translateX(-240px);
+  }
+}
+.hero-dash {
+  animation: hero-dash 1.4s linear infinite;
+}
+.hero-drive-right {
+  animation: hero-drive-right 28s linear infinite;
+}
+.hero-drive-left {
+  animation: hero-drive-left 22s linear -9s infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-dash,
+  .hero-drive-right,
+  .hero-drive-left {
+    animation: none;
+  }
+  .hero-drive-right {
+    transform: translateX(300px);
+  }
+  .hero-drive-left {
+    transform: translateX(1000px);
+  }
+}
