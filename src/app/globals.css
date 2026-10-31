@@ -234,3 +234,23 @@ h4,
     transform: translateX(1000px);
   }
 }
+
+/* Banderines de papel picado: se mecen con un desfase distinto cada uno */
+@keyframes hero-flag {
+  from {
+    transform: rotate(-3.5deg);
+  }
+  to {
+    transform: rotate(3.5deg);
+  }
+}
+.hero-flag {
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  animation: hero-flag 3.8s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-flag {
+    animation: none;
+  }
+}
