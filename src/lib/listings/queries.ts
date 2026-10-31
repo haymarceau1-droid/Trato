@@ -255,6 +255,7 @@ export async function getMedianPrice(
   brandSlug: string,
   modelSlug: string,
   year: number,
+  excludeId?: string,
 ) {
   return safe<number | null>(null, async () => {
     const supabase = await createClient();
@@ -263,6 +264,7 @@ export async function getMedianPrice(
       p_brand_slug: brandSlug,
       p_model_slug: modelSlug,
       p_year: year,
+      p_exclude: excludeId ?? null,
     });
     return (data as number | null) ?? null;
   });

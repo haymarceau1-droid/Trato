@@ -32,6 +32,7 @@ import { Gallery } from "./gallery";
 import { ListingGrid } from "./listing-card";
 import { ShareButton } from "./share-button";
 import { isBoosted } from "@/lib/listings/boost";
+import { PriceGauge } from "./price-gauge";
 import { ConditionBars } from "./condition-bars";
 import { LocationMap } from "./location-map";
 import { SpecGrid } from "./spec-grid";
@@ -50,6 +51,8 @@ interface Props {
   similar: Listing[];
   favorites: Set<string>;
   isOwner: boolean;
+  /** Precio medio de anuncios parecidos (null si hay pocos): activa la jauge de precio. */
+  medianPrice?: number | null;
   /** Hay sesión iniciada: sin ella el contacto del vendedor no se muestra. */
   loggedIn?: boolean;
   /** Página testigo: sin llamadas a la API ni a la base de datos. */
@@ -63,6 +66,7 @@ export function ListingView({
   favorites,
   isOwner,
   loggedIn = false,
+  medianPrice = null,
   demo,
 }: Props) {
   const photos = [...l.listing_photos]
@@ -176,6 +180,7 @@ export function ListingView({
                 {isBoosted(l) && <Badge tone="red">Anuncio destacado</Badge>}
                 {l.negotiable && <Badge tone="green">Precio negociable</Badge>}
               </div>
+              {medianPrice ? <PriceGauge price={l.price_mxn} median={medianPrice} /> : null}
             </div>
 
             {isOwner ? (

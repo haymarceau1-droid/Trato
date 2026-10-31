@@ -13,6 +13,7 @@ export default function ExamplePage() {
   return (
     <ListingView
       demo
+      medianPrice={Math.round(l.price_mxn / 0.86)}
       l={l}
       isOwner={false}
       favorites={new Set()}

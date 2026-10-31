@@ -189,3 +189,22 @@ h4,
     animation: none;
   }
 }
+
+/* Jauge de precio: el marcador se desliza hasta su posición */
+@keyframes gauge-marker {
+  from {
+    left: 50%;
+  }
+  to {
+    left: var(--pos);
+  }
+}
+.gauge-marker {
+  left: var(--pos);
+  animation: gauge-marker 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 200ms both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gauge-marker {
+    animation: none;
+  }
+}

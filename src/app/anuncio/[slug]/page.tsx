@@ -7,6 +7,7 @@ import {
   getFavoriteIds,
   getListing,
   getPublicProfile,
+  getMedianPrice,
   getSimilar,
   getUser,
 } from "@/lib/listings/queries";
@@ -53,10 +54,11 @@ export default async function ListingPage({ params }: Props) {
   if (slugParam !== `${l.slug}-${l.id}`) redirect(listingPath(l));
 
   const user = await getUser();
-  const [seller, similar, favorites] = await Promise.all([
+  const [seller, similar, favorites, medianPrice] = await Promise.all([
     getPublicProfile(l.user_id),
     getSimilar(l),
     getFavoriteIds(user?.id),
+    getMedianPrice(l.vehicle_type, l.brand_slug, l.model_slug, l.year, l.id),
   ]);
 
   return (
@@ -67,6 +69,7 @@ export default async function ListingPage({ params }: Props) {
       favorites={favorites}
       isOwner={user?.id === l.user_id}
       loggedIn={Boolean(user)}
+      medianPrice={medianPrice}
     />
   );
 }
