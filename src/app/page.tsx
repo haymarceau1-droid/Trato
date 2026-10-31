@@ -154,7 +154,7 @@ export default async function Home() {
             <MexicoFlag className="size-5 shrink-0" />
             <span className="truncate">{marketLine(market)}</span>
           </p>
-          <h1 className="text-[3.3rem] leading-[0.9] uppercase sm:text-7xl md:text-8xl lg:text-9xl">
+          <h1 className="text-[clamp(2rem,10.5vw,3.3rem)] leading-[0.9] uppercase sm:text-7xl md:text-8xl lg:text-9xl">
             Tu próximo auto
             <br />o moto,
             <br />
@@ -195,8 +195,13 @@ export default async function Home() {
           <h2 id="recientes" className="text-3xl">
             Recién publicados
           </h2>
-          <Link href="/autos" className="text-sm font-semibold underline underline-offset-4">
-            Ver todos los vehículos publicados
+          <Link
+            href="/autos"
+            className="text-sm font-semibold underline underline-offset-4"
+            aria-label="Ver todos los vehículos publicados"
+          >
+            <span className="md:hidden">Ver todos</span>
+            <span className="hidden md:inline">Ver todos los vehículos publicados</span>
           </Link>
         </div>
         {latest.length ? (
@@ -346,15 +351,15 @@ export default async function Home() {
               <h3 className="text-muted-foreground mb-3 text-sm font-semibold">
                 {type === "auto" ? "Marcas de autos" : "Marcas de motos"}
               </h3>
-              <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+              <ul className="grid grid-cols-3 gap-2 sm:gap-3 md:grid-cols-4 lg:grid-cols-6">
                 {logoBrands(type, type === "auto" ? 18 : undefined).map((name) => (
                   <li key={name}>
                     <Link
                       href={`/${type === "auto" ? "autos" : "motos"}/${slugify(name)}`}
-                      className="border-border bg-card hover:border-foreground flex min-h-24 flex-col items-center justify-center gap-2 rounded-md border p-4 text-center"
+                      className="border-border bg-card hover:border-foreground flex min-h-24 flex-col items-center justify-center gap-2 rounded-md border p-2 text-center sm:p-4"
                     >
                       <BrandLogo name={name} className="size-9" />
-                      <span className="text-sm font-semibold">{name}</span>
+                      <span className="text-xs font-semibold sm:text-sm">{name}</span>
                     </Link>
                   </li>
                 ))}
