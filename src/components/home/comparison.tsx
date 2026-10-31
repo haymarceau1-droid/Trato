@@ -3,7 +3,7 @@ import { FacebookIcon } from "@/components/ui/facebook-icon";
 import { LinkButton } from "@/components/ui/button";
 import { brand } from "@/config/brand";
 
-type Cell = { ok?: boolean; text: string };
+type Cell = { ok?: boolean; text: string; short?: string };
 const BENEFITS = [
   [
     ShieldCheck,
@@ -30,40 +30,53 @@ const BENEFITS = [
 const ROWS: { label: string; us: Cell; them: Cell }[] = [
   {
     label: "Enfoque",
-    us: { ok: true, text: "Solo autos y motos" },
-    them: { text: "Todo tipo de productos" },
+    us: { ok: true, text: "Solo autos y motos", short: "Solo autos y motos" },
+    them: { text: "Todo tipo de productos", short: "De todo un poco" },
   },
   {
     label: "Vendedor",
-    us: { ok: true, text: "Celular verificado por SMS, con distintivo" },
-    them: { text: "Depende del perfil de Facebook" },
+    us: {
+      ok: true,
+      text: "Celular verificado por SMS, con distintivo",
+      short: "Celular verificado",
+    },
+    them: { text: "Depende del perfil de Facebook", short: "Según su perfil" },
   },
   {
     label: "Contacto",
-    us: { ok: true, text: "WhatsApp o llamada; tu número nunca se publica" },
-    them: { text: "Mensajes por Messenger" },
+    us: {
+      ok: true,
+      text: "WhatsApp o llamada; tu número nunca se publica",
+      short: "WhatsApp o llamada",
+    },
+    them: { text: "Mensajes por Messenger", short: "Messenger" },
   },
   {
     label: "Estado del vehículo",
-    us: { ok: true, text: "Calificación de 0 a 100 de carrocería y mecánica" },
-    them: { text: "Descripción del vendedor" },
+    us: {
+      ok: true,
+      text: "Calificación de 0 a 100 de carrocería y mecánica",
+      short: "Nota de 0 a 100",
+    },
+    them: { text: "Descripción del vendedor", short: "Texto libre" },
   },
   {
     label: "Moderación",
     us: {
       ok: true,
       text: "Revisamos anuncios sospechosos y reportes; 3 reportes pausan el anuncio",
+      short: "Anuncios revisados",
     },
-    them: { text: "Reportes de la comunidad" },
+    them: { text: "Reportes de la comunidad", short: "Reportes" },
   },
   {
     label: "Costo para particulares",
-    us: { ok: true, text: "Gratis hasta 5 anuncios, sin comisión" },
-    them: { ok: true, text: "Gratis en ventas locales" },
+    us: { ok: true, text: "Gratis hasta 5 anuncios, sin comisión", short: "Gratis, sin comisión" },
+    them: { ok: true, text: "Gratis en ventas locales", short: "Gratis en local" },
   },
 ];
 
-function Value({ cell }: { cell: Cell }) {
+function Value({ cell, short }: { cell: Cell; short?: boolean }) {
   return (
     <span className="flex items-start gap-2">
       {cell.ok ? (
@@ -73,7 +86,7 @@ function Value({ cell }: { cell: Cell }) {
           –
         </span>
       )}
-      <span>{cell.text}</span>
+      <span>{short ? (cell.short ?? cell.text) : cell.text}</span>
     </span>
   );
 }
@@ -89,38 +102,50 @@ export function Comparison() {
         Facebook Marketplace sirve para casi todo. {brand.name} se dedica solo a autos y motos.
       </p>
       <ul
-        className="mt-6 grid gap-3 md:grid-cols-2 lg:grid-cols-4"
+        className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4"
         aria-label="Ventajas de usar rodara.mx"
       >
         {BENEFITS.map(([Icon, title, text]) => (
-          <li key={title} className="border-primary bg-card flex gap-4 rounded-md border-2 p-5">
-            <span className="bg-primary text-primary-foreground grid size-11 shrink-0 place-items-center rounded-sm">
+          <li
+            key={title}
+            className="border-primary bg-card flex flex-col gap-2 rounded-md border-2 p-3 md:flex-row md:gap-4 md:p-5"
+          >
+            <span className="bg-primary text-primary-foreground grid size-9 shrink-0 place-items-center rounded-sm md:size-11">
               <Icon className="size-6" aria-hidden />
             </span>
             <div>
-              <h3 className="text-xl leading-tight">{title}</h3>
-              <p className="text-muted-foreground mt-1 text-sm">{text}</p>
+              <h3 className="text-base leading-tight md:text-xl">{title}</h3>
+              <p className="text-muted-foreground mt-1 hidden text-sm md:block">{text}</p>
             </div>
           </li>
         ))}
       </ul>
 
-      <ul className="mt-6 space-y-3 md:hidden" aria-label="Comparación en lista">
+      <div className="border-border bg-card mt-6 overflow-hidden rounded-md border md:hidden">
+        <div className="border-border grid grid-cols-2 border-b">
+          <p className="bg-primary-soft border-primary border-t-2 p-3 text-center font-bold">
+            {brand.name}
+          </p>
+          <p className="flex items-center justify-center gap-2 p-3 text-sm font-bold">
+            <FacebookIcon className="size-5 shrink-0" /> Marketplace
+          </p>
+        </div>
         {ROWS.map((r) => (
-          <li key={r.label} className="border-border bg-card rounded-md border p-4">
-            <p className="font-semibold">{r.label}</p>
-            <p className="bg-primary-soft border-primary mt-2 flex items-start gap-2 rounded-sm border-l-4 p-2.5 text-sm font-semibold">
-              <span className="sr-only">{brand.name}: </span>
-              <Value cell={r.us} />
-            </p>
-            <p className="text-muted-foreground mt-2 flex items-start gap-2 p-1 text-sm">
-              <FacebookIcon className="mt-0.5 size-4 shrink-0" />
-              <span className="sr-only">Facebook Marketplace: </span>
-              <Value cell={r.them} />
-            </p>
-          </li>
+          <div key={r.label} className="border-border border-b last:border-0">
+            <p className="text-muted-foreground px-3 pt-2.5 text-xs font-semibold">{r.label}</p>
+            <div className="grid grid-cols-2">
+              <div className="bg-primary-soft/50 p-3 pt-1.5 text-sm font-semibold">
+                <span className="sr-only">{brand.name}: </span>
+                <Value cell={r.us} short />
+              </div>
+              <div className="text-muted-foreground p-3 pt-1.5 text-sm">
+                <span className="sr-only">Facebook Marketplace: </span>
+                <Value cell={r.them} short />
+              </div>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
 
       <div className="border-border bg-card mt-6 hidden overflow-x-auto rounded-md border md:block">
         <table className="w-full min-w-[34rem] text-left text-sm">

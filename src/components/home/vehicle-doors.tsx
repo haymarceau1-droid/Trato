@@ -39,7 +39,7 @@ const DOORS = [
 export function VehicleDoors({ counts }: { counts: { auto: number; moto: number } }) {
   return (
     <section className="container-page pb-14" aria-label="Autos y motos">
-      <div className="flex flex-col gap-3 md:h-[30rem] md:flex-row">
+      <div className="grid grid-cols-2 gap-3 md:flex md:h-[30rem] md:flex-row">
         {DOORS.map((d) => {
           const base = parseFilters(d.type);
           const n = counts[d.type];
@@ -47,15 +47,15 @@ export function VehicleDoors({ counts }: { counts: { auto: number; moto: number 
             <article
               key={d.type}
               className={cn(
-                "group/panel relative isolate flex min-h-[22rem] flex-1 flex-col justify-between overflow-hidden rounded-md border-2 p-6 transition-[flex-grow,border-color] duration-500 ease-out md:min-h-0 md:p-8",
+                "group/panel relative isolate flex min-h-[14rem] flex-1 flex-col justify-between overflow-hidden rounded-md border-2 p-4 transition-[flex-grow,border-color] duration-500 ease-out md:min-h-0 md:p-8",
                 "hover:border-primary focus-within:border-primary md:focus-within:grow-[1.45] md:hover:grow-[1.45]",
                 d.dark
                   ? "theme-dark bg-background text-foreground border-[#0a0a0a]"
                   : "border-border bg-card text-foreground",
               )}
             >
-              <div className="flex items-start justify-between gap-4">
-                <h2 className="text-7xl leading-[0.85] uppercase md:text-8xl">
+              <div className="flex flex-col items-start gap-2 md:flex-row md:justify-between md:gap-4">
+                <h2 className="text-[2.1rem] leading-[0.85] uppercase md:text-8xl">
                   <Link
                     href={d.href}
                     className="after:absolute after:inset-0 after:z-0 focus-visible:outline-none"
@@ -64,8 +64,8 @@ export function VehicleDoors({ counts }: { counts: { auto: number; moto: number 
                   </Link>
                 </h2>
                 {n > 0 && (
-                  <p className="text-right">
-                    <span className="font-display block text-4xl leading-none md:text-5xl">
+                  <p className="md:text-right">
+                    <span className="font-display block text-3xl leading-none md:text-5xl">
                       {n.toLocaleString("es-MX")}
                     </span>
                     <span className="text-sm opacity-70">disponibles</span>
@@ -74,11 +74,13 @@ export function VehicleDoors({ counts }: { counts: { auto: number; moto: number 
               </div>
 
               <div className="relative z-10 space-y-5">
-                <p className="max-w-[15rem] text-lg font-medium">{d.tagline}</p>
+                <p className="max-w-[15rem] text-sm leading-snug font-medium md:text-lg">
+                  {d.tagline}
+                </p>
 
                 <ul
                   aria-label={`Tipos de ${d.title.toLowerCase()}`}
-                  className="flex flex-wrap gap-1.5 transition-opacity duration-300 md:opacity-0 md:group-focus-within/panel:opacity-100 md:group-hover/panel:opacity-100 [@media(hover:none)]:opacity-100"
+                  className="hidden flex-wrap gap-1.5 transition-opacity duration-300 md:flex md:opacity-0 md:group-focus-within/panel:opacity-100 md:group-hover/panel:opacity-100 [@media(hover:none)]:md:opacity-100"
                 >
                   {d.types.slice(0, 6).map((t, i) => (
                     <li key={t.value} className={i >= 4 ? "hidden md:block" : undefined}>
@@ -96,7 +98,7 @@ export function VehicleDoors({ counts }: { counts: { auto: number; moto: number 
                 <div className="flex items-end justify-between gap-4">
                   <ul
                     aria-label={`Marcas de ${d.title.toLowerCase()}`}
-                    className="flex flex-wrap items-center gap-x-4 gap-y-2 opacity-70"
+                    className="hidden flex-wrap items-center gap-x-4 gap-y-2 opacity-70 md:flex"
                   >
                     {logoBrands(d.type, 5).map((name, i) => (
                       <li
@@ -114,8 +116,15 @@ export function VehicleDoors({ counts }: { counts: { auto: number; moto: number 
                       </li>
                     ))}
                   </ul>
-                  <Link href={d.href} className={buttonClass({ size: "lg" }, "shrink-0")}>
-                    {d.cta}
+                  <Link
+                    href={d.href}
+                    className={buttonClass(
+                      {},
+                      "w-full shrink-0 justify-between md:min-h-12 md:w-auto md:justify-center md:px-6 md:text-base",
+                    )}
+                  >
+                    <span className="md:hidden">Ver</span>
+                    <span className="hidden md:inline">{d.cta}</span>
                     <ArrowUpRight className="size-5" aria-hidden />
                   </Link>
                 </div>
