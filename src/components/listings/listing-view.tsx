@@ -237,9 +237,19 @@ export function ListingView({
               <div className="flex items-center gap-4 p-5">
                 <span
                   aria-hidden
-                  className="bg-primary text-primary-foreground font-display grid size-14 shrink-0 place-items-center rounded-md text-2xl"
+                  className="bg-primary text-primary-foreground font-display grid size-14 shrink-0 place-items-center overflow-hidden rounded-full text-2xl"
                 >
-                  {seller.display_name.charAt(0).toUpperCase()}
+                  {seller.avatar_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={seller.avatar_url}
+                      alt=""
+                      referrerPolicy="no-referrer"
+                      className="size-full object-cover"
+                    />
+                  ) : (
+                    seller.display_name.charAt(0).toUpperCase()
+                  )}
                 </span>
                 <div className="min-w-0">
                   <p className="text-muted-foreground text-sm font-semibold">Vendedor</p>

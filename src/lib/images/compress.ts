@@ -42,3 +42,34 @@ export async function compressImage(file: File): Promise<Blob> {
     bitmap.close();
   }
 }
+
+/** Foto de perfil: recorte cuadrado centrado de 320 px en WebP (unos 15–30 KB). Sin EXIF, igual que las fotos de anuncios. */
+export async function compressAvatar(file: File): Promise<Blob> {
+  if (!file.type.startsWith("image/")) throw new Error("Solo se permiten imágenes.");
+  if (file.size > site.maxUploadMB * 1024 * 1024)
+    throw new ImageTooBigError(`Pesa más de ${site.maxUploadMB} MB.`);
+  const bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
+  try {
+    const side = Math.min(bitmap.width, bitmap.height);
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = 320;
+    canvas
+      .getContext("2d")!
+      .drawImage(
+        bitmap,
+        (bitmap.width - side) / 2,
+        (bitmap.height - side) / 2,
+        side,
+        side,
+        0,
+        0,
+        320,
+        320,
+      );
+    const blob = await new Promise<Blob | null>((res) => canvas.toBlob(res, "image/webp", 0.82));
+    if (!blob) throw new Error("No se pudo procesar la imagen.");
+    return blob;
+  } finally {
+    bitmap.close();
+  }
+}

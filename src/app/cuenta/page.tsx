@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { signOut } from "@/actions/account";
 import { ThemePicker } from "@/components/account/theme-picker";
+import { AvatarUploader } from "@/components/account/avatar-uploader";
 import { DataControls } from "@/components/account/data-controls";
 import { FacebookForm, PhoneForm, ProfileForm } from "@/components/account/profile-form";
 import { VerifiedBadge } from "@/components/trust/verified-badge";
@@ -170,6 +171,26 @@ export default async function AccountPage() {
         </aside>
 
         <div className="space-y-6">
+          <nav
+            aria-label="Secciones del perfil"
+            className="no-scrollbar bg-background/90 sticky top-20 z-20 -mx-4 flex gap-2 overflow-x-auto px-4 py-2 backdrop-blur md:top-22 lg:mx-0 lg:px-0"
+          >
+            {[
+              ["#datos", "Datos"],
+              ["#contacto", "Contacto"],
+              ["#apariencia", "Apariencia"],
+              ["#acceso", "Acceso"],
+              ["#tus-datos", "Privacidad"],
+            ].map(([href, label]) => (
+              <a
+                key={href}
+                href={href}
+                className="border-border bg-card hover:border-foreground inline-flex min-h-11 shrink-0 items-center rounded-sm border px-4 text-sm font-semibold"
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
           <nav aria-label="Accesos rápidos" className="flex flex-wrap gap-2">
             <Link href="/mis-anuncios" className={buttonClass({ variant: "outline" })}>
               Mis anuncios
@@ -187,6 +208,8 @@ export default async function AccountPage() {
             title="Datos públicos"
             hint="Es lo que ven los compradores en tu perfil y tus anuncios."
           >
+            <AvatarUploader userId={user.id} name={p.display_name} avatarUrl={p.avatar_url} />
+            <hr className="border-border" />
             <ProfileForm initial={{ display_name: p.display_name, state: p.state, city: p.city }} />
           </Card>
 
@@ -195,7 +218,17 @@ export default async function AccountPage() {
             title="Contacto"
             hint="Solo lo ve quien inicia sesión y quiere contactarte desde tu anuncio; nunca se publica."
           >
-            {p.phone_verified && <VerifiedBadge />}
+            {p.phone_verified ? (
+              <VerifiedBadge />
+            ) : (
+              <div className="bg-primary-soft rounded-md p-4 text-sm">
+                <p className="font-semibold">Verifica tu celular y genera más confianza</p>
+                <p className="text-muted-foreground mt-1">
+                  Los compradores ven un distintivo “Teléfono verificado” en tus anuncios. Se
+                  obtiene entrando con tu celular (código por SMS), sin costo.
+                </p>
+              </div>
+            )}
             {!p.phone_verified && p.phone && (
               <p className="text-muted-foreground text-sm">
                 Para obtener el distintivo “Teléfono verificado”, entra con tu celular (código por

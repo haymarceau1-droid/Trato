@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { parseFacebook, profileSchema, toMxE164 } from "@/lib/validation/profile";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { PHOTO_BUCKET } from "@/lib/listings/photos";
+import { PHOTO_BUCKET, photoUrl } from "@/lib/listings/photos";
 import { createClient } from "@/lib/supabase/server";
 import { fail, requireUser, type Result } from "./_shared";
 
@@ -40,6 +40,25 @@ export async function updatePhone(raw: string): Promise<Result> {
   if (!phone) return fail("Escribe un celular mexicano válido de 10 dígitos.");
   const { error } = await supabase.from("profiles").update({ phone }).eq("id", user.id);
   if (error) return fail("No pudimos guardar tu número. Nada cambió; intenta de nuevo.");
+  revalidatePath("/", "layout");
+  return { ok: true };
+}
+
+/**
+ * Guarda (o quita) la foto de perfil. La foto ya se subió desde el navegador a la carpeta propia del bucket
+ * ({user_id}/avatar-<uuid>.webp); aquí solo se valida la ruta y se guarda su URL pública.
+ */
+export async function setAvatar(path: string | null): Promise<Result> {
+  const { supabase, user } = await requireUser();
+  if (!user) return fail("Inicia sesión.");
+  let url: string | null = null;
+  if (path) {
+    if (!new RegExp(`^${user.id}/avatar-[0-9a-f-]{36}\\.webp$`).test(path))
+      return fail("La foto no es válida. Elige otra imagen.");
+    url = photoUrl(path);
+  }
+  const { error } = await supabase.from("profiles").update({ avatar_url: url }).eq("id", user.id);
+  if (error) return fail("No pudimos guardar tu foto. Nada cambió; intenta de nuevo.");
   revalidatePath("/", "layout");
   return { ok: true };
 }

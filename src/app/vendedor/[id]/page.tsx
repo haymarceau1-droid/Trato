@@ -37,9 +37,19 @@ export default async function SellerPage({ params }: Props) {
       <header className="mb-8 flex items-center gap-4">
         <div
           aria-hidden
-          className="bg-primary-soft text-primary font-display grid size-16 place-items-center rounded-sm text-2xl"
+          className="bg-primary-soft text-primary font-display grid size-20 shrink-0 place-items-center overflow-hidden rounded-full text-3xl"
         >
-          {profile.display_name.charAt(0).toUpperCase()}
+          {profile.avatar_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={profile.avatar_url}
+              alt=""
+              referrerPolicy="no-referrer"
+              className="size-full object-cover"
+            />
+          ) : (
+            profile.display_name.charAt(0).toUpperCase()
+          )}
         </div>
         <div className="space-y-1">
           <h1 className="text-2xl font-extrabold">{profile.display_name}</h1>
