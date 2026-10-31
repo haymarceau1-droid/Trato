@@ -16,6 +16,7 @@ import { PRICE_RANGES } from "@/lib/constants";
 import { buildUrl, parseFilters } from "@/lib/listings/filters-url";
 import { MexicoFlag } from "@/components/ui/mexico-flag";
 import { BrandLogo } from "@/components/ui/brand-logo";
+import { HeroIllustration } from "@/components/home/hero-illustration";
 import { Comparison } from "@/components/home/comparison";
 import { VehicleDoors } from "@/components/home/vehicle-doors";
 import dynamic from "next/dynamic";
@@ -148,7 +149,8 @@ export default async function Home() {
       />
 
       {/* Portada */}
-      <section>
+      <section className="relative isolate overflow-hidden">
+        <HeroIllustration />
         <div className="container-page flex flex-col items-center pt-4 pb-14 text-center md:pt-6 md:pb-24">
           <p className="border-border bg-card mb-6 inline-flex max-w-full items-center gap-2 rounded-sm border px-3 py-1.5 text-sm font-semibold">
             <MexicoFlag className="size-5 shrink-0" />
