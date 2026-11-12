@@ -32,6 +32,7 @@ import {
 } from "@/lib/listings/queries";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LinkButton } from "@/components/ui/button";
+import { LockedListings } from "@/components/home/locked-listings";
 import { ListingGrid } from "@/components/listings/listing-card";
 import { SearchBox } from "@/components/listings/search-box";
 
@@ -117,9 +118,10 @@ const STEPS = [
 ] as const;
 
 export default async function Home() {
-  const [latest, user, stateCounts, market, typeCounts] = await Promise.all([
-    getLatest(8),
-    getUser(),
+  const user = await getUser();
+  // Sin sesión no se consulta ni se envía ningún anuncio: la sección se muestra bloqueada.
+  const [latest, stateCounts, market, typeCounts] = await Promise.all([
+    user ? getLatest(8) : Promise.resolve([]),
     getStateCounts(),
     getMarketStats(),
     getTypeCounts(),
@@ -204,7 +206,9 @@ export default async function Home() {
             <span className="hidden md:inline">Ver todos los vehículos publicados</span>
           </Link>
         </div>
-        {latest.length ? (
+        {!user ? (
+          <LockedListings />
+        ) : latest.length ? (
           <ListingGrid items={latest} favorites={favorites} />
         ) : (
           <EmptyState

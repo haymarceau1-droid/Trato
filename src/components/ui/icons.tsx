@@ -7,6 +7,7 @@ import {
   Calendar01Icon,
   Call02Icon,
   Car01Icon,
+  LockIcon,
   Car02Icon,
   Cancel01Icon,
   Certificate01Icon,
@@ -123,3 +124,4 @@ export const Users = make(UserGroupIcon);
 export const X = make(Cancel01Icon);
 export const ArrowsOut = make(FullScreenIcon);
 export const ArrowsClockwise = make(Refresh01Icon);
+export const Lock = make(LockIcon);
